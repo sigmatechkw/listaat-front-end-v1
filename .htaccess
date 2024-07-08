@@ -1,0 +1,7 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/basesigmatechcom/client.base.sigmatech.com.kw"
+PassengerBaseURI "/"
+PassengerNodejs "/home/basesigmatechcom/nodevenv/client.base.sigmatech.com.kw/18/bin/node"
+PassengerAppType node
+PassengerStartupFile server.js
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END

@@ -1,0 +1,73 @@
+html,
+body {
+  min-height: 100%;
+}
+
+#__next {
+  height: 100%;
+}
+
+@font-face {
+  font-family: "Changa";
+  src: url("/fonts/Changa-Regular.ttf");
+}
+
+code {
+  font-family: 'Public Sans', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
+  padding: 0.1rem 0.4rem;
+  font-size: 90%;
+  color: #d400ff;
+  border-radius: 0.1335rem;
+}
+code:not([class*='language-']):before,
+code:not([class*='language-']):after {
+  content: '`';
+}
+code[class*='language-'] {
+  padding: 0;
+}
+
+.apexcharts-legend-marker {
+  margin-inline: 10px;
+}
+
+.cursor-pointer:hover {
+  cursor: pointer;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.link {
+  text-decoration: none !important;
+  color: #476D8E !important;
+}
+
+.link:visited {
+  /*color: #3887e0;*/
+  color: #476D8E;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.react-datepicker-popper {
+  z-index: 999 !important;
+  /*  transform: translate(563px, 601px) !important; */
+}
+
+.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::before,
+.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::after {
+  left: -200px !important;
+}
+
+.ck-editor__editable {
+  min-height: 300px;
+}

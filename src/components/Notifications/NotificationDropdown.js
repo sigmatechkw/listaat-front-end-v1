@@ -127,13 +127,13 @@ const NotificationDropdown = props => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['fetchNotifications'],
-    queryFn: fetchNotifications,
-    initialPageParam: 0,
+    // queryKey: ['fetchNotifications'],
+    // queryFn: fetchNotifications,
+    // initialPageParam: 0,
     // getNextPageParam: (lastPage, pages) => lastPage?.current_page,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page : undefined;
-    },
+    // getNextPageParam: (lastPage, allPages) => {
+    //   return lastPage.current_page < lastPage.last_page ? lastPage?.current_page : undefined;
+    // },
   })
 
   const handleDropdownOpen = event => {

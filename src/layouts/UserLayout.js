@@ -95,73 +95,74 @@ const UserLayout = ({ children, contentHeightFixed }) => {
     xhr.send();
   }
 
-  useEffect(() => {
-    if (!!!window.pusher) {
-      window.pusher = new Pusher(`${process.env.NEXT_PUBLIC_PUSHER_API_KEY}`, {
-        cluster: `${process.env.NEXT_PUBLIC_PUSHER_CLUSTER}`,
-        authorizer: (channel, options) => {
-          return {
-            authorize: (socketId, callback) => {
-              axios.post(`${process.env.NEXT_PUBLIC_APP_URL}api/broadcasting/auth`, {
-                socket_id: socketId,
-                channel_name: channel.name
-              }, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': auth.token,
-                  'Accepted-Language': lang ?? 'en'
-                }
-              })
-                .then(response => {
-                  callback(false, response.data);
-                })
-                .catch(error => {
-                  callback(true, error);
-                });
-            }
-          };
-        },
-      });
-    }
+  // TODO: uncomment when updating the pusher and making the notification
+  // useEffect(() => {
+  //   if (!!!window.pusher) {
+  //     window.pusher = new Pusher(`${process.env.NEXT_PUBLIC_PUSHER_API_KEY}`, {
+  //       cluster: `${process.env.NEXT_PUBLIC_PUSHER_CLUSTER}`,
+  //       authorizer: (channel, options) => {
+  //         return {
+  //           authorize: (socketId, callback) => {
+  //             axios.post(`${process.env.NEXT_PUBLIC_APP_URL}api/broadcasting/auth`, {
+  //               socket_id: socketId,
+  //               channel_name: channel.name
+  //             }, {
+  //               headers: {
+  //                 'Content-Type': 'application/json',
+  //                 'Authorization': auth.token,
+  //                 'Accepted-Language': lang ?? 'en'
+  //               }
+  //             })
+  //               .then(response => {
+  //                 callback(false, response.data);
+  //               })
+  //               .catch(error => {
+  //                 callback(true, error);
+  //               });
+  //           }
+  //         };
+  //       },
+  //     });
+  //   }
 
-    let notificationChannel = pusher.subscribe('private-admins-notification');
-    notificationChannel.bind_global((eventName, res) => {
-      // toast.dismiss() // To dismiss all previous toasts
+  //   let notificationChannel = pusher.subscribe('private-admins-notification');
+  //   notificationChannel.bind_global((eventName, res) => {
+  //     // toast.dismiss() // To dismiss all previous toasts
 
-      let title = ''
-      let body = ''
-      if (getCookie('lang') === 'ar') {
-        title = res.notification_title_ar
-        body = res.notification_body_ar
-      } else {
-        title = res.notification_title_en
-        body = res.notification_body_en
-      }
-      if (title) {
-        toast((t) => {
-          return (
-            <Box sx={{display: 'flex', alignItems: 'center', ":hover": {cursor: 'pointer'} }} onClick={() => handleNotificationClick(res, t)}>
-              <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', p: 3, mx: 1, borderRadius: '50%', backgroundColor: theme.palette.background.default}}>
-                <Icon icon={'tabler:zzz'} fontSize={'1.5rem'} />
-              </Box>
-              <Box>
-                <Typography variant={'h5'}>{title}</Typography>
-                <Typography variant={'h6'}>{body}</Typography>
-              </Box>
-            </Box>
-          )
-        },
-        {
-          duration: 4000
-        })
-        playNotificationSound()
-      }
-    })
+  //     let title = ''
+  //     let body = ''
+  //     if (getCookie('lang') === 'ar') {
+  //       title = res.notification_title_ar
+  //       body = res.notification_body_ar
+  //     } else {
+  //       title = res.notification_title_en
+  //       body = res.notification_body_en
+  //     }
+  //     if (title) {
+  //       toast((t) => {
+  //         return (
+  //           <Box sx={{display: 'flex', alignItems: 'center', ":hover": {cursor: 'pointer'} }} onClick={() => handleNotificationClick(res, t)}>
+  //             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', p: 3, mx: 1, borderRadius: '50%', backgroundColor: theme.palette.background.default}}>
+  //               <Icon icon={'tabler:zzz'} fontSize={'1.5rem'} />
+  //             </Box>
+  //             <Box>
+  //               <Typography variant={'h5'}>{title}</Typography>
+  //               <Typography variant={'h6'}>{body}</Typography>
+  //             </Box>
+  //           </Box>
+  //         )
+  //       },
+  //       {
+  //         duration: 4000
+  //       })
+  //       playNotificationSound()
+  //     }
+  //   })
 
-    return () => {
-      notificationChannel.unsubscribe()
-    }
-  }, []);
+  //   return () => {
+  //     notificationChannel.unsubscribe()
+  //   }
+  // }, []);
 
   return (
     <Layout

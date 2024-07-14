@@ -1,14 +1,14 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import Card from '@mui/material/Card'
 import toast from 'react-hot-toast'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
-import {useTranslation} from "react-i18next";
-import {useState} from "react";
-import {useSelector} from "react-redux";
-import DreamTypesForm from "../../../components/DreamTypes/DreamTypesForm";
-import PackagesForm from "../../../components/Packages/PackagesForm";
-import {getCookie} from "cookies-next";
+import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import DreamTypesForm from '../../../components/ProjectTypes/ProjectTypesForm'
+import PackagesForm from '../../../components/Packages/PackagesForm'
+import { getCookie } from 'cookies-next'
 
 const defaultValues = {
   name_en: '',
@@ -18,14 +18,14 @@ const defaultValues = {
   price: '',
   balance: '',
   order: '',
-  active: false,
+  active: false
 }
 
 const PackagesCreate = () => {
   const auth = useSelector(state => state.auth)
   const lang = useSelector(state => state.lang)
-  const {t} = useTranslation()
-  const router = useRouter();
+  const { t } = useTranslation()
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
 
   const {
@@ -34,10 +34,10 @@ const PackagesCreate = () => {
     handleSubmit,
     setValue,
     reset,
-    formState: { errors },
-  } = useForm({ defaultValues });
+    formState: { errors }
+  } = useForm({ defaultValues })
 
-  const onSubmit = (data) => {
+  const onSubmit = data => {
     setLoading(true)
 
     data.name = {
@@ -53,28 +53,36 @@ const PackagesCreate = () => {
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}packages`, data, {
         headers: {
-          'Authorization': getCookie('token') ?? auth.token,
+          Authorization: getCookie('token') ?? auth.token,
           'Accepted-Language': getCookie('lang') ?? lang ?? 'en'
         }
       })
       .then(res => {
         setLoading(false)
-        toast.success(t('success'));
+        toast.success(t('success'))
         router.push('/packages')
-        reset();
+        reset()
       })
       .catch(error => {
         setLoading(false)
-        toast.error(error.response.data.message);
-      });
-
-  };
+        toast.error(error.response.data.message)
+      })
+  }
 
   return (
     <Card>
-      <PackagesForm type={'create'} onSubmit={handleSubmit(onSubmit)} control={control} watch={watch} setValue={setValue} errors={errors} title={t('package_create')} loading={loading} />
+      <PackagesForm
+        type={'create'}
+        onSubmit={handleSubmit(onSubmit)}
+        control={control}
+        watch={watch}
+        setValue={setValue}
+        errors={errors}
+        title={t('package_create')}
+        loading={loading}
+      />
     </Card>
-  );
-};
+  )
+}
 
-export default PackagesCreate;
+export default PackagesCreate

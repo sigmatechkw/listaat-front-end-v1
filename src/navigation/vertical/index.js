@@ -8,25 +8,77 @@ const navigation = () => {
       icon: 'tabler:user',
     },
     {
-      title: i18n.t('dreams'),
-      icon: 'tabler:zzz',
+      title: i18n.t('projects'),
+      icon: 'tabler:buildings',
       children: [
         {
-          title: i18n.t('dreams'),
-          path: '/dreams',
-          icon: 'tabler:zzz',
+          title: i18n.t('projects'),
+          path: '/projects',
+          icon: 'tabler:buildings',
         },
         {
-          title: i18n.t('dream_types'),
-          path: '/dream-types',
+          title: i18n.t('project_types'),
+          path: '/project-types',
           icon: 'tabler:align-box-left-middle',
         },
         {
-          title: i18n.t('dreams_reports'),
-          path: '/dream-reports',
-          icon: 'tabler:message-report',
+          title: i18n.t('project_tabs'),
+          path: '/project-tabs',
+          icon: 'tabler:subtask',
+        },
+        {
+          title: i18n.t('project_fields'),
+          path: '/project-fields',
+          icon: 'tabler:input-search',
         },
       ]
+    },
+    {
+      title: i18n.t('items'),
+      icon: 'tabler:category-plus',
+      children: [
+        {
+          title: i18n.t('items'),
+          path: '/items',
+          icon: 'tabler:box',
+        },
+        {
+          title: i18n.t('collections'),
+          path: '/collections',
+          icon: 'tabler:category-plus',
+        },
+        {
+          title: i18n.t('item_groups'),
+          path: '/item-groups',
+          icon: 'tabler:subtask',
+        },
+        {
+          title: i18n.t('item_group_project'),
+          path: '/item-group-project',
+          icon: 'tabler:template',
+        },
+      ]
+    },
+    {
+      title: i18n.t('folders'),
+      icon: 'tabler:folder',
+      children: [
+        {
+          title: i18n.t('folders'),
+          path: '/folders',
+          icon: 'tabler:folder',
+        },
+        {
+          title: i18n.t('project_folders'),
+          path: '/project-folders',
+          icon: 'tabler:folder-plus',
+        },
+      ]
+    },
+    {
+      title:  i18n.t('quick_list'),
+      path: '/quicklist',
+      icon: 'tabler:list-search',
     },
     {
       title:  i18n.t('packages'),

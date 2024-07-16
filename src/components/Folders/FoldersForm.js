@@ -16,36 +16,61 @@ import Divider from "@mui/material/Divider";
 import { useState , useEffect } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { fetchUsersInfinityQuery } from '../Projects/projectsServices';
+import { fetchFoldersInfinityQuery } from './FoldersServices';
 
 const FoldersForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
-  const [users, setUsers] = useState([])
-  const [folders, setFolders] = useState([])
+  const [searchUsersTerm, setSearchUsersTerm] = useState('');
+  const [searchFoldersTerm, setSearchFoldersTerm] = useState('');
 
-  useEffect(() => {
-    fetchUsers()
-    fetchFolders()
-  }, [])
 
-  const fetchUsers = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}users`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setUsers(response.data.data.items)
-  }
+  const {
+    data : users,
+    fetchNextPage : fetchUsersNextPage,
+    hasNextPage : usersHasNextPage,
+    isFetching : usersIsFetching,
+    isFetchingNextPage : usersIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchUsersInfinityQuery', searchUsersTerm],
+    queryFn: fetchUsersInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchFolders = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}folders`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setFolders(response.data.data.items)
-  }
+  const {
+    data : folders,
+    fetchNextPage : fetchFoldersNextPage,
+    hasNextPage : foldersHasNextPage,
+    isFetching : foldersIsFetching,
+    isFetchingNextPage : foldersIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchFoldersInfinityQuery', searchFoldersTerm],
+    queryFn: fetchFoldersInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
+
+  const loadMoreUsers = () => {
+    if (usersHasNextPage) {
+      fetchUsersNextPage();
+    }
+  };
+
+  const loadMoreFolders = () => {
+    if (foldersHasNextPage) {
+      fetchFoldersNextPage();
+    }
+  };
+
+  const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
+  const foldersOptions = folders?.pages.flatMap((page) => page.items) || [];  
+
 
   return (
     <>
@@ -72,14 +97,25 @@ const FoldersForm = ({type = 'create', errors, control, watch, setValue, onSubmi
                 )}
               />
             </Grid>
-            
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='user_id'
                 control={control}
+                rules={{ required: false }}
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={usersIsFetching || usersIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreUsers();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchUsersTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('user_id', newValue)
@@ -89,9 +125,9 @@ const FoldersForm = ({type = 'create', errors, control, watch, setValue, onSubmi
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={users}
-                    getOptionLabel={option => option.first_name || ''} 
-                    renderInput={params => <CustomTextField {...params} 
+                    options={usersOptions}
+                    getOptionLabel={option => option.first_name || ''}
+                    renderInput={params => <CustomTextField {...params}
                     required
                     error={Boolean(errors.user_id)}
                     aria-describedby='validation-basic-user_id'
@@ -106,9 +142,20 @@ const FoldersForm = ({type = 'create', errors, control, watch, setValue, onSubmi
               <Controller
                 name='parent_id'
                 control={control}
+                rules={{ required: false }}
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={foldersIsFetching || foldersIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreFolders();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchFoldersTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('parent_id', newValue)
@@ -118,12 +165,12 @@ const FoldersForm = ({type = 'create', errors, control, watch, setValue, onSubmi
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={folders}
-                    getOptionLabel={option => option.name || ''} 
-                    renderInput={params => <CustomTextField {...params} 
-                    error={Boolean(errors.parent_id)}
-                    aria-describedby='validation-basic-parent_id'
-                    {...(errors.parent_id && {helperText: t('required')})}
+                    options={foldersOptions}
+                    getOptionLabel={option => option.name || ''}
+                    renderInput={params => <CustomTextField {...params}
+                    error={Boolean(errors.folders)}
+                    aria-describedby='validation-basic-folders'
+                    {...(errors.folders && {helperText: t('required')})}
                      label={t('folders')} />}
                   />
                 )}

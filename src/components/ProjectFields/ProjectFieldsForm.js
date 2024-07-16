@@ -12,28 +12,39 @@ import {useTranslation} from "react-i18next";
 import CircularProgress from "@mui/material/CircularProgress";
 import CustomAutocomplete from 'src/@core/components/mui/autocomplete'
 import {useSelector} from "react-redux";
+import { useInfiniteQuery } from '@tanstack/react-query';
 import Divider from "@mui/material/Divider";
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { fetchProjectTabsInfintyQuery } from './projectFieldsServices';
 
 const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const [projectTabs, setProjectTabs] = useState([]);
+  const {
+    data : tabs,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchProjectTabsInfintyQuery', searchTerm],
+    queryFn: fetchProjectTabsInfintyQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  useEffect(() => {
-    fetchProjectTabs();
-  }, [])
+  const loadMore = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
 
-  const fetchProjectTabs = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}project-tabs`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setProjectTabs(response.data.data.items)
-  }
+  const tabsOptions = tabs?.pages.flatMap((page) => page.items) || [];
+
   return (
     <>
       <CardHeader title={title} />
@@ -87,6 +98,16 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={isFetching || isFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMore();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('project_tab_id', newValue)
@@ -96,7 +117,7 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={projectTabs}
+                    options={tabsOptions}
                     getOptionLabel={option => option.name || ''}
                     renderInput={params => <CustomTextField {...params}
                      label={t('project_tab')} />}

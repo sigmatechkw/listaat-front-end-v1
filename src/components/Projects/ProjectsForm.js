@@ -15,50 +15,84 @@ import { useSelector } from 'react-redux'
 import Divider from '@mui/material/Divider'
 import axios from 'axios'
 import { getCookie } from 'cookies-next'
+import { fetchProjectTypesInfinityQuery } from '../ProjectTypes/projectTypesServices'
+import { fetchProjectsInfinityQuery } from './projectsServices'
+import { fetchUsersInfinityQuery } from './projectsServices'
+import { useInfiniteQuery } from '@tanstack/react-query';
+
 
 const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSubmit, title, loading }) => {
   const { t, i18n } = useTranslation()
+  const [searchTypesTerm, setSearchTypesTerm] = useState('');
+  const [searchProjectsTerm, setSearchProjectsTerm] = useState('');
+  const [searchUsersTerm, setSearchUsersTerm] = useState('');
 
-  const [projectTypes, setProjectTypes] = useState([])
-  const [projects, setProjects] = useState([])
-  const [users, setUsers] = useState([])
+  const {
+    data : types,
+    fetchNextPage : fetchTypesNextPage,
+    hasNextPage : typesHasNextPage,
+    isFetching : typesIsFetching,
+    isFetchingNextPage : typesIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchProjectTypesInfinityQuery', searchTypesTerm],
+    queryFn: fetchProjectTypesInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  useEffect(() => {
-    fetchProjectTypes()
-    fetchProjects()
-    fetchUsers()
-  }, [])
+  const {
+    data : projects,
+    fetchNextPage : fetchProjectsNextPage,
+    hasNextPage : projectsHasNextPage,
+    isFetching : projectsIsFetching,
+    isFetchingNextPage : projectsIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchProjectsInfinityQuery', searchProjectsTerm],
+    queryFn: fetchProjectsInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchProjectTypes = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}project-types`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setProjectTypes(response.data.data.items)
-  }
-  
-  const fetchProjects = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}projects`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setProjects(response.data.data.items)
-  }
+  const {
+    data : users,
+    fetchNextPage : fetchUsersNextPage,
+    hasNextPage : usersHasNextPage,
+    isFetching : usersIsFetching,
+    isFetchingNextPage : usersIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchUsersInfinityQuery', searchUsersTerm],
+    queryFn: fetchUsersInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchUsers = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}users`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setUsers(response.data.data.items)
-  }
-  
+  const loadMoreTypes = () => {
+    if (typesHasNextPage) {
+      fetchTypesNextPage();
+    }
+  };
+
+  const loadMoreProjects = () => {
+    if (projectsHasNextPage) {
+      fetchProjectsNextPage();
+    }
+  };
+
+  const loadMoreUsers = () => {
+    if (usersHasNextPage) {
+      fetchUsersNextPage();
+    }
+  };
+
+  const typesOptions = types?.pages.flatMap((page) => page.items) || [];
+  const projectsOptions = projects?.pages.flatMap((page) => page.items) || [];  
+  const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
 
   return (
     <>
@@ -195,30 +229,43 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
                 )}
               />
             </Grid>
-                  <Grid item xs={12} sm={6}>
-                  <Controller
-                    name='project_type_id'
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <CustomAutocomplete
-                        value={value}
-                        onChange={(e, newValue) => {
-                          if (newValue) {
-                            setValue('project_type_id', newValue)
-                          } else {
-                            setValue('project_type_id', null)
-                          }
-                        }}
-                        isOptionEqualToValue={(option, value) => option.id === value?.id}
-                        options={projectTypes}
-                        getOptionLabel={option => option.name || ''} // Render the full name of the user
-                        renderInput={params => <CustomTextField {...params} label={t('project_type')} />}
-                      />
-                    )}
-                  />
-                </Grid>
             
+            <Grid item xs={12} sm={6}>
+              <Controller
+                name='project_type_id'
+                control={control}
+                rules={{ required: false }}
+                render={({ field: { value, onChange } }) => (
+                  <CustomAutocomplete
+                    value={value}
+                    loading={typesIsFetching || typesIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreTypes();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchTypesTerm(val)}
+                    onChange={(e, newValue) => {
+                      if (newValue) {
+                        setValue('project_type_id', newValue)
+                        onChange(newValue)
+                      } else {
+                        setValue('project_type_id', null)
+                      }
+                    }}
+                    isOptionEqualToValue={(option, value) => option.id === value?.id}
+                    options={typesOptions}
+                    getOptionLabel={option => option.name || ''}
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('project_type')} />}
+                  />
+                )}
+              />
+            </Grid>
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='parent_id'
@@ -227,6 +274,16 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={projectsIsFetching || projectsIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreProjects();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchProjectsTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('parent_id', newValue)
@@ -236,14 +293,15 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={projects}
-                    getOptionLabel={option => option.name} // Render the full name of project
-                    renderInput={params => <CustomTextField {...params} label={t('parent_project')} />}
+                    options={projectsOptions}
+                    getOptionLabel={option => option.name || ''}
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('parent_project')} />}
                   />
                 )}
               />
             </Grid>
-
+            
             <Grid item xs={12} sm={6}>
               <Controller
                 name='user_id'
@@ -252,6 +310,16 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={usersIsFetching || usersIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreUsers();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchUsersTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('user_id', newValue)
@@ -261,13 +329,15 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={users}
-                    getOptionLabel={option => option.first_name} // Render the full name of project
-                    renderInput={params => <CustomTextField {...params} label={t('user')} />}
+                    options={usersOptions}
+                    getOptionLabel={option => option.first_name || ''}
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('user')} />}
                   />
                 )}
               />
             </Grid>
+
 
             <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(2)} !important` }}>
               <FormControl>

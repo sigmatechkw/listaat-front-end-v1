@@ -16,36 +16,60 @@ import Divider from "@mui/material/Divider";
 import { useState , useEffect } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { fetchProjectsInfinityQuery } from '../Projects/projectsServices';
+import { fetchItemGroupsInfinityQuery } from '../ItemGroups/ItemGroupsServices';
+
 
 const ItemGroupProjectForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
-  const [projects, setProjects] = useState([])
-  const [itemGroups, setItemGroups] = useState([])
+  const [searchProjectsTerm, setSearchProjectsTerm] = useState('');
+  const [searchItemGroupsTerm, setSearchItemGroupsTerm] = useState('');
+ 
+  const {
+    data : projects,
+    fetchNextPage : fetchProjectsNextPage,
+    hasNextPage : projectsHasNextPage,
+    isFetching : projectsIsFetching,
+    isFetchingNextPage : projectsIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchProjectsInfinityQuery', searchProjectsTerm],
+    queryFn: fetchProjectsInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  useEffect(() => {
-    fetchProjects()
-    fetchItemGroups()
-  }, [])
+  const {
+    data : itemGroups,
+    fetchNextPage : fetchItemGroupsNextPage,
+    hasNextPage : itemGroupsHasNextPage,
+    isFetching : itemGroupsIsFetching,
+    isFetchingNextPage : itemGroupsIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchItemGroupsInfinityQuery', searchItemGroupsTerm],
+    queryFn: fetchItemGroupsInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchProjects = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}projects`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setProjects(response.data.data.items)
-  }
+  const loadMoreProjects = () => {
+    if (projectsHasNextPage) {
+      fetchProjectsNextPage();
+    }
+  };
 
-  const fetchItemGroups = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}item-groups`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setItemGroups(response.data.data.items)
-  }
+  const loadMoreItemGroups = () => {
+    if (itemGroupsHasNextPage) {
+      fetchItemGroupsNextPage();
+    }
+  };
+
+  const projectsOptions = projects?.pages.flatMap((page) => page.items) || [];  
+  const itemGroupsOptions = itemGroups?.pages.flatMap((page) => page.items) || [];  
 
   return (
     <>
@@ -53,14 +77,25 @@ const ItemGroupProjectForm = ({type = 'create', errors, control, watch, setValue
       <CardContent>
         <form onSubmit={onSubmit}>
           <Grid container spacing={4}>
-            
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='item_group_id'
                 control={control}
+                rules={{ required: false }}
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={itemGroupsIsFetching || itemGroupsIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreItemGroups();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchItemGroupsTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('item_group_id', newValue)
@@ -70,12 +105,9 @@ const ItemGroupProjectForm = ({type = 'create', errors, control, watch, setValue
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={itemGroups}
-                    getOptionLabel={option => option.name || ''} 
-                    renderInput={params => <CustomTextField {...params} 
-                    error={Boolean(errors.price)}
-                    aria-describedby='validation-basic-price'
-                    {...(errors.price && {helperText: t('required')})}
+                    options={itemGroupsOptions}
+                    getOptionLabel={option => option.name || ''}
+                    renderInput={params => <CustomTextField {...params}
                      label={t('item_groups')} />}
                   />
                 )}
@@ -86,9 +118,20 @@ const ItemGroupProjectForm = ({type = 'create', errors, control, watch, setValue
               <Controller
                 name='project_id'
                 control={control}
+                rules={{ required: false }}
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={projectsIsFetching || projectsIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreProjects();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchProjectsTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('project_id', newValue)
@@ -98,12 +141,9 @@ const ItemGroupProjectForm = ({type = 'create', errors, control, watch, setValue
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={projects}
-                    getOptionLabel={option => option.name || ''} 
-                    renderInput={params => <CustomTextField {...params} 
-                    error={Boolean(errors.price)}
-                    aria-describedby='validation-basic-price'
-                    {...(errors.price && {helperText: t('required')})}
+                    options={projectsOptions}
+                    getOptionLabel={option => option.name || ''}
+                    renderInput={params => <CustomTextField {...params}
                      label={t('project')} />}
                   />
                 )}

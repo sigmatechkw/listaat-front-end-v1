@@ -15,61 +15,110 @@ import {useSelector} from "react-redux";
 import Divider from "@mui/material/Divider";
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { fetchProjectTypesInfinityQuery } from '../ProjectTypes/projectTypesServices';
+import { fetchProjectsInfinityQuery } from '../Projects/projectsServices';
+import { fetchUsersInfinityQuery } from '../Projects/projectsServices';
+import { fetchProjectTabsInfintyQuery } from './projectTabsServices';
 
 const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
+  const [searchTypesTerm, setSearchTypesTerm] = useState('');
+  const [searchProjectsTerm, setSearchProjectsTerm] = useState('');
+  const [searchUsersTerm, setSearchUsersTerm] = useState('');
+  const [searchTabsTerm, setSearchTabsTerm] = useState('');
 
-  const [projects, setProjects] = useState([]);
-  const [projectTypes, setProjectTypes] = useState([]);
-  const [projectTabs, setProjectTabs] = useState([]);
-  const [users, setUsers] = useState([]);
+  const {
+    data : types,
+    fetchNextPage : fetchTypesNextPage,
+    hasNextPage : typesHasNextPage,
+    isFetching : typesIsFetching,
+    isFetchingNextPage : typesIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchProjectTypesInfinityQuery', searchTypesTerm],
+    queryFn: fetchProjectTypesInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  useEffect(() => {
-    fetchProjects();
-    fetchProjectTypes();
-    fetchUsers();
-    fetchProjectTabs();
-  }, [])
+  const {
+    data : projects,
+    fetchNextPage : fetchProjectsNextPage,
+    hasNextPage : projectsHasNextPage,
+    isFetching : projectsIsFetching,
+    isFetchingNextPage : projectsIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchProjectsInfinityQuery', searchProjectsTerm],
+    queryFn: fetchProjectsInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchProjectTypes = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}project-types`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setProjectTypes(response.data.data.items)
-  }
+  const {
+    data : users,
+    fetchNextPage : fetchUsersNextPage,
+    hasNextPage : usersHasNextPage,
+    isFetching : usersIsFetching,
+    isFetchingNextPage : usersIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchUsersInfinityQuery', searchUsersTerm],
+    queryFn: fetchUsersInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchProjects = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}projects`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setProjects(response.data.data.items)
-  }
+  const {
+    data : tabs,
+    fetchNextPage : fetchTabsNextPage,
+    hasNextPage : tabsHasNextPage,
+    isFetching : tabsIsFetching,
+    isFetchingNextPage : tabsIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchProjectTabsInfintyQuery', searchTabsTerm],
+    queryFn: fetchProjectTabsInfintyQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchProjectTabs = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}project-tabs`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setProjectTabs(response.data.data.items)
-  }
+  const loadMoreTabs = () => {
+    if (tabsHasNextPage) {
+      fetchTabsNextPage();
+    }
+  };
 
-  const fetchUsers = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}users`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setUsers(response.data.data.items)
-  }
+
+  const loadMoreTypes = () => {
+    if (typesHasNextPage) {
+      fetchTypesNextPage();
+    }
+  };
+
+  const loadMoreProjects = () => {
+    if (projectsHasNextPage) {
+      fetchProjectsNextPage();
+    }
+  };
+
+  const loadMoreUsers = () => {
+    if (usersHasNextPage) {
+      fetchUsersNextPage();
+    }
+  };
+
+  const tabsOptions = tabs?.pages.flatMap((page) => page.items) || [];
+  const typesOptions = types?.pages.flatMap((page) => page.items) || [];
+  const projectsOptions = projects?.pages.flatMap((page) => page.items) || [];  
+  const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
+
+
   return (
     <>
       <CardHeader title={title} />
@@ -104,6 +153,16 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={usersIsFetching || usersIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreUsers();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchUsersTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('user_id', newValue)
@@ -113,14 +172,10 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={users}
+                    options={usersOptions}
                     getOptionLabel={option => option.first_name || ''}
-                    renderInput={params => <CustomTextField
-                    error={Boolean(errors.user_id)}
-                    aria-describedby='validation-basic-user_id'
-                    {...(errors.user_id && {helperText: t('required')})}
-                     {...params} label={t('user')} />}
-                    
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('user')} />}
                   />
                 )}
               />
@@ -134,6 +189,16 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={tabsIsFetching || tabsIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreTabs();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchTabsTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('parent_id', newValue)
@@ -143,8 +208,8 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={projectTabs}
-                    getOptionLabel={option => option.name}
+                    options={tabsOptions}
+                    getOptionLabel={option => option.name || ''}
                     renderInput={params => <CustomTextField {...params}
                      label={t('tab_parent')} />}
                   />
@@ -160,6 +225,16 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={typesIsFetching || typesIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreTypes();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchTypesTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('project_type_id', newValue)
@@ -169,15 +244,10 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={projectTypes}
+                    options={typesOptions}
                     getOptionLabel={option => option.name || ''}
-                    renderInput={params => <CustomTextField {...params} 
-                    error={Boolean(errors.project_type_id)}
-                    aria-describedby='validation-basic-project_type_id'
-                    {...(errors.project_type_id && {helperText: t('required')})}
-                     label={t('project_type')}  /> 
-                    }
-                    
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('project_type')} />}
                   />
                 )}
               />
@@ -191,6 +261,16 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={projectsIsFetching || projectsIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreProjects();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchProjectsTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('project_id', newValue)
@@ -200,15 +280,10 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={projects}
+                    options={projectsOptions}
                     getOptionLabel={option => option.name || ''}
-                    renderInput={params => <CustomTextField {...params} 
-                    error={Boolean(errors.project_id)}
-                    aria-describedby='validation-basic-project_id'
-                    {...(errors.project_id && {helperText: t('required')})}
-                     label={t('projects')}  /> 
-                    }
-                    
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('projects')} />}
                   />
                 )}
               />

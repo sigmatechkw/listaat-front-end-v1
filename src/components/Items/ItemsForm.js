@@ -14,49 +14,112 @@ import Divider from "@mui/material/Divider";
 import axios from 'axios'
 import { getCookie } from 'cookies-next'
 import { Box, Checkbox, FormControlLabel, styled } from '@mui/material'
+import { Autocomplete, TextField, Chip } from '@mui/material';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { fetchCollectionsInfinityQuery } from '../Collections/CollectionsServices';
+import { fetchUsersInfinityQuery } from '../Projects/projectsServices';
+import { fetchItemGroupsInfinityQuery } from '../ItemGroups/ItemGroupsServices';
+import { fetchCountriesInfinityQuery } from '../countries/countriesServices';
 
-const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc , itemImg , setItemImg , setValue, onSubmit, title, loading}) => {
+const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc , itemImg , setItemImg ,receiptImg , setReceiptImg, receiptSrc ,setReceiptSrc , setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
 
-  const [users, setUsers] = useState([])
-  const [collections, setCollections] = useState([])
-  const [countries, setCountries] = useState([])
+  const [searchUsersTerm, setSearchUsersTerm] = useState('');
+  const [searchCollectionsTerm, setSearchCollectionsTerm] = useState('');
+  const [searchItemGroupsTerm, setSearchItemGroupsTerm] = useState('');
+  const [searchCountriesTerm, setSearchCountriesTerm] = useState('');
 
-  useEffect(() => {
-    fetchCollections()
-    fetchUsers()
-    fetchCountries()
-  }, [])
 
-  const fetchCollections = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}collections`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setCollections(response.data.data.items)
-  }
+  const {
+    data : collections,
+    fetchNextPage : fetchCollectionsNextPage,
+    hasNextPage : collectionsHasNextPage,
+    isFetching : collectionsIsFetching,
+    isFetchingNextPage : collectionsIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchCollectionsInfinityQuery', searchCollectionsTerm],
+    queryFn: fetchCollectionsInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchCountries = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}countries`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setCollections(response.data.data.items)
-  }
+  const {
+    data : users,
+    fetchNextPage : fetchUsersNextPage,
+    hasNextPage : usersHasNextPage,
+    isFetching : usersIsFetching,
+    isFetchingNextPage : usersIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchUsersInfinityQuery', searchUsersTerm],
+    queryFn: fetchUsersInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchUsers = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}users`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setUsers(response.data.data.items)
-  }
+  const {
+    data : itemGroups,
+    fetchNextPage : fetchItemGroupsNextPage,
+    hasNextPage : itemGroupsHasNextPage,
+    isFetching : itemGroupsIsFetching,
+    isFetchingNextPage : itemGroupsIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchItemGroupsInfinityQuery', searchItemGroupsTerm],
+    queryFn: fetchItemGroupsInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
+
+  const {
+    data : countries,
+    fetchNextPage : fetchCountriesNextPage,
+    hasNextPage : countriesHasNextPage,
+    isFetching : countriesIsFetching,
+    isFetchingNextPage : countriesIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchCountriesInfinityQuery', searchCountriesTerm],
+    queryFn: fetchCountriesInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
+
+  
+  const loadMoreItemGroups = () => {
+    if (itemGroupsHasNextPage) {
+      fetchItemGroupsNextPage();
+    }
+  };
+
+  const loadMoreUsers = () => {
+    if (usersHasNextPage) {
+      fetchUsersNextPage();
+    }
+  };
+
+  const loadMoreCollections = () => {
+    if (collectionsHasNextPage) {
+      fetchCollectionsNextPage();
+    }
+  };
+
+  const loadMoreCountries = () => {
+    if (countriesHasNextPage) {
+      fetchCountriesNextPage();
+    }
+  };
+
+  const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
+  const collectionsOptions = collections?.pages.flatMap((page) => page.items) || [];  
+  const itemGroupsOptions = itemGroups?.pages.flatMap((page) => page.items) || [];  
+  const countriesOptions = countries?.pages.flatMap((page) => page.items) || [];  
+  
 
   const ImgStyled = styled('img')(({ theme }) => ({
     width: 100,
@@ -97,11 +160,28 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
     }
   }
 
+  const handleInputReceiptImageChange = file => {
+    const reader = new FileReader()
+    const { files } = file.target
+    if (files && files.length !== 0) {
+      reader.onload = () => {
+        setReceiptSrc(reader.result)
+      }
+      reader.readAsDataURL(files[0])
+      if (reader.result !== null) {
+        setReceiptImg(reader.result)
+      }
+    }
+  }
+
   const handleInputImageReset = () => {
     setItemImg('')
     setImgSrc('/images/avatars/15.png')
   }
 
+  const handleInputReceiptImageReset = () => {
+    setReceiptSrc('')
+  }
 
   return (
     <>
@@ -111,28 +191,49 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
           <Grid container spacing={4}>
 
 
+        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'between', alignItems: 'end' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <ImgStyled src={imgSrc} alt='Item Pic' />
+              <div>
+                <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
+                  {t('upload_Photo')}
+                  <input
+                    hidden
+                    type='file'
+                    value={itemImg}
+                    accept='image/*'
+                    onChange={handleInputImageChange}
+                    id='account-settings-upload-image'
+                  />
+                </ButtonStyled>
+                <ResetButtonStyled color='secondary' variant='tonal' onClick={handleInputImageReset}>
+                  {t('Reset')}
+                </ResetButtonStyled>
+              </div>
+            </Box>
+          </Grid>
+
           <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'between', alignItems: 'end' }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <ImgStyled src={imgSrc} alt='Profile Pic' />
+                <ImgStyled src={receiptSrc} alt='Receipt Pic' />
                 <div>
-                  <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
-                    {t('Upload New Photo')}
+                  <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-receipt'>
+                    {t('upload_receipt')}
                     <input
                       hidden
                       type='file'
-                      value={itemImg}
+                      value={receiptImg}
                       accept='image/*'
-                      onChange={handleInputImageChange}
-                      id='account-settings-upload-image'
+                      onChange={handleInputReceiptImageChange}
+                      id='account-settings-upload-receipt'
                     />
                   </ButtonStyled>
-                  <ResetButtonStyled color='secondary' variant='tonal' onClick={handleInputImageReset}>
+                  <ResetButtonStyled color='secondary' variant='tonal' onClick={handleInputReceiptImageReset}>
                     {t('Reset')}
                   </ResetButtonStyled>
                 </div>
               </Box>
             </Grid>
-
 
             <Grid item xs={12} sm={6}>
               <Controller
@@ -158,13 +259,14 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
               <Controller
                 name='cost'
                 control={control}
-                rules={{required: false}}
+                rules={{required: true}}
                 render={({field: {value, onChange}}) => (
                   <CustomTextField
                     fullWidth
                     value={value}
                     label={t('cost')}
                     onChange={onChange}
+                    required
                     error={Boolean(errors.name)}
                     aria-describedby='validation-basic-cost'
                     {...(errors.cost && {helperText: t('required')})}
@@ -270,14 +372,52 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
 
             <Grid item xs={12} sm={6}>
               <Controller
-                name='source'
+                name='source_name'
                 control={control}
                 rules={{required: false}}
                 render={({field: {value, onChange}}) => (
                   <CustomTextField
                     fullWidth
                     value={value}
-                    label={t('source')}
+                    label={t('source_name')}
+                    onChange={onChange}
+                    error={Boolean(errors.source)}
+                    aria-describedby='validation-basic-source'
+                    {...(errors.source && {helperText: t('required')})}
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Controller
+                name='source_address'
+                control={control}
+                rules={{required: false}}
+                render={({field: {value, onChange}}) => (
+                  <CustomTextField
+                    fullWidth
+                    value={value}
+                    label={t('source_address')}
+                    onChange={onChange}
+                    error={Boolean(errors.source)}
+                    aria-describedby='validation-basic-source'
+                    {...(errors.source && {helperText: t('required')})}
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Controller
+                name='source_website'
+                control={control}
+                rules={{required: false}}
+                render={({field: {value, onChange}}) => (
+                  <CustomTextField
+                    fullWidth
+                    value={value}
+                    label={t('source_website')}
                     onChange={onChange}
                     error={Boolean(errors.source)}
                     aria-describedby='validation-basic-source'
@@ -295,6 +435,16 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={usersIsFetching || usersIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreUsers();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchUsersTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('user_id', newValue)
@@ -304,15 +454,68 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={users}
+                    options={usersOptions}
                     getOptionLabel={option => option.first_name || ''}
-                    renderInput={params => <CustomTextField {...params} label={t('user')} />}
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('user')} />}
                   />
                 )}
               />
             </Grid>
 
-            {/* <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6}>
+              <Controller
+                name='collections_ids'
+                control={control}
+                rules={{ required: false }}
+                render={({ field: { value, onChange } }) => (
+                   <Autocomplete
+                    multiple
+                    name='collections_ids'
+                    options={collectionsOptions}
+                    getOptionLabel={(option) => option.name}
+                    onInputChange={(e , val) => setSearchCollectionsTerm(val)}
+                    loading={collectionsIsFetching || collectionsIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreCollections();
+                        }
+                      },
+                    }}
+                    value={value}
+                    onChange={(event, newValue) => {
+                      if (newValue) {
+                        setValue('collections_ids', newValue)
+                        onChange(newValue)
+                      } else {
+                        setValue('collections_ids', null)
+                      }
+                    }}
+                    renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip
+                          variant="outlined"
+                          label={option.name}
+                          {...getTagProps({ index })}
+                        />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <CustomTextField
+                      {...params}
+                      variant="outlined"
+                      label={t('collections')}
+                      placeholder="Options"
+                    />
+                    )}
+                  /> 
+                  )}
+              />
+            </Grid>
+          
+            <Grid item xs={12} sm={6}>
               <Controller
                 name='item_group_id'
                 control={control}
@@ -320,6 +523,16 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={itemGroupsIsFetching || itemGroupsIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreItemGroups();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchItemGroupsTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('item_group_id', newValue)
@@ -329,13 +542,14 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={collections}
+                    options={itemGroupsOptions}
                     getOptionLabel={option => option.name || ''}
-                    renderInput={params => <CustomTextField {...params} label={t('item_groups')} />}
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('item_groups')} />}
                   />
                 )}
               />
-            </Grid> */}
+            </Grid>
 
             <Grid item xs={12} sm={6}>
               <Controller
@@ -345,6 +559,16 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={countriesIsFetching || countriesIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreCountries();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchCountriesTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('country_id', newValue)
@@ -354,9 +578,10 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={countries}
+                    options={countriesOptions}
                     getOptionLabel={option => option.name || ''}
-                    renderInput={params => <CustomTextField {...params} label={t('countries')} />}
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('countries')} />}
                   />
                 )}
               />
@@ -380,16 +605,37 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
                     options={[
-                      {id : 1},
-                      {id : 2},
-                      {id : 3},
-                      {id : 4},
-                      {id : 5},
-                      {id : 6},
-                      {id : 7}
+                      {id : 1 , name : 'MILLIMETER'},
+                      {id : 2 , name : 'CM'},
+                      {id : 3 , name : 'M'},
+                      {id : 4 , name : 'KM'},
+                      {id : 5 , name : "INCH"},
+                      {id : 6 , name : "FEET"},
+                      {id : 7 , name : "YARD"},
+                      {id : 8 , name : "MILE"}
                     ]}
-                    getOptionLabel={option => option.id || ''}
-                    renderInput={params => <CustomTextField {...params} label={t('type')} />}
+                    getOptionLabel={option => option.name || ''}
+                    renderInput={params => <CustomTextField {...params} label={t('unit')} />}
+                  />
+                )}
+              />
+            </Grid>
+
+            
+            <Grid item xs={12} sm={6}>
+              <Controller
+                name='sort'
+                control={control}
+                rules={{required: false}}
+                render={({field: {value, onChange}}) => (
+                  <CustomTextField
+                    fullWidth
+                    value={value}
+                    label={t('sort')}
+                    onChange={onChange}
+                    error={Boolean(errors.sort)}
+                    aria-describedby='validation-basic-sort'
+                    {...(errors.sort && {helperText: t('required')})}
                   />
                 )}
               />

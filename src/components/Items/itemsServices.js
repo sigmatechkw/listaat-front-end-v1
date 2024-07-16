@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 const state = store.getState()
 
-export const fetchItems = async (page = 1, search, sortKey = 'id', sortType = 'desc', perPage = 10, isActive = '', setRows, setLoading) => {
+export const fetchItems = async (page = 1, search, sortKey = 'id', sortType = 'asc', perPage = 10, isActive = '', setRows, setLoading) => {
   let params = {
     paginate: 1,
     page: page + 1,

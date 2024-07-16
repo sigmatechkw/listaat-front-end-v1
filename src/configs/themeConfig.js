@@ -8,7 +8,7 @@ import i18n from "./i18n";
  */
 const themeConfig = {
   // ** Layout Configs
-  templateName: i18n.t('almanam') /* App Name */,
+  templateName: i18n.t('listaat') /* App Name */,
   layout: 'vertical' /* vertical | horizontal */,
   mode: 'light' /* light | dark | semi-dark /*! Note: semi-dark value will only work for Vertical Layout */,
   direction: 'ltr' /* ltr | rtl */,

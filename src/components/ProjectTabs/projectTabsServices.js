@@ -42,6 +42,27 @@ export const fetchProjectTabs = async (page = 1, search, sortKey = 'id', sortTyp
   }
 }
 
+export const fetchProjectTabsInfintyQuery = async ({ pageParam = 1, queryKey }) => {
+  try{
+    const [_, searchTerm] = queryKey;
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}project-tabs`, {
+      params: {
+        page: pageParam,
+        search: searchTerm,
+        paginate : 1,
+      },
+      headers: {
+        Authorization: getCookie('token'),
+        'Accepted-Language': getCookie('lang') ?? 'en'
+      }
+    });
+    return response.data.data;
+
+  }catch(err){
+    toast.error(err.response?.data?.message)
+  }
+};
+
 export const deleteProjectTabs = async (ids) => {
   let data = {
     delete_ids: ids,

@@ -21,6 +21,9 @@ import ProjectModeratorsTable from './ProjectModeratorsTable'
 import ProjectParentTable from './ProjectParentTable'
 import ProjectTabsSubTabsTable from 'src/components/ProjectTabs/Details/ProjectTabsSubTabsTable'
 import ProjectItemGroupsTable from './ProjectItemGroupsTable'
+import ProjectFoldersTable from './ProjectFoldersTable'
+import ProjectItemsTable from './ProjectItemsTable'
+import ProjectSharesTable from './ProjectSharesTable'
 
 const ProjectDetails = ({ type }) => {
   const { t } = useTranslation()
@@ -114,17 +117,33 @@ const ProjectDetails = ({ type }) => {
         <Grid item xs={12}>
           <ProjectModeratorsTable data={type.moderators} />
         </Grid>
+
         {type.parent && 
         <Grid item xs={12}>
           <ProjectParentTable data={[type.parent]} />
         </Grid>
         }
+
         <Grid item xs={12}>
           <ProjectTabsSubTabsTable data={type.project_tabs} />
         </Grid>
+
         <Grid item xs={12}>
           <ProjectItemGroupsTable data={type.item_groups} />
         </Grid>
+
+        <Grid item xs={12}>
+          <ProjectItemsTable data={type.items} />
+        </Grid>
+        
+        <Grid item xs={12}>
+          <ProjectFoldersTable data={type.folders} />
+        </Grid>
+
+        <Grid item xs={12}>
+          <ProjectSharesTable data={type.project_shares} />
+        </Grid>
+
       </Grid>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}

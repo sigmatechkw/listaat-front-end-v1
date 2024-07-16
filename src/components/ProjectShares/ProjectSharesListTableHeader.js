@@ -7,11 +7,13 @@ import Snackbar from '@mui/material/Snackbar'
 import { Icon } from '@iconify/react'
 import CustomTextField from '../../@core/components/mui/text-field'
 import SnackbarConfirmActions from '../Shared/SnackbarConfirmActions'
-import { deleteDreams, exportDreams } from './dreamsServices'
+import { deleteProjectShares } from './ProjectSharesServices'
+import { useRouter } from 'next/router'
 
-const DreamsListTableHeader = ({ selectedRows, onChange, value, clearSearch, showUserSearch = true, user, onUserChange, clearUserSearch, fetchData, canExport }) => {
-  const {t} = useTranslation()
-  const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false);
+const ProjectSharesListTableHeader = ({ selectedRows, onChange, value, clearSearch, fetchData, canExport }) => {
+  const router = useRouter()
+  const { t } = useTranslation()
+  const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false)
 
   const handleClickDeleteButton = id => {
     setOpenDeleteSnackbar(true)
@@ -21,12 +23,8 @@ const DreamsListTableHeader = ({ selectedRows, onChange, value, clearSearch, sho
     setOpenDeleteSnackbar(false)
   }
 
-  const handleExport = () => {
-    exportDreams()
-  }
-
   const handleDelete = () => {
-    deleteDreams(selectedRows).then(res => {
+    deleteProjectShares(selectedRows).then(res => {
       setOpenDeleteSnackbar(false)
       fetchData()
     })
@@ -44,13 +42,6 @@ const DreamsListTableHeader = ({ selectedRows, onChange, value, clearSearch, sho
       }}
     >
       <Box sx={{ rowGap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-        {canExport && (
-          <Button color={'primary'} variant={'tonal'} onClick={handleExport}>
-            <Icon fontSize='1.125rem' icon='tabler:download' />
-            &nbsp;
-            {t('export')}
-          </Button>
-        )}
         {selectedRows.length > 0 && (
           <Button sx={{ marginInline: 2 }} color={'error'} variant={'tonal'} onClick={handleClickDeleteButton}>
             <Icon fontSize='1.125rem' icon='tabler:trash' />
@@ -59,37 +50,8 @@ const DreamsListTableHeader = ({ selectedRows, onChange, value, clearSearch, sho
           </Button>
         )}
       </Box>
+
       <Box sx={{ rowGap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-        {
-          showUserSearch &&
-            <CustomTextField
-              value={user}
-              placeholder={t('user_or_expert_search')}
-              onChange={onUserChange}
-              InputProps={{
-                startAdornment: (
-                  <Box sx={{ mr: 2, display: 'flex' }}>
-                    <Icon fontSize='1.25rem' icon='tabler:user' />
-                  </Box>
-                ),
-                endAdornment: (
-                  <IconButton size='small' title='Clear' aria-label='Clear' onClick={clearUserSearch}>
-                    <Icon fontSize='1.25rem' icon='tabler:x' />
-                  </IconButton>
-                )
-              }}
-              sx={{
-                mr: 3,
-                width: {
-                  xs: 1,
-                  sm: 'auto'
-                },
-                '& .MuiInputBase-root > svg': {
-                  mr: 2
-                }
-              }}
-            />
-        }
         <CustomTextField
           value={value}
           placeholder={t('search')}
@@ -117,10 +79,6 @@ const DreamsListTableHeader = ({ selectedRows, onChange, value, clearSearch, sho
             }
           }}
         />
-        {/*<Button onClick={() => router.push('/users/create')} variant='contained' sx={{ '& svg': { mr: 2 } }}>*/}
-        {/*  <Icon fontSize='1.125rem' icon='tabler:plus' />*/}
-        {/*  {t('add')}*/}
-        {/*</Button>*/}
       </Box>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -133,4 +91,4 @@ const DreamsListTableHeader = ({ selectedRows, onChange, value, clearSearch, sho
   )
 }
 
-export default DreamsListTableHeader
+export default ProjectSharesListTableHeader

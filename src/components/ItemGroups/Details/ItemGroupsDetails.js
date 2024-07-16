@@ -16,6 +16,7 @@ import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
+import ItemsGroupsItemsTable from './ItemGroupsItemsTable'
 
 const ItemGroupsDetails = ({ type }) => {
   const { t } = useTranslation()
@@ -81,6 +82,11 @@ const ItemGroupsDetails = ({ type }) => {
           </CardActions>
         </Card>
       </Grid>
+
+      <Grid item xs={12}>
+          <ItemsGroupsItemsTable data={type.items} />
+      </Grid>
+      
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={openDeleteSnackbar}

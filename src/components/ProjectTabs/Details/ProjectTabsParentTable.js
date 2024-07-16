@@ -63,7 +63,7 @@ const ProjectTabsParentTable = ({
       headerName: t('user'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.user?.name}
+          {row.user?.first_name}
         </Typography>
       )
     },

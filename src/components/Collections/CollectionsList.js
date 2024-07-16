@@ -7,7 +7,7 @@ import SnackbarConfirmActions from '../Shared/SnackbarConfirmActions'
 import { useTranslation } from 'react-i18next'
 import Typography from '@mui/material/Typography'
 import Icon from '../../@core/components/icon'
-import { deleteCollections } from './collectionsTypesServices'
+import { deleteCollections } from './CollectionsServices'
 import CollectionsRowOptions from './CollectionsRowOptions'
 import CollectionsFilters from './CollectionsFilters'
 import CollectionsListTableHeader from './CollectionsListTableHeader'
@@ -147,10 +147,7 @@ const CollectionsList = ({
 
   return (
     <div>
-      <CollectionsFilters
-        isActive={isActive}
-        setIsActive={setIsActive}
-      />
+      <CollectionsFilters isActive={isActive} setIsActive={setIsActive} />
       <Card>
         <CardHeader title={t('collections')} />
         <CustomDataGrid

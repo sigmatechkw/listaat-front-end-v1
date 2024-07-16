@@ -5,12 +5,11 @@ import toast from "react-hot-toast";
 
 const state = store.getState()
 
-export const fetchCollections = async (page = 1, search, sortKey = 'id', sortType = 'desc', perPage = 10, isActive = '', setRows, setLoading) => {
+export const fetchProjectFolders = async (page = 1, search, sortKey = 'id', sortType = 'asc', perPage = 10,setRows, setLoading) => {
   let params = {
     paginate: 1,
     page: page + 1,
     perPage,
-    active : isActive,
   }
 
   if (search) {
@@ -26,7 +25,7 @@ export const fetchCollections = async (page = 1, search, sortKey = 'id', sortTyp
   }
 
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}collections`, {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}folder-project`, {
       params,
       headers: {
         'Authorization': getCookie('token'),
@@ -41,13 +40,13 @@ export const fetchCollections = async (page = 1, search, sortKey = 'id', sortTyp
   }
 }
 
-export const deleteCollections = async (ids) => {
+export const deleteProjectFolders = async (ids) => {
   let data = {
     delete_ids: ids
   }
 
   try {
-    await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}collections/delete`, data, {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}folder-project/delete`, data, {
       headers: {
         'Authorization': getCookie('token'),
         'Accepted-Language': getCookie('lang') ?? state.lang ?? 'en'

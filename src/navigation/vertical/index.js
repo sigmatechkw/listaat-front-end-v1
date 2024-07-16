@@ -22,6 +22,11 @@ const navigation = () => {
           icon: 'tabler:align-box-left-middle',
         },
         {
+          title: i18n.t('project_shares'),
+          path: '/project-shares',
+          icon: 'tabler:share-3',
+        },
+        {
           title: i18n.t('project_tabs'),
           path: '/project-tabs',
           icon: 'tabler:subtask',

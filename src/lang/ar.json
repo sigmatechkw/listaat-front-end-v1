@@ -1,5 +1,6 @@
 {
-  "almanam": "المنام",
+  "almanam": "ليستات",
+  "listaat": "ليستات",
   "search": "بحث",
   "yes": "نعم",
   "no": "لا",
@@ -355,12 +356,11 @@
   "folders_create" : "انشاء ملف",
   "folders_edit" : "تعديل ملف",
   "parent_folder" : "الملف الاب",
-  "project_folders" : "ملفات المشاريع",
-  "project_folders_create" : "اضافة ملفات للمشاريع",
-  "project_folders_edit" : "تعديل ملفات المشاريع",
   "parent_Collection" : "المجموعات",
+  "collections" : "المجموعات",
   "collection_create" : "انشاء مجموعة",
   "collection_edit" : "تعديل مجموعة",
+  "items" : "العناصر",
   "item_create" : "انشاء عنصر",
   "item_edit" : "تعديل عنصر",
   "quick_list" : "القائمة سريعة",
@@ -370,8 +370,23 @@
   "item_groups_edit" : "تعديل مجموعة عناصر",
   "item_group_project" : "مجموعة عناصر المشروع",
   "item_group_project_create" : "اضافة مجموعة عناصر الي مشروع",
-  "item_group_project_edit" : "تعديل مجموعة الي مشروع"
-  
-
+  "item_group_project_edit" : "تعديل مجموعة الي مشروع",
+  "project_shares" : "مشاركة المشاريع",
+  "project_shares_create" : "مشاركة مشروع",
+  "is_send" : "تم الارسال",
+  "is_a_copy" : "هل نسخة",
+  "is_accepted" : "تم القبول",
+  "sender_user" : "المستخدم المرسل",
+  "receiver_user" : "المستخدم المستقبل",
+  "project_folders": "ملفات المشاريع",
+  "project_folder" : "ملفات المشاريع",
+  "project_folders_create" : "اضافة ملف للمشروع",
+  "project_folders_Edit" : "تعديل ملف للمشروع",
+  "unit" : "الوحده",
+  "upload_image" : "رفع صورة",
+  "upload_receipt" : "رفع ايصال ",
+  "source_name" : "اسم المصدر",
+  "source_address" : "عنوان المصدر",
+  "source_website" : "موقع المصدر"
 }
 

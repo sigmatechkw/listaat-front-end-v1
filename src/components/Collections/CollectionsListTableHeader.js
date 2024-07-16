@@ -7,7 +7,7 @@ import Snackbar from '@mui/material/Snackbar'
 import { Icon } from '@iconify/react'
 import CustomTextField from '../../@core/components/mui/text-field'
 import SnackbarConfirmActions from '../Shared/SnackbarConfirmActions'
-import { deleteCollections } from './collectionsTypesServices'
+import { deleteCollections } from './CollectionsServices'
 import { useRouter } from 'next/router'
 
 const CollectionsListTableHeader = ({ selectedRows, onChange, value, clearSearch, fetchData, canExport }) => {

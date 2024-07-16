@@ -10,12 +10,13 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import SnackbarConfirmActions from '../../Shared/SnackbarConfirmActions'
 import Snackbar from '@mui/material/Snackbar'
-import { deleteCollections } from '../collectionsTypesServices'
+import { deleteCollections } from '../CollectionsServices'
 import Icon from '../../../@core/components/icon'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
+import CollectionsItemsTable from './CollectionsItemsTable'
 
 const CollectionsDetails = ({ type }) => {
   const { t } = useTranslation()
@@ -55,7 +56,9 @@ const CollectionsDetails = ({ type }) => {
               <Typography sx={{ color: 'text.secondary' }}>{type.user?.first_name}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
-              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('parent_Collection')}:</Typography>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>
+                {t('parent_Collection')}:
+              </Typography>
               <Typography sx={{ color: 'text.secondary' }}>{type.parent?.name}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
@@ -84,6 +87,9 @@ const CollectionsDetails = ({ type }) => {
             </Button>
           </CardActions>
         </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <CollectionsItemsTable data={type.items} />
       </Grid>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}

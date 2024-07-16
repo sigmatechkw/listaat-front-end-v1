@@ -34,12 +34,31 @@ export const fetchItemGroups = async (page = 1, search, sortKey = 'id', sortType
       }
     })
     setRows(response.data.data)
-    console.log(isActive);
-    console.log(response);
     setLoading(false)
   } catch (err) {
     toast.error(err.response?.data?.message)
     setLoading(false)
+  }
+}
+
+export const fetchItemGroupsInfinityQuery = async ({ pageParam = 1, queryKey }) => {
+
+  try{ 
+    const [_, searchTerm] = queryKey;
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}item-groups`, {
+      params: {
+        page: pageParam,
+        search: searchTerm,
+        paginate : 1,
+      },
+      headers: {
+        Authorization: getCookie('token'),
+        'Accepted-Language': getCookie('lang') ?? 'en'
+      }
+    })
+    return response.data.data
+  }catch(err) { 
+    toast.error(err.response?.data?.message)
   }
 }
 

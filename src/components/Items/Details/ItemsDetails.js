@@ -51,18 +51,60 @@ const ItemsDetails = ({ type }) => {
               <Typography sx={{ color: 'text.secondary' }}>{type.name}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('cost')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.cost}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('extra_cost')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.extra_cost}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('width')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.width}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('height')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.height}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('length')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.length}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('unit')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.unit?.name}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('user')}:</Typography>
               <Typography sx={{ color: 'text.secondary' }}>{type.user?.first_name}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
-              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>
-                {t('parent_Collection')}:
-              </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>{type.parent?.name}</Typography>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('item_groups')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.item_group?.name}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
-              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('type')}:</Typography>
-              <Typography sx={{ color: 'text.secondary' }}>{type.type?.name}</Typography>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('country')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.country?.name}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('notes')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.notes}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('soruce_name')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.source.soruce_name}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('soruce_address')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.source.soruce_address}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('soruce_address')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.source.soruce_website}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('sort')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.sort}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('is_active')}:</Typography>
@@ -78,7 +120,7 @@ const ItemsDetails = ({ type }) => {
             </Box>
           </CardContent>
           <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button variant='tonal' sx={{ mr: 2 }} onClick={() => router.push(`/collections/edit/${type.id}`)}>
+            <Button variant='tonal' sx={{ mr: 2 }} onClick={() => router.push(`/items/edit/${type.id}`)}>
               {t('edit')}
             </Button>
             <Button color='error' variant='tonal' onClick={handleClickDeleteButton}>

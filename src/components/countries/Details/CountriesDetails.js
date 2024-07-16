@@ -24,18 +24,6 @@ const CountriesDetails = ({ data }) => {
     router.push(`/countries/edit/${id}`)
   }
 
-  /*   const formatDate = (dateString) => {
-    const dateTime = new Date(dateString);
-    const formattedDate = `${dateTime.getDate()}/${dateTime.getMonth() + 1}/${dateTime.getFullYear()}`;
-    let hours = dateTime.getHours();
-    const minutes = dateTime.getMinutes().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12 || 12; 
-    const formattedTime = `${hours}:${minutes} ${ampm}`;
-    const formattedDateTime = `${formattedDate} ${formattedTime}`;
-
-    return formattedDateTime
-  } */
 
   return (
     <Grid container spacing={6}>
@@ -78,7 +66,7 @@ const CountriesDetails = ({ data }) => {
                   variant='body2'
                   sx={{ color: 'text.primary', textTransform: 'uppercase', fontSize: '1.5rem' }}
                 >
-                  {t('login_methods_details')}
+                  {t('countries')}
                 </Typography>
               </Box>
 

@@ -15,7 +15,7 @@ const ProjectTypesFilters = ({ isActive, setIsActive, isShouldHasSubTabs, setIsS
     setIsActive(e.target.value)
   }
 
-  const handleisShouldHasSubTabsChange = (e) => {
+  const handleShouldHasSubTabsChange = (e) => {
     setIsShouldHasSubTabs(e.target.value)
   }
 
@@ -53,9 +53,9 @@ const ProjectTypesFilters = ({ isActive, setIsActive, isShouldHasSubTabs, setIsS
               SelectProps={{
                 value: isShouldHasSubTabs,
                 displayEmpty: true,
-                onChange: handleisShouldHasSubTabsChange,
+                onChange: handleShouldHasSubTabsChange,
                 endAdornment: (
-                  <IconButton sx={{ mx: 2 }} onClick={() => setIsPublic('')}>
+                  <IconButton sx={{ mx: 2 }} onClick={() => isShouldHasSubTabs('')}>
                     <Icon icon={'tabler:circle-x'} />
                   </IconButton>
                 )

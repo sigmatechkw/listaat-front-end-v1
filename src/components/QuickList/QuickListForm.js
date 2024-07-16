@@ -16,24 +16,36 @@ import Divider from "@mui/material/Divider";
 import { useState , useEffect } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { fetchUsersInfinityQuery } from '../Projects/projectsServices';
 
 const QuickListForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
-  const [users, setUsers] = useState([])
+  const [searchUsersTerm, setSearchUsersTerm] = useState('');
 
-  useEffect(() => {
-    fetchUsers()
-  }, [])
+  const {
+    data : users,
+    fetchNextPage : fetchUsersNextPage,
+    hasNextPage : usersHasNextPage,
+    isFetching : usersIsFetching,
+    isFetchingNextPage : usersIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchUsersInfinityQuery', searchUsersTerm],
+    queryFn: fetchUsersInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchUsers = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}users`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setUsers(response.data.data.items)
-  }
+  
+  const loadMoreUsers = () => {
+    if (usersHasNextPage) {
+      fetchUsersNextPage();
+    }
+  };
+
+  const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
 
   return (
     <>
@@ -101,7 +113,6 @@ const QuickListForm = ({type = 'create', errors, control, watch, setValue, onSub
               />
             </Grid>
 
-            
             <Grid item xs={12} sm={6}>
               <Controller
                 name='user_id'
@@ -110,6 +121,16 @@ const QuickListForm = ({type = 'create', errors, control, watch, setValue, onSub
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={usersIsFetching || usersIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreUsers();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchUsersTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('user_id', newValue)
@@ -119,13 +140,13 @@ const QuickListForm = ({type = 'create', errors, control, watch, setValue, onSub
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={users}
-                    getOptionLabel={option => option.first_name || ''} // Render the full name of project
-                    renderInput={params => <CustomTextField {...params} 
+                    options={usersOptions}
                     required
-                    error={Boolean(errors.price)}
-                    aria-describedby='validation-basic-price'
-                    {...(errors.price && {helperText: t('required')})}
+                    getOptionLabel={option => option.first_name || ''}
+                    renderInput={params => <CustomTextField {...params}
+                    error={Boolean(errors.user_id)}
+                    aria-describedby='validation-basic-user_id'
+                    {...(errors.user_id && {helperText: t('required')})}
                      label={t('user')} />}
                   />
                 )}

@@ -7,7 +7,7 @@ import Snackbar from '@mui/material/Snackbar'
 import { Icon } from '@iconify/react'
 import CustomTextField from '../../@core/components/mui/text-field'
 import SnackbarConfirmActions from '../Shared/SnackbarConfirmActions'
-import { deleteProjectTypes } from '../ProjectTabs/projectTypesServices'
+import { deleteProjectTypes } from './projectTypesServices'
 import { useRouter } from 'next/router'
 
 const ProjectTypesListTableHeader = ({ selectedRows, onChange, value, clearSearch, fetchData, canExport }) => {

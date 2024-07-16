@@ -15,7 +15,7 @@ const ProjectTabsFilters = ({ isActive, setIsActive , isDefault , setIsDefault})
     setIsActive(e.target.value)
   }
 
-  const handleisDefaultChange = (e) => {
+  const handleIsDefaultChange = (e) => {
     setIsDefault(e.target.value)
   }
 
@@ -53,9 +53,9 @@ const ProjectTabsFilters = ({ isActive, setIsActive , isDefault , setIsDefault})
               SelectProps={{
                 value: isDefault,
                 displayEmpty: true,
-                onChange: handleisDefaultChange,
+                onChange: handleIsDefaultChange,
                 endAdornment: (
-                  <IconButton sx={{ mx: 2 }} onClick={() => setIsActive('')}>
+                  <IconButton sx={{ mx: 2 }} onClick={() => setIsDefault('')}>
                     <Icon icon={'tabler:circle-x'} />
                   </IconButton>
                 )

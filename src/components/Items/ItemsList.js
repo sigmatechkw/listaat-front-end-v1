@@ -86,6 +86,17 @@ const ItemsList = ({
     {
       flex: 0.175,
       minWidth: 120,
+      field: 'extra_cost',
+      headerName: t('extra_cost'),
+      renderCell: ({ row }) => (
+        <Typography variant='body2' sx={{ color: 'text.primary' }}>
+          {row.extra_cost}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.175,
+      minWidth: 120,
       field: 'user_id',
       headerName: t('user'),
       renderCell: ({ row }) => (
@@ -94,22 +105,11 @@ const ItemsList = ({
         </Typography>
       )
     },
-    // {
-    //   flex: 0.175,
-    //   minWidth: 120,
-    //   field: 'parent_id',
-    //   headerName: t('parent_id'),
-    //   renderCell: ({ row }) => (
-    //     <Typography variant='body2' sx={{ color: 'text.primary' }}>
-    //       {row.parent.name}
-    //     </Typography>
-    //   )
-    // },
     {
       flex: 0.175,
       minWidth: 120,
       field: 'item_group_id',
-      headerName: t('item_group'),
+      headerName: t('item_groups'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
           {row.item_group?.name}
@@ -124,17 +124,6 @@ const ItemsList = ({
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
           {row.country?.name}
-        </Typography>
-      )
-    },
-    {
-      flex: 0.175,
-      minWidth: 120,
-      field: 'extra_cost',
-      headerName: t('extra_cost'),
-      renderCell: ({ row }) => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.extra_cost}
         </Typography>
       )
     },
@@ -178,7 +167,7 @@ const ItemsList = ({
       headerName: t('unit'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.unit}
+          {row.unit?.name}
         </Typography>
       )
     },
@@ -196,11 +185,11 @@ const ItemsList = ({
     {
       flex: 0.175,
       minWidth: 120,
-      field: 'source',
-      headerName: t('source'),
+      field: 'sort',
+      headerName: t('sort'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.source}
+          {row.sort}
         </Typography>
       )
     },
@@ -232,7 +221,7 @@ const ItemsList = ({
     },
     {
       flex: 0.175,
-      minWidth: 100,
+      minWidth: 130,
       sortable: false,
       field: 'actions',
       headerName: t('actions'),

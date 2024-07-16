@@ -16,24 +16,36 @@ import Divider from "@mui/material/Divider";
 import { useState , useEffect } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { fetchUsersInfinityQuery } from '../Projects/projectsServices';
 
 const ItemGroupsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
-  const [users, setUsers] = useState([])
+  const [searchUsersTerm, setSearchUsersTerm] = useState('');
 
-  useEffect(() => {
-    fetchUsers()
-  }, [])
+  const {
+    data : users,
+    fetchNextPage : fetchUsersNextPage,
+    hasNextPage : usersHasNextPage,
+    isFetching : usersIsFetching,
+    isFetchingNextPage : usersIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchUsersInfinityQuery', searchUsersTerm],
+    queryFn: fetchUsersInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchUsers = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}users`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setUsers(response.data.data.items)
-  }
+  
+  const loadMoreUsers = () => {
+    if (usersHasNextPage) {
+      fetchUsersNextPage();
+    }
+  };
+
+  const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
 
   return (
     <>
@@ -65,9 +77,20 @@ const ItemGroupsForm = ({type = 'create', errors, control, watch, setValue, onSu
               <Controller
                 name='user_id'
                 control={control}
+                rules={{ required: false }}
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={usersIsFetching || usersIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreUsers();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchUsersTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('user_id', newValue)
@@ -77,12 +100,9 @@ const ItemGroupsForm = ({type = 'create', errors, control, watch, setValue, onSu
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={users}
-                    getOptionLabel={option => option.first_name || ''} // Render the full name of project
-                    renderInput={params => <CustomTextField {...params} 
-                    error={Boolean(errors.user_id)}
-                    aria-describedby='validation-basic-user_id'
-                    {...(errors.user_id && {helperText: t('required')})}
+                    options={usersOptions}
+                    getOptionLabel={option => option.first_name || ''}
+                    renderInput={params => <CustomTextField {...params}
                      label={t('user')} />}
                   />
                 )}

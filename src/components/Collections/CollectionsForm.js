@@ -15,37 +15,61 @@ import {useSelector} from "react-redux";
 import Divider from "@mui/material/Divider";
 import axios from 'axios'
 import { getCookie } from 'cookies-next'
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { fetchUsersInfinityQuery } from '../Projects/projectsServices';
+import { fetchCollectionsInfinityQuery } from './CollectionsServices';
 
 const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
+  const [searchUsersTerm, setSearchUsersTerm] = useState('');
+  const [searchCollectionsTerm, setSearchCollectionsTerm] = useState('');
 
-  const [users, setUsers] = useState([])
-  const [collections, setCollections] = useState([])
 
-  useEffect(() => {
-    fetchCollections()
-    fetchUsers()
-  }, [])
+  const {
+    data : collections,
+    fetchNextPage : fetchCollectionsNextPage,
+    hasNextPage : collectionsHasNextPage,
+    isFetching : collectionsIsFetching,
+    isFetchingNextPage : collectionsIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchCollectionsInfinityQuery', searchCollectionsTerm],
+    queryFn: fetchCollectionsInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchCollections = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}collections`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setCollections(response.data.data.items)
-  }
+  const {
+    data : users,
+    fetchNextPage : fetchUsersNextPage,
+    hasNextPage : usersHasNextPage,
+    isFetching : usersIsFetching,
+    isFetchingNextPage : usersIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchUsersInfinityQuery', searchUsersTerm],
+    queryFn: fetchUsersInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
 
-  const fetchUsers = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}users`, {
-      headers: {
-        Authorization: getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? 'en'
-      }
-    })
-    setUsers(response.data.data.items)
-  }
+  const loadMoreUsers = () => {
+    if (usersHasNextPage) {
+      fetchUsersNextPage();
+    }
+  };
+
+  const loadMoreCollections = () => {
+    if (collectionsHasNextPage) {
+      fetchCollectionsNextPage();
+    }
+  };
+
+  const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
+  const collectionsOptions = collections?.pages.flatMap((page) => page.items) || [];  
+
 
   return (
     <>
@@ -81,6 +105,16 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={collectionsIsFetching || collectionsIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreCollections();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchCollectionsTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('parent_id', newValue)
@@ -90,9 +124,10 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={collections}
+                    options={collectionsOptions}
                     getOptionLabel={option => option.name || ''}
-                    renderInput={params => <CustomTextField {...params} label={t('parent_Collection')} />}
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('parent_Collection')} />}
                   />
                 )}
               />
@@ -106,6 +141,16 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
+                    loading={usersIsFetching || usersIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreUsers();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchUsersTerm(val)}
                     onChange={(e, newValue) => {
                       if (newValue) {
                         setValue('user_id', newValue)
@@ -115,9 +160,10 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={users}
+                    options={usersOptions}
                     getOptionLabel={option => option.first_name || ''}
-                    renderInput={params => <CustomTextField {...params} label={t('user')} />}
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('user')} />}
                   />
                 )}
               />

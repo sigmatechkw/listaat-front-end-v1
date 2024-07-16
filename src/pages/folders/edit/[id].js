@@ -62,7 +62,7 @@ const FoldersEdit = ({ type, id }) => {
   const fetchFoldersDetails = () => {
     setValue('name', type.name)
     setValue('user_id', type.user)
-    setValue('parent', type.parent)
+    setValue('parent_id', type.parent)
     setValue('type', type.type)
     setValue('sort', type.sort)
     setValue('active', type.active)

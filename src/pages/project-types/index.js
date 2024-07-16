@@ -1,6 +1,6 @@
 import CustomLoader from '../../components/Shared/CustomLoader'
 import { useEffect, useState } from 'react'
-import { fetchProjectTypes } from '../../components/ProjectTabs/projectTypesServices'
+import { fetchProjectTypes } from 'src/components/ProjectTypes/projectTypesServices'
 import ProjectTypesList from '../../components/ProjectTypes/ProjectTypesList'
 
 const ProjectTypes = () => {

@@ -1,6 +1,6 @@
 import CustomLoader from '../../components/Shared/CustomLoader'
 import { useEffect, useState } from 'react'
-import { fetchCollections } from 'src/components/Collections/collectionsTypesServices'
+import { fetchCollections } from 'src/components/Collections/CollectionsServices'
 import CollectionsList from 'src/components/Collections/CollectionsList'
 
 const Collections = () => {

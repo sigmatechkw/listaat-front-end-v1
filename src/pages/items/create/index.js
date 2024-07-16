@@ -20,8 +20,13 @@ const defaultValues = {
   length: '',
   unit: '',
   notes: '',
-  source: '',
-  image: '/images/avatars/15.png',
+  source_name: '',
+  source_address: '',
+  source_website: '',
+  image: '',
+  receipt : '',
+  collections_ids : [],
+  sort :'',
   active: false
 }
 
@@ -32,6 +37,8 @@ const ItemsCreate = () => {
   const [loading, setLoading] = useState(false)
   const [itemImg, setItemImg] = useState('')
   const [imgSrc, setImgSrc] = useState('/images/avatars/15.png')
+  const [receiptImg, setReceiptImg] = useState('')
+  const [receiptSrc, setReceiptSrc] = useState('')
 
 
   const {
@@ -45,8 +52,27 @@ const ItemsCreate = () => {
 
   const onSubmit = data => {
     setLoading(true)
+
+    if(receiptSrc){
+      data.receipt = receiptSrc;
+    }else{ 
+      delete data.receipt;
+    }
+  
     
     data.image = imgSrc;
+    data.receipt = receiptSrc;
+    data.user_id = data.user_id?.id;
+    data.country_id = data.country_id?.id;
+    data.item_group_id = data.item_group_id?.id;
+    data.collections_ids = data.collections_ids.map(item => item = item.id);
+    data.unit = data.unit?.id;
+    data.source = {
+      source_name : data.source_name,
+      source_address : data.source_address,
+      source_website : data.source_website,
+    };
+
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}items`, data, {
         headers: {
@@ -79,6 +105,10 @@ const ItemsCreate = () => {
         setItemImg={setItemImg}
         imgSrc={imgSrc}
         setImgSrc={setImgSrc}
+        receiptImg={receiptImg}
+        setReceiptImg={setReceiptImg}
+        receiptSrc={receiptSrc}
+        setReceiptSrc={setReceiptSrc}
         title={t('item_create')}
         loading={loading}
       />

@@ -41,6 +41,47 @@ export const fetchProjects = async (page = 1, search, sortKey = 'id', sortType =
   }
 }
 
+export const fetchProjectsInfinityQuery = async ({ pageParam = 1, queryKey }) => {
+
+  try{ 
+    const [_, searchTerm] = queryKey;
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}projects`, {
+      params: {
+        page: pageParam,
+        search: searchTerm,
+        paginate : 1,
+      },
+      headers: {
+        Authorization: getCookie('token'),
+        'Accepted-Language': getCookie('lang') ?? 'en'
+      }
+    })
+    return response.data.data
+  }catch(err) { 
+    toast.error(err.response?.data?.message)
+  }
+}
+
+export const fetchUsersInfinityQuery = async ({ pageParam = 1, queryKey }) => {
+  try { 
+    const [_, searchTerm] = queryKey;
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}users`, {
+      params: {
+        page: pageParam,
+        search: searchTerm,
+        paginate : 1,
+      },
+      headers: {
+        Authorization: getCookie('token'),
+        'Accepted-Language': getCookie('lang') ?? 'en'
+      }
+    })
+    return response.data.data;
+  }catch(err){ 
+    toast.error(err.response?.data?.message)
+  }
+}
+
 export const deleteProjects = async (ids) => {
   let data = {
     delete_ids: ids
@@ -55,27 +96,6 @@ export const deleteProjects = async (ids) => {
     })
 
     return 
-  } catch (err) {
-    toast.error(err.response?.data?.message)
-  }
-}
-
-export const fetchQueryInfiniteProjects= async (page) => {
-  let params = {
-    paginate: 1,
-    page: page + 1,
-  }
-
-
-  try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}projects`, {
-      params,
-      headers: {
-        'Authorization': getCookie('token'),
-        'Accepted-Language': getCookie('lang') ?? state.lang ?? 'en'
-      }
-    })
-    return response.data.data
   } catch (err) {
     toast.error(err.response?.data?.message)
   }

@@ -2,9 +2,9 @@ import {useEffect, useState} from "react";
 import CustomLoader from "../../Shared/CustomLoader";
 import TransactionsList from "../../Transactions/TransactionsList";
 import {fetchUserTransactions} from "./userTransactionsServices";
-import ExpertTransactionsList from "../../ExpertTransactions/ExpertTransactionsList";
-import ExpertTransactionsStatistics from "../../ExpertTransactions/ExpertTransactionsStatistics";
-import {fetchExpertTransactions} from "../../ExpertTransactions/ExpertTransactionsServices";
+// import ExpertTransactionsList from "../../ExpertTransactions/ExpertTransactionsList";
+// import ExpertTransactionsStatistics from "../../ExpertTransactions/ExpertTransactionsStatistics";
+// import {fetchExpertTransactions} from "../../ExpertTransactions/ExpertTransactionsServices";
 
 const UserTransactionsList = ({ user }) => {
   const [paginationModel, setPaginationModel] = useState({page: 0, pageSize: 10})
@@ -18,7 +18,7 @@ const UserTransactionsList = ({ user }) => {
 
   useEffect(() => {
     if (user.roles[0]?.id === 3) {
-      fetchExpertTransactions(paginationModel.page, '', sortModel[0]?.field, sortModel[0]?.sort, paginationModel.pageSize, paid, expert, setRows, setLoading)
+      // fetchExpertTransactions(paginationModel.page, '', sortModel[0]?.field, sortModel[0]?.sort, paginationModel.pageSize, paid, expert, setRows, setLoading)
     } else {
       fetchUserTransactions(user.id, paginationModel.page, sortModel[0]?.field, sortModel[0]?.sort, paginationModel.pageSize, paid, method, setRows, setLoading)
     }
@@ -32,7 +32,7 @@ const UserTransactionsList = ({ user }) => {
         {
           user.roles[0]?.id === 3 ?
             <>
-              <ExpertTransactionsStatistics expertId={expert.id} />
+              {/* <ExpertTransactionsStatistics expertId={expert.id} />
               <ExpertTransactionsList
                 data={rows}
                 search={searchValue}
@@ -47,7 +47,7 @@ const UserTransactionsList = ({ user }) => {
                 setExpert={setExpert}
                 disableExpertFilter={true}
                 fetchData={() => fetchExpertTransactions(paginationModel.page, '', sortModel[0]?.field, sortModel[0]?.sort, paginationModel.pageSize, paid, expert, setRows, setLoading)}
-              />
+              /> */}
             </>
           :
             <TransactionsList

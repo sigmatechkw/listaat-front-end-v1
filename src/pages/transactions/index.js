@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import {fetchDreams} from "../../components/Dreams/dreamsServices";
+// import {fetchDreams} from "../../components/Dreams/dreamsServices";
 import CustomLoader from "../../components/Shared/CustomLoader";
-import DreamsStatistics from "../../components/Dreams/DreamsStatistics";
-import DreamsList from "../../components/Dreams/DreamsList";
+// import DreamsStatistics from "../../components/Dreams/DreamsStatistics";
+// import DreamsList from "../../components/Dreams/DreamsList";
 import TransactionsList from "../../components/Transactions/TransactionsList";
 import {fetchTransactions} from "../../components/Transactions/transactionsServices";
 

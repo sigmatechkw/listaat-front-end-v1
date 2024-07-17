@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {fetchUserDreams} from "./userDreamsServices";
 import CustomLoader from "../../Shared/CustomLoader";
-import DreamsList from "../../Dreams/DreamsList";
 
 const UserDreamsList = ({ id, roleId }) => {
   const [searchValue, setSearchValue] = useState('')
@@ -33,30 +32,32 @@ const UserDreamsList = ({ id, roleId }) => {
       <CustomLoader />
       :
       <>
-        <DreamsList
-          data={rows}
-          search={searchValue}
-          setSearch={setSearchValue}
-          paginationModel={paginationModel}
-          setPaginationModel={setPaginationModel}
-          sortModel={sortModel}
-          setSortModel={setSortModel}
-          type={type}
-          setType={setType}
-          status={status}
-          setStatus={setStatus}
-          isLate={isLate}
-          setIsLate={setIsLate}
-          isPublic={isPublic}
-          setIsPublic={setIsPublic}
-          isPaid={isPaid}
-          setIsPaid={setIsPaid}
-          showUserSearch={false}
-          fetchData={() => fetchUserDreams(id, paginationModel.page, searchValue, sortModel[0]?.field, sortModel[0]?.sort, paginationModel.pageSize, type, status, isLate, isPublic, isPaid, setRows, setLoading)}
-          canExport={false}
-        />
+
       </>
   )
 }
+
+{/* <DreamsList
+data={rows}
+search={searchValue}
+setSearch={setSearchValue}
+paginationModel={paginationModel}
+setPaginationModel={setPaginationModel}
+sortModel={sortModel}
+setSortModel={setSortModel}
+type={type}
+setType={setType}
+status={status}
+setStatus={setStatus}
+isLate={isLate}
+setIsLate={setIsLate}
+isPublic={isPublic}
+setIsPublic={setIsPublic}
+isPaid={isPaid}
+setIsPaid={setIsPaid}
+showUserSearch={false}
+fetchData={() => fetchUserDreams(id, paginationModel.page, searchValue, sortModel[0]?.field, sortModel[0]?.sort, paginationModel.pageSize, type, status, isLate, isPublic, isPaid, setRows, setLoading)}
+canExport={false}
+/> */}
 
 export default UserDreamsList

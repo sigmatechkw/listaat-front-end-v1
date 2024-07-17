@@ -25,6 +25,7 @@ const ProjectDetailsPage = ({ type: initialTypeData, id }) => {
 
   if (error) {
     router.push('/404')
+    
     return
   }
 

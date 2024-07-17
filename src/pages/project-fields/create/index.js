@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ProjectFieldsForm from 'src/components/ProjectFields/ProjectFieldsForm'
+
 const defaultValues = {
   name: '',
   value: '',

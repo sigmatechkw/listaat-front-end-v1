@@ -12,6 +12,7 @@ export const fetchQuickListDetails = async (id, cookies = null) => {
         'Accepted-Language': cookies?.lang ?? state.lang ?? 'en'
       }
     })
+    
     return response.data.data.items
   } catch (err) {
     toast.error(err.response?.data?.message)

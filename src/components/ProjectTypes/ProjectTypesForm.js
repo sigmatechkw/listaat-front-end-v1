@@ -15,6 +15,7 @@ import Divider from "@mui/material/Divider";
 
 const ProjectTypesForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
+  
   return (
     <>
       <CardHeader title={title} />

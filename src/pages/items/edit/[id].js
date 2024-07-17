@@ -100,9 +100,9 @@ const ItemsEdit = ({ type, id }) => {
     setValue('image', type.image)
     setValue('receipt', type.receipt)
     setValue('collections_ids', type.collections_ids)
-    setValue('source_name', type.source.source_name)
-    setValue('source_address', type.source.source_address)
-    setValue('source_website', type.source.source_website)
+    setValue('source_name', type.source?.source_name)
+    setValue('source_address', type.source?.source_address)
+    setValue('source_website', type.source?.source_website)
     setValue('sort', type.sort)
     setValue('active', type.active)
   }

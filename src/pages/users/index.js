@@ -25,7 +25,6 @@ import CustomDataGrid from "../../components/Shared/CustomDataGrid";
 import {useTranslation} from "react-i18next";
 import SnackbarConfirmActions from "../../components/Shared/SnackbarConfirmActions";
 import {deleteUsers} from "../../components/Users/Details/userDetailsServices";
-import DreamsFilters from "../../components/Dreams/DreamsFilters";
 import UsersFilters from "../../components/Users/List/UsersFilters";
 import UsersStatistics from "../../components/Users/List/UsersStatistics";
 

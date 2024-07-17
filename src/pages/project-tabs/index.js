@@ -2,6 +2,7 @@ import CustomLoader from '../../components/Shared/CustomLoader'
 import { useEffect, useState } from 'react'
 import { fetchProjectTabs } from 'src/components/ProjectTabs/projectTabsServices'
 import ProjectTabsList from 'src/components/ProjectTabs/ProjectTabsList'
+
 const ProjectTabs = () => {
   const [searchValue, setSearchValue] = useState('')
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })

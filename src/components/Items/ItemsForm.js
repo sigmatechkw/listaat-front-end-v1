@@ -496,6 +496,7 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                     renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
                         <Chip
+                          key={index}
                           variant="outlined"
                           label={option.name}
                           {...getTagProps({ index })}

@@ -43,7 +43,8 @@ export const fetchCollections = async (page = 1, search, sortKey = 'id', sortTyp
 
 export const fetchCollectionsInfinityQuery = async ({ pageParam = 1, queryKey }) => {
   try { 
-    const [_, searchTerm] = queryKey;
+    const [_ , searchTerm] = queryKey;
+
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}collections`, {
       params: {
         page: pageParam,
@@ -55,6 +56,7 @@ export const fetchCollectionsInfinityQuery = async ({ pageParam = 1, queryKey })
         'Accepted-Language': getCookie('lang') ?? 'en'
       }
     })
+
     return response.data.data;
   }catch(err) { 
     toast.error(err.response?.data?.message)

@@ -16,6 +16,7 @@ export const fetchProjectTabsDetails = async (id, cookies = null) => {
     return response.data.data.items
   } catch (err) {
     toast.error(err.response?.data?.message)
+    
     return null
   }
 

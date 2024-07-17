@@ -14,9 +14,11 @@ const ProjectSharesFilters = ({ isCopy, setIsCopy , isAccepted , setIsAccepted ,
   const handleisCopyChange = (e) => {
     setIsCopy(e.target.value)
   }
+
   const handleisAcceptedChange = (e) => {
     setIsAccepted(e.target.value)
   }
+  
   const handleisSentChange = (e) => {
     setIsSent(e.target.value)
   }

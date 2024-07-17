@@ -34,6 +34,7 @@ export const fetchProjectTypes = async (page = 1, search, sortKey = 'id', sortTy
         'Accepted-Language': getCookie('lang') ?? state.lang ?? 'en'
       }
     })
+    
     setRows(response.data.data)
     setLoading(false)
   } catch (err) {
@@ -44,7 +45,8 @@ export const fetchProjectTypes = async (page = 1, search, sortKey = 'id', sortTy
 
 export const fetchProjectTypesInfinityQuery = async ({ pageParam = 1, queryKey }) => {
   try{ 
-    const [_, searchTerm] = queryKey;
+    const [_ , searchTerm] = queryKey;
+
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}project-types`, {
       params: {
         page: pageParam,

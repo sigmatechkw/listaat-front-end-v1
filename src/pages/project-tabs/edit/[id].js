@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { fetchProjectTabsDetails } from 'src/components/ProjectTabs/Details/ProjectTabsDetailsServices'
 import ProjecTabsForm from 'src/components/ProjectTabs/ProjectTabsForm'
+
 const defaultValues = {
   name : "",
   user_id : "",

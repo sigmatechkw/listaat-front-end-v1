@@ -9,6 +9,7 @@ import Snackbar from '@mui/material/Snackbar'
 import SnackbarConfirmActions from 'src/components/Shared/SnackbarConfirmActions'
 import { deleteProjectTabs } from '../projectTabsServices'
 import ProjectTabsRowOptions from '../ProjectTabsRowOptions'
+
 const ProjectTabsSubTabsTable = ({
   data,
   fetchData,

@@ -91,15 +91,15 @@ const ItemsDetails = ({ type }) => {
               <Typography sx={{ color: 'text.secondary' }}>{type.notes}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
-              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('soruce_name')}:</Typography>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('source_name')}:</Typography>
               <Typography sx={{ color: 'text.secondary' }}>{type.source?.source_name}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
-              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('soruce_address')}:</Typography>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('source_address')}:</Typography>
               <Typography sx={{ color: 'text.secondary' }}>{type.source?.source_address}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
-              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('soruce_address')}:</Typography>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('source_website')}:</Typography>
               <Typography sx={{ color: 'text.secondary' }}>{type.source?.source_website}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>

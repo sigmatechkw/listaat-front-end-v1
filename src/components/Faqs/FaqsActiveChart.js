@@ -20,7 +20,6 @@ import {useTranslation} from "react-i18next";
 import {useSelector} from "react-redux";
 import {getCookie} from "cookies-next";
 import {useQuery} from "@tanstack/react-query";
-import {fetchDreamDetails} from "../Dreams/Details/dreamDetailsServices";
 import {fetchFaqStatistics} from "./FaqsServices";
 import {fetchDateRanges} from "../Users/List/userListServices";
 

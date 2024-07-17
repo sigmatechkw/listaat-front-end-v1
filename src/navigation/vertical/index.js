@@ -109,11 +109,6 @@ const navigation = () => {
           path: '/transactions',
           icon: 'tabler:brand-cashapp',
         },
-        {
-          title: i18n.t('expert_transactions'),
-          path: '/expert-transactions',
-          icon: 'tabler:brand-cashapp',
-        }
       ]
     },
     {

@@ -29,11 +29,33 @@ export const fetchCountries = async (page = 1, search, sortKey, sortType, perPag
         'Accepted-Language': getCookie('lang') ?? 'en'
       }
     })
+    console.log(response.data.data);
     setRows(response.data.data)
     setLoading(false)
   } catch (err) {
     toast.error(err.response?.data?.message)
     setLoading(false)
+  }
+}
+
+export const fetchCountriesInfinityQuery = async ({ pageParam = 1, queryKey }) => {
+
+  try{ 
+    const [_, searchTerm] = queryKey;
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}countries`, {
+      params: {
+        page: pageParam,
+        search: searchTerm,
+        paginate : 1,
+      },
+      headers: {
+        Authorization: getCookie('token'),
+        'Accepted-Language': getCookie('lang') ?? 'en'
+      }
+    })
+    return response.data.data
+  }catch(err) { 
+    toast.error(err.response?.data?.message)
   }
 }
 

@@ -45,7 +45,7 @@ const QuickListCreate = () => {
       .then(res => {
         setLoading(false)
         toast.success(t('success'))
-        router.push('/quickList')
+        router.push('/quicklist')
         reset()
       })
       .catch(error => {

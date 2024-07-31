@@ -7,11 +7,12 @@ import SnackbarConfirmActions from '../Shared/SnackbarConfirmActions'
 import { useTranslation } from 'react-i18next'
 import Typography from '@mui/material/Typography'
 import Icon from '../../@core/components/icon'
-import { deleteItemGroupProject } from './ItemGroupProjectServices'
-import ItemGroupProjectRowOptions from './ItemGroupProjectRowOptions'
-import ItemGroupProjectListTableHeader from './ItemGroupProjectListTableHeader'
+import { deleteItemProject } from './ItemProjectServices'
+import ItemProjectListTableHeader from './ItemProjectListTableHeader'
+import ItemProjectRowOptions from './ItemProjectRowOptions'
 
-const ItemGroupProjectList = ({
+
+const ItemProjectList = ({
   data,
   search,
   setSearch,
@@ -29,7 +30,7 @@ const ItemGroupProjectList = ({
   const [selectedRowId, setSelectedRowId] = useState(null)
 
   const handleDelete = () => {
-    deleteItemGroupProject([selectedRowId]).then(res => {
+    deleteItemProject([selectedRowId]).then(res => {
       setSelectedRowId(null)
       setOpenDeleteSnackbar(false)
       fetchData()
@@ -83,6 +84,39 @@ const ItemGroupProjectList = ({
     {
       flex: 0.175,
       minWidth: 120,
+      field: 'item_id',
+      headerName: t('item'),
+      renderCell: ({ row }) => (
+        <Typography variant='body2' sx={{ color: 'text.primary' }}>
+          {row.item?.name}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.175,
+      minWidth: 120,
+      field: 'qty',
+      headerName: t('qty'),
+      renderCell: ({ row }) => (
+        <Typography variant='body2' sx={{ color: 'text.primary' }}>
+          {row.qty}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.175,
+      minWidth: 120,
+      field: 'line_total',
+      headerName: t('line_total'),
+      renderCell: ({ row }) => (
+        <Typography variant='body2' sx={{ color: 'text.primary' }}>
+          {row.line_total}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.175,
+      minWidth: 120,
       field: 'sort',
       headerName: t('sort'),
       renderCell: ({ row }) => (
@@ -97,7 +131,9 @@ const ItemGroupProjectList = ({
       sortable: false,
       field: 'actions',
       headerName: t('actions'),
-      renderCell: ({ row }) => <ItemGroupProjectRowOptions id={row.id} handleClickDeleteButton={handleClickDeleteButton} />
+      renderCell: ({ row }) => (
+        <ItemProjectRowOptions id={row.id} handleClickDeleteButton={handleClickDeleteButton} />
+      )
     }
   ]
 
@@ -108,9 +144,9 @@ const ItemGroupProjectList = ({
   return (
     <div>
       <Card>
-        <CardHeader title={t('item_group_project')} />
+        <CardHeader title={t('item_project')} />
         <CustomDataGrid
-          toolbar={ItemGroupProjectListTableHeader}
+          toolbar={ItemProjectListTableHeader}
           toolbarProps={{
             value: search,
             clearSearch: () => setSearch(''),
@@ -141,4 +177,4 @@ const ItemGroupProjectList = ({
   )
 }
 
-export default ItemGroupProjectList
+export default ItemProjectList

@@ -4,9 +4,9 @@ import {store} from "../../../store";
 
 const state = store.getState()
 
-export const fetchItemGroupsDetails = async (id, cookies = null) => {
+export const fetchItemProjectDetails = async (id, cookies = null) => {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}item-group-project/${id}`, {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}project-items/${id}`, {
       headers: {
         'Authorization': cookies?.token ?? state.auth.token,
         'Accepted-Language': cookies?.lang ?? state.lang ?? 'en'

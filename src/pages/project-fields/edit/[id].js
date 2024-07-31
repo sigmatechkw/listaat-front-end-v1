@@ -13,6 +13,7 @@ const defaultValues = {
     name: '',
     value: '',
     is_cost_calculated: false,
+    project_id: '',
     project_tab_id : ''
 }
 
@@ -36,6 +37,7 @@ const ProjectFieldsEdit = ({ type, id }) => {
     setLoading(true)
 
     data.project_tab_id = data.project_tab_id?.id;
+    data.project_id = data.project_id?.id;
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}project-fields/${id}`, data, {
@@ -60,6 +62,7 @@ const ProjectFieldsEdit = ({ type, id }) => {
     setValue('value', type.value)
     setValue('is_cost_calculated', type.is_cost_calculated)
     setValue('project_tab_id', type.project_tab)
+    setValue('project_id', type.project)
   }
 
   useEffect(() => {
@@ -77,7 +80,7 @@ const ProjectFieldsEdit = ({ type, id }) => {
         watch={watch}
         setValue={setValue}
         errors={errors}
-        title={t('project_field_edit')}
+        title={t('project_fields_edit')}
         loading={loading}
       />
     </Card>

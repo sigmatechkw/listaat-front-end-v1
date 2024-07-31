@@ -3,12 +3,12 @@ import {useRouter} from "next/router";
 import {Icon} from "@iconify/react";
 
 
-const ItemGroupProjectRowOptions = ({ id, handleClickDeleteButton }) => {
+const ItemProjectRowOptions = ({ id, handleClickDeleteButton }) => {
   const router = useRouter()
 
   const handleView = (e) => {
     e.stopPropagation()
-    router.push(`/item-group-project/details/${id}`)
+    router.push(`/item-project/details/${id}`)
   }
 
   const handleDelete = (e) => {
@@ -32,4 +32,4 @@ const ItemGroupProjectRowOptions = ({ id, handleClickDeleteButton }) => {
   )
 }
 
-export default ItemGroupProjectRowOptions
+export default ItemProjectRowOptions

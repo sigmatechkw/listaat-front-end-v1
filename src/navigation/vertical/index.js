@@ -58,8 +58,8 @@ const navigation = () => {
           icon: 'tabler:subtask',
         },
         {
-          title: i18n.t('item_group_project'),
-          path: '/item-group-project',
+          title: i18n.t('item_project'),
+          path: '/item-project',
           icon: 'tabler:template',
         },
       ]

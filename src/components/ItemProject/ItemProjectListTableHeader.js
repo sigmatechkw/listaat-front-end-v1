@@ -8,9 +8,9 @@ import { Icon } from '@iconify/react'
 import CustomTextField from '../../@core/components/mui/text-field'
 import SnackbarConfirmActions from '../Shared/SnackbarConfirmActions'
 import { useRouter } from 'next/router'
-import { deleteItemGroupProject } from './ItemGroupProjectServices'
+import { deleteItemProject } from './ItemProjectServices'
 
-const ItemGroupProjectListTableHeader = ({ selectedRows, onChange, value, clearSearch, fetchData, canExport }) => {
+const ItemProjectListTableHeader = ({ selectedRows, onChange, value, clearSearch, fetchData, canExport }) => {
   const router = useRouter()
   const { t } = useTranslation()
   const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false)
@@ -24,7 +24,7 @@ const ItemGroupProjectListTableHeader = ({ selectedRows, onChange, value, clearS
   }
 
   const handleDelete = () => {
-    deleteItemGroupProject(selectedRows).then(res => {
+    deleteItemProject(selectedRows).then(res => {
       setOpenDeleteSnackbar(false)
       fetchData()
     })
@@ -78,7 +78,11 @@ const ItemGroupProjectListTableHeader = ({ selectedRows, onChange, value, clearS
             }
           }}
         />
-        <Button onClick={() => router.push('/item-group-project/create')} variant='contained' sx={{ '& svg': { mr: 2 } }}>
+        <Button
+          onClick={() => router.push('/item-project/create')}
+          variant='contained'
+          sx={{ '& svg': { mr: 2 } }}
+        >
           <Icon fontSize='1.125rem' icon='tabler:plus' />
           {t('add')}
         </Button>
@@ -94,4 +98,4 @@ const ItemGroupProjectListTableHeader = ({ selectedRows, onChange, value, clearS
   )
 }
 
-export default ItemGroupProjectListTableHeader
+export default ItemProjectListTableHeader

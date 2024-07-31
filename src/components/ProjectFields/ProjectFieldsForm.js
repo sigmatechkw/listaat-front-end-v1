@@ -16,11 +16,13 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import Divider from "@mui/material/Divider";
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
-import { fetchProjectTabsInfintyQuery } from './projectFieldsServices';
+import { fetchProjectTabsInfintyQuery } from '../ProjectTabs/projectTabsServices';
+import { fetchProjectsInfinityQuery } from '../Projects/projectsServices';
 
 const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchProjectsTerm, setSearchProjectsTerm] = useState('');
 
   const {
     data : tabs,
@@ -37,13 +39,36 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
     },
   });
 
+  const {
+    data : projects,
+    fetchNextPage : fetchProjectsNextPage,
+    hasNextPage : projectsHasNextPage,
+    isFetching : projectsIsFetching,
+    isFetchingNextPage : projectsIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchProjectsInfinityQuery', searchProjectsTerm],
+    queryFn: fetchProjectsInfinityQuery,
+    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
+     getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  });
+
   const loadMore = () => {
     if (hasNextPage) {
       fetchNextPage();
     }
   };
 
+  const loadMoreProjects = () => {
+    if (projectsHasNextPage) {
+      fetchProjectsNextPage();
+    }
+  };
+
   const tabsOptions = tabs?.pages.flatMap((page) => page.items) || [];
+  const projectsOptions = projects?.pages.flatMap((page) => page.items) || [];  
+
 
   return (
     <>
@@ -94,7 +119,7 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
               <Controller
                 name='project_tab_id'
                 control={control}
-                rules={{ required: false }}
+                rules={{ required: true }}
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
@@ -119,8 +144,44 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
                     options={tabsOptions}
                     getOptionLabel={option => option.name || ''}
-                    renderInput={params => <CustomTextField {...params}
+                    renderInput={params => <CustomTextField required {...params}
                      label={t('project_tab')} />}
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Controller
+                name='project_id'
+                control={control}
+                rules={{ required: false }}
+                render={({ field: { value, onChange } }) => (
+                  <CustomAutocomplete
+                    value={value}
+                    loading={projectsIsFetching || projectsIsFetchingNextPage}
+                    ListboxProps={{
+                      onScroll: (event) => {
+                        const listboxNode = event.currentTarget;
+                        if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                          loadMoreProjects();
+                        }
+                      },
+                    }}
+                    onInputChange={(e , val) => setSearchProjectsTerm(val)}
+                    onChange={(e, newValue) => {
+                      if (newValue) {
+                        setValue('project_id', newValue)
+                        onChange(newValue)
+                      } else {
+                        setValue('project_id', null)
+                      }
+                    }}
+                    isOptionEqualToValue={(option, value) => option.id === value?.id}
+                    options={projectsOptions}
+                    getOptionLabel={option => option.name || ''}
+                    renderInput={params => <CustomTextField {...params}
+                     label={t('projects')} />}
                   />
                 )}
               />

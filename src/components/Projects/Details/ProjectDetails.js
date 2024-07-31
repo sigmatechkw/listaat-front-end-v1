@@ -22,7 +22,7 @@ import ProjectParentTable from './ProjectParentTable'
 import ProjectTabsSubTabsTable from 'src/components/ProjectTabs/Details/ProjectTabsSubTabsTable'
 import ProjectItemGroupsTable from './ProjectItemGroupsTable'
 import ProjectFoldersTable from './ProjectFoldersTable'
-import ProjectItemsTable from './ProjectItemsTable'
+// import ProjectItemsTable from './ProjectItemsTable'
 import ProjectSharesTable from './ProjectSharesTable'
 
 const ProjectDetails = ({ type }) => {
@@ -132,9 +132,9 @@ const ProjectDetails = ({ type }) => {
           <ProjectItemGroupsTable data={type.item_groups} />
         </Grid>
 
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <ProjectItemsTable data={type.items} />
-        </Grid>
+        </Grid> */}
         
         <Grid item xs={12}>
           <ProjectFoldersTable data={type.folders} />

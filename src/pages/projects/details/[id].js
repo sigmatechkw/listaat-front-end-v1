@@ -4,6 +4,7 @@ import CustomLoader from '../../../components/Shared/CustomLoader'
 import Grid from '@mui/material/Grid'
 import { fetchProjectsDetails } from '../../../components/Projects/Details/ProjectsDetailsServices'
 import ProjectDetails from '../../../components/Projects/Details/ProjectDetails'
+import { nanoid } from 'nanoid'
 
 const ProjectDetailsPage = ({ type: initialTypeData, id }) => {
   const router = useRouter()
@@ -19,6 +20,8 @@ const ProjectDetailsPage = ({ type: initialTypeData, id }) => {
     initialData: initialTypeData
   })
 
+  type.item_groups.find(e => e.id == null).id = nanoid();
+  
   if (isPending) {
     return <CustomLoader />
   }

@@ -1,9 +1,9 @@
 import CustomLoader from '../../components/Shared/CustomLoader'
 import { useEffect, useState } from 'react'
-import { fetchItemGroupProject } from 'src/components/ItemGroupProject/ItemGroupProjectServices'
-import ItemGroupProjectList from 'src/components/ItemGroupProject/ItemGroupProjectList'
+import { fetchItemProject } from 'src/components/ItemProject/ItemProjectServices'
+import ItemProjectList from 'src/components/ItemProject/ItemProjectList'
 
-const ItemGroupProject = () => {
+const ItemProject = () => {
   const [searchValue, setSearchValue] = useState('')
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
   const [sortModel, setSortModel] = useState([])
@@ -14,7 +14,7 @@ const ItemGroupProject = () => {
     let searchTimeout = null
     if (searchValue) {
       searchTimeout = setTimeout(() => {
-        fetchItemGroupProject(
+        fetchItemProject(
           paginationModel.page,
           searchValue,
           sortModel[0]?.field,
@@ -25,7 +25,7 @@ const ItemGroupProject = () => {
         )
       }, 500)
     } else {
-        fetchItemGroupProject(
+      fetchItemProject(
         paginationModel.page,
         searchValue,
         sortModel[0]?.field,
@@ -43,7 +43,7 @@ const ItemGroupProject = () => {
     <CustomLoader />
   ) : (
     <>
-      <ItemGroupProjectList
+      <ItemProjectList
         data={rows}
         search={searchValue}
         setSearch={setSearchValue}
@@ -52,7 +52,7 @@ const ItemGroupProject = () => {
         sortModel={sortModel}
         setSortModel={setSortModel}
         fetchData={() =>
-            fetchItemGroupProject(
+          fetchItemProject(
             paginationModel.page,
             searchValue,
             sortModel[0]?.field,
@@ -68,4 +68,4 @@ const ItemGroupProject = () => {
   )
 }
 
-export default ItemGroupProject
+export default ItemProject

@@ -12,6 +12,7 @@ const defaultValues = {
   name: '',
   value: '',
   is_cost_calculated: false,
+  project_id : '',
   project_tab_id : ''
 }
 
@@ -34,6 +35,7 @@ const ProjectFieldsCreate = () => {
     setLoading(true)
 
     data.project_tab_id = data.project_tab_id?.id;
+    data.project_id = data.project_id?.id;
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}project-fields`, data, {

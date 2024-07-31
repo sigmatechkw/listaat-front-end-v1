@@ -55,6 +55,10 @@ const ProjectFieldsDetails = ({ type }) => {
               <Typography sx={{ color: 'text.secondary' }}>{type.project_tab.name}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('project')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.project?.name}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('value')}:</Typography>
               <Typography sx={{ color: 'text.secondary' }}>{type.value}</Typography>
             </Box>

@@ -10,23 +10,23 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import SnackbarConfirmActions from '../../Shared/SnackbarConfirmActions'
 import Snackbar from '@mui/material/Snackbar'
-import { deleteItemGroupProject } from '../ItemGroupProjectServices'
+import { deleteItemProject } from '../ItemProjectServices'
 import Icon from '../../../@core/components/icon'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 
-const ItemGroupProjectDetails = ({ type }) => {
+const ItemProjectDetails = ({ type }) => {
   const { t } = useTranslation()
   const router = useRouter()
   const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false)
 
   const handleDelete = () => {
-    deleteItemGroupProject([type.id]).then(res => {
+    deleteItemProject([type.id]).then(res => {
       toast.success(t('success'))
       setOpenDeleteSnackbar(false)
-      router.replace('/item-group-project')
+      router.replace('/item-project')
     })
   }
 
@@ -43,7 +43,7 @@ const ItemGroupProjectDetails = ({ type }) => {
       <Grid item xs={12}>
         <Card>
           <Typography variant={'h3'} sx={{ px: 3, pt: 3 }}>
-            {t('item_groups')}
+            {t('item_project')}
           </Typography>
           <CardContent>
             <Box sx={{ display: 'flex', mb: 3 }}>
@@ -51,8 +51,20 @@ const ItemGroupProjectDetails = ({ type }) => {
               <Typography sx={{ color: 'text.secondary' }}>{type.project?.name}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('item')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.item?.name}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('item_groups')}:</Typography>
               <Typography sx={{ color: 'text.secondary' }}>{type.item_group?.name}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('qty')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.qty}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('line_total')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.line_total}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('sort')}:</Typography>
@@ -60,9 +72,6 @@ const ItemGroupProjectDetails = ({ type }) => {
             </Box>
           </CardContent>
           <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button variant='tonal' sx={{ mr: 2 }} onClick={() => router.push(`/item-group-project/edit/${type.id}`)}>
-              {t('edit')}
-            </Button>
             <Button color='error' variant='tonal' onClick={handleClickDeleteButton}>
               {t('delete')}
             </Button>
@@ -80,4 +89,4 @@ const ItemGroupProjectDetails = ({ type }) => {
   )
 }
 
-export default ItemGroupProjectDetails
+export default ItemProjectDetails

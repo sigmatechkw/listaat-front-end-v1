@@ -55,7 +55,7 @@ const ItemGroupsEdit = ({ type, id }) => {
       })
   }
 
-  const fetchFoldersDetails = () => {
+  const fetchItemGroupsDetails = () => {
     setValue('name', type.name)
     setValue('user_id', type.user)
     setValue('sort', type.sort)
@@ -64,7 +64,7 @@ const ItemGroupsEdit = ({ type, id }) => {
 
   useEffect(() => {
     if (id) {
-        fetchFoldersDetails()
+      fetchItemGroupsDetails()
     }
   }, [id])
 

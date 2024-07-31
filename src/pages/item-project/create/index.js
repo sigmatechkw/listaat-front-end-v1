@@ -6,15 +6,17 @@ import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import ItemGroupProjectForm from 'src/components/ItemGroupProject/ItemGroupProjectForm'
+import ItemProjectForm from 'src/components/ItemProject/ItemProjectForm'
 
 const defaultValues = {
   project_id: '',
   item_group_id: '',
+  item_id: '',
+  qty: '',
   sort: '',
 }
 
-const ItemGroupProjectCreate = () => {
+const ItemProjectCreate = () => {
   const auth = useSelector(state => state.auth)
   const { t } = useTranslation()
   const router = useRouter()
@@ -34,9 +36,10 @@ const ItemGroupProjectCreate = () => {
 
     data.project_id = data.project_id?.id;
     data.item_group_id = data.item_group_id?.id;
+    data.item_id = data.item_id?.id;
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API_KEY}item-group-project`, data, {
+      .post(`${process.env.NEXT_PUBLIC_API_KEY}project-items`, data, {
         headers: {
           Authorization: auth.token
         }
@@ -44,7 +47,7 @@ const ItemGroupProjectCreate = () => {
       .then(res => {
         setLoading(false)
         toast.success(t('success'))
-        router.push('/item-group-project')
+        router.push('/item-project')
         reset()
       })
       .catch(error => {
@@ -55,18 +58,18 @@ const ItemGroupProjectCreate = () => {
 
   return (
     <Card>
-      <ItemGroupProjectForm
+      <ItemProjectForm
         type={'create'}
         onSubmit={handleSubmit(onSubmit)}
         control={control}
         watch={watch}
         setValue={setValue}
         errors={errors}
-        title={t('item_group_project_create')}
+        title={t('item_project_create')}
         loading={loading}
       />
     </Card>
   )
 }
 
-export default ItemGroupProjectCreate
+export default ItemProjectCreate

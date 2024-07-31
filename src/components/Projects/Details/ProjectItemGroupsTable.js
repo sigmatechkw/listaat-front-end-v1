@@ -38,17 +38,6 @@ const ProjectItemGroupsTable = ({
 
   const columns = [
     {
-      flex: 0.1,
-      minWidth: 50,
-      field: 'id',
-      headerName: t('id'),
-      renderCell: ({ row }) => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.id}
-        </Typography>
-      )
-    },
-    {
       flex: 0.175,
       minWidth: 120,
       field: 'name',
@@ -107,14 +96,14 @@ const ProjectItemGroupsTable = ({
         </Typography>
       )
     },
-    {
-      flex: 0.175,
-      minWidth: 100,
-      sortable: false,
-      field: 'actions',
-      headerName: t('actions'),
-      renderCell: ({ row }) => <ItemGroupsRowOptions id={row.id} handleClickDeleteButton={handleClickDeleteButton} />
-    }
+    // {
+    //   flex: 0.175,
+    //   minWidth: 100,
+    //   sortable: false,
+    //   field: 'actions',
+    //   headerName: t('actions'),
+    //   renderCell: ({ row }) => <ItemGroupsRowOptions id={row.id} handleClickDeleteButton={handleClickDeleteButton} />
+    // }
   ]
 
   return (

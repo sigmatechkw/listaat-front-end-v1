@@ -368,9 +368,9 @@
   "item_groups" : "مجموعة العناصر",
   "item_groups_create" : "انشاء مجموعة عناصر جديده",
   "item_groups_edit" : "تعديل مجموعة عناصر",
-  "item_group_project" : "مجموعة عناصر المشروع",
-  "item_group_project_create" : "اضافة مجموعة عناصر الي مشروع",
-  "item_group_project_edit" : "تعديل مجموعة الي مشروع",
+  "item_project" : "عناصر المشروع",
+  "item_project_create" : "اضافة عناصر الي مشروع",
+  "item_project_edit" : "تعديل عنصر مشروع",
   "project_shares" : "مشاركة المشاريع",
   "project_shares_create" : "مشاركة مشروع",
   "is_send" : "تم الارسال",
@@ -387,6 +387,7 @@
   "upload_receipt" : "رفع ايصال ",
   "source_name" : "اسم المصدر",
   "source_address" : "عنوان المصدر",
-  "source_website" : "موقع المصدر"
+  "source_website" : "موقع المصدر",
+  "line_total" : "المجموع"
 }
 

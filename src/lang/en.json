@@ -362,9 +362,9 @@
   "item_groups" : "Item Groups",
   "item_groups_create" : "Create Item Groups",
   "item_groups_edit" : "Edit Item Groups",
-  "item_group_project" : "Item Group Project",
-  "item_group_project_create" : "Create Item Group Project",
-  "item_group_project_edit" : "Edit Item Group Project",
+  "item_project" : "Item Project",
+  "item_project_create" : "Create Item Project",
+  "item_project_edit" : "Edit Item Project",
   "project_shares" : "Project Shares",
   "project_shares_create" : "Share Project",
   "is_sent" : "Is Send",
@@ -379,5 +379,7 @@
   "upload_receipt" : "Upload Receipt",
   "source_name" : "Source Name",
   "source_address" : "Source Address",
-  "source_website" : "Source Website"
+  "source_website" : "Source Website",
+  "line_total" : "Line Total"
+
 }

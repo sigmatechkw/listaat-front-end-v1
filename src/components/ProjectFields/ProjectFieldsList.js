@@ -95,6 +95,17 @@ const ProjectFieldsList = ({
     },
     {
       flex: 0.175,
+      minWidth: 120,
+      field: 'project_id',
+      headerName: t('project'),
+      renderCell: ({ row }) => (
+        <Typography variant='body2' sx={{ color: 'text.primary' }}>
+          {row.project?.name}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.175,
       minWidth: 100,
       field: 'is_cost_calculated',
       headerName: t('is_cost_calculated'),

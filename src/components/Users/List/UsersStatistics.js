@@ -64,13 +64,13 @@ const UsersStatistics = () => {
               }
             </Select>
           </FormControl>
-          <Grid sx={{mb: 3}} container spacing={6}>
+          {/* <Grid sx={{mb: 3}} container spacing={6}>
             <Grid item xs={12} md={4} lg={4}>
               <CustomPieChartCard
                 title={t('role')}
                 color={theme.palette.success.main}
                 labels={roles?.filter(role => role.id !== 1).map(role => t(role.name))}
-                values={[statistics.users, statistics.experts]}
+                values={[statistics.users]}
                 total={statistics.all_items}
               />
             </Grid>
@@ -83,7 +83,7 @@ const UsersStatistics = () => {
                 total={statistics.all_items}
               />
             </Grid>
-          </Grid>
+          </Grid> */}
         </CardContent>
       </Card>
   )

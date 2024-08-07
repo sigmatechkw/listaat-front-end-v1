@@ -388,6 +388,7 @@
   "source_name" : "اسم المصدر",
   "source_address" : "عنوان المصدر",
   "source_website" : "موقع المصدر",
-  "line_total" : "المجموع"
+  "line_total" : "المجموع",
+  "upload_files" : "رفع الملفات"
 }
 

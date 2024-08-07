@@ -13,7 +13,8 @@ const defaultValues = {
   value: '',
   is_cost_calculated: false,
   project_id : '',
-  project_tab_id : ''
+  project_tab_id : '',
+  files : []
 }
 
 const ProjectFieldsCreate = () => {
@@ -21,6 +22,8 @@ const ProjectFieldsCreate = () => {
   const { t } = useTranslation()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [filesArr , setFilesArr] = useState([]);
+  const [fieldFiles , setFieldFiles] = useState([]);
 
   const {
     control,
@@ -36,6 +39,12 @@ const ProjectFieldsCreate = () => {
 
     data.project_tab_id = data.project_tab_id?.id;
     data.project_id = data.project_id?.id;
+
+    if(filesArr){
+      data.files = filesArr;
+    }else{ 
+      delete data.files;
+    }
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}project-fields`, data, {
@@ -66,6 +75,10 @@ const ProjectFieldsCreate = () => {
         errors={errors}
         title={t('project_fields_create')}
         loading={loading}
+        filesArr={filesArr}
+        setFilesArr={setFilesArr}
+        fieldFiles={fieldFiles}
+        setFieldFiles={setFieldFiles}
       />
     </Card>
   )

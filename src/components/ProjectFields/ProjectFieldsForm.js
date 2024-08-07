@@ -18,8 +18,12 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import { fetchProjectTabsInfintyQuery } from '../ProjectTabs/projectTabsServices';
 import { fetchProjectsInfinityQuery } from '../Projects/projectsServices';
+import {styled } from '@mui/material';
+import {Box} from "@mui/system";
 
-const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
+
+
+const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading, filesArr , setFilesArr , fieldFiles, setFieldFiles}) => {
   const {t, i18n} = useTranslation()
   const [searchTerm, setSearchTerm] = useState('');
   const [searchProjectsTerm, setSearchProjectsTerm] = useState('');
@@ -69,6 +73,61 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
   const tabsOptions = tabs?.pages.flatMap((page) => page.items) || [];
   const projectsOptions = projects?.pages.flatMap((page) => page.items) || [];  
 
+    const ImgStyled = styled('img')(({ theme }) => ({
+    width: 100,
+    height: 100,
+    marginRight: theme.spacing(6),
+    borderRadius: theme.shape.borderRadius
+  }))
+
+  const ButtonStyled = styled(Button)(({ theme }) => ({
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      textAlign: 'center'
+    }
+  }))
+
+  const ResetButtonStyled = styled(Button)(({ theme }) => ({
+    marginLeft: theme.spacing(4),
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      marginLeft: 0,
+      textAlign: 'center',
+      marginTop: theme.spacing(2)
+    }
+  }))
+
+  const handleInputImagesChange = (event) => {
+    const { files } = event.target;
+    if (files && files.length > 0) {
+      const promises = [];
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        
+        const promise = new Promise((resolve) => {
+          reader.onload = () => {
+            resolve(reader.result);
+          };
+          reader.readAsDataURL(file);
+        });
+        
+        promises.push(promise);
+      }
+      
+      Promise.all(promises).then((images) => {
+        console.log(images)
+        setFilesArr(images);
+        setFieldFiles(images);
+      });
+    }
+  }
+
+  const handleInputImagesReset = () => {
+    setFilesArr([]);
+    setFieldFiles([]);
+  }
 
   return (
     <>
@@ -76,6 +135,34 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
       <CardContent>
         <form onSubmit={onSubmit}>
           <Grid container spacing={4}>
+
+          <Grid item md={12} sx={{ display: 'flex', justifyContent: 'between', alignItems: 'end' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  {filesArr.map((file, index) => (
+                    !file?.url ?
+                     <ImgStyled src={file} key={index} alt={t('upload_files')} /> :
+                     <ImgStyled src={file.url} key={index} alt={t('upload_files')} />
+                  ))}
+                  
+                  
+                  <div>
+                    <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-files'>
+                      {t('upload_files')}
+                      <input
+                        hidden
+                        type='file'
+                        onChange={handleInputImagesChange}
+                        multiple
+                        id='account-settings-upload-files'
+                      />
+                    </ButtonStyled>
+                    <ResetButtonStyled color='secondary' variant='tonal' onClick={handleInputImagesReset}>
+                      {t('Reset')}
+                    </ResetButtonStyled>
+                  </div>
+                </Box>
+              </Grid>
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='name'

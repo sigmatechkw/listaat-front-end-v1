@@ -267,10 +267,10 @@ const UserDetailsLeft = ({user}) => {
 
           </Card>
         </Grid>
-        {
+        {/* {
           user.roles[0]?.id === 3 &&
             <ExpertStatistics userId={user.id} />
-        }
+        } */}
       </Grid>
       <Snackbar
         anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}

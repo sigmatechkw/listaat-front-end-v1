@@ -30,7 +30,7 @@ const defaultValues = {
   expert_commission_value: 0,
   expert_commission_type: 'fixed',
   is_busy: false,
-  notification_enabled: 1,
+  notification_enabled: false,
 }
 
 const UsersEdit = ({user, id}) => {

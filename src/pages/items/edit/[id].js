@@ -38,7 +38,7 @@ const ItemsEdit = ({ type, id }) => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [itemImg, setItemImg] = useState('')
-  const [imgSrc, setImgSrc] = useState('/images/avatars/15.png')
+  const [imgSrc, setImgSrc] = useState('')
   const [receiptImg, setReceiptImg] = useState('')
   const [receiptSrc, setReceiptSrc] = useState('')
 
@@ -51,22 +51,40 @@ const ItemsEdit = ({ type, id }) => {
     formState: { errors }
   } = useForm({ defaultValues })
 
+  const testBase64 = src => {
+    const base64Regex = /^(data:image\/[a-zA-Z]*;base64,)?([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+
+    return base64Regex.test(src)
+  }
+
   const onSubmit = data => {
     setLoading(true)
 
       
-    data.image = imgSrc;
-    data.receipt = receiptSrc;
+    if(testBase64(imgSrc)){ 
+      data.image = imgSrc;
+    }else{ 
+      delete data.image;
+    }
+
+    if(testBase64(receiptSrc)){ 
+      data.receipt = receiptSrc;
+    }else{ 
+      delete data.receipt;
+    }
+
     data.user_id = data.user_id?.id;
     data.country_id = data.country_id?.id;
     data.item_group_id = data.item_group_id?.id;
-    data.collections_ids = data.collections_ids.map(item => item = item.id);
+    data.collections_ids = data?.collections_ids.length > 0 ? data?.collections_ids.map(item => item = item.id) : [];
     data.unit = data.unit?.id;
     data.source = {
       source_name : data.source_name,
       source_address : data.source_address,
       source_website : data.source_website,
     };
+
+    console.log(data);
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}items/${id}`, data, {
@@ -98,8 +116,10 @@ const ItemsEdit = ({ type, id }) => {
     setValue('unit', type.unit)
     setValue('notes', type.notes)
     setValue('image', type.image)
+    setImgSrc(type.image)
     setValue('receipt', type.receipt)
-    setValue('collections_ids', type.collections_ids)
+    setReceiptSrc(type.receipt)
+    setValue('collections_ids', type.collections)
     setValue('source_name', type.source?.source_name)
     setValue('source_address', type.source?.source_address)
     setValue('source_website', type.source?.source_website)

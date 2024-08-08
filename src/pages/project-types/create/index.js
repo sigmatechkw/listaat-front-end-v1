@@ -12,7 +12,8 @@ const defaultValues = {
   name: '',
   filter_name: '',
   should_has_sub_tabs: false,
-  active: false
+  active: false,
+  image : ''
 }
 
 const ProjectTypesCreate = () => {
@@ -20,6 +21,8 @@ const ProjectTypesCreate = () => {
   const { t } = useTranslation()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [projectTypeImg, setProjectTypeImg] = useState('')
+  const [imgSrc, setImgSrc] = useState('')
 
   const {
     control,
@@ -32,6 +35,8 @@ const ProjectTypesCreate = () => {
 
   const onSubmit = data => {
     setLoading(true)
+
+    data.image = imgSrc;
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}project-types`, data, {
@@ -62,6 +67,10 @@ const ProjectTypesCreate = () => {
         errors={errors}
         title={t('project_type_create')}
         loading={loading}
+        imgSrc={imgSrc}
+        setImgSrc={setImgSrc}
+        projectTypeImg={projectTypeImg}
+        setProjectTypeImg={setProjectTypeImg}
       />
     </Card>
   )

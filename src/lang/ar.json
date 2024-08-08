@@ -389,6 +389,7 @@
   "source_address" : "عنوان المصدر",
   "source_website" : "موقع المصدر",
   "line_total" : "المجموع",
-  "upload_files" : "رفع الملفات"
+  "upload_files" : "رفع الملفات",
+  "view_file" : "تصفح الملف"
 }
 

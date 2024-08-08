@@ -20,6 +20,8 @@ const ItemGroupsCreate = () => {
   const { t } = useTranslation()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [itemGroupImg, setItemGroupImg] = useState('')
+  const [imgSrc, setImgSrc] = useState('')
 
   const {
     control,
@@ -34,6 +36,12 @@ const ItemGroupsCreate = () => {
     setLoading(true)
 
     data.user_id = data.user_id?.id;
+
+    if(imgSrc){
+      data.image = imgSrc;
+    }else{ 
+      delete data.image;
+    }
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}item-groups`, data, {
@@ -64,6 +72,10 @@ const ItemGroupsCreate = () => {
         errors={errors}
         title={t('item_groups_create')}
         loading={loading}
+        imgSrc={imgSrc}
+        setImgSrc={setImgSrc}
+        itemGroupImg={itemGroupImg}
+        setItemGroupImg={setItemGroupImg}
       />
     </Card>
   )

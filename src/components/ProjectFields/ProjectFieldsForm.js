@@ -19,7 +19,8 @@ import { getCookie } from 'cookies-next';
 import { fetchProjectTabsInfintyQuery } from '../ProjectTabs/projectTabsServices';
 import { fetchProjectsInfinityQuery } from '../Projects/projectsServices';
 import {styled } from '@mui/material';
-import {Box} from "@mui/system";
+import IconifyIcon from 'src/@core/components/icon';
+import Box from '@mui/material/Box'
 
 
 
@@ -52,7 +53,6 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
   } = useInfiniteQuery({
     queryKey: ['fetchProjectsInfinityQuery', searchProjectsTerm],
     queryFn: fetchProjectsInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
@@ -117,7 +117,6 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
       }
       
       Promise.all(promises).then((images) => {
-        console.log(images)
         setFilesArr(images);
         setFieldFiles(images);
       });
@@ -129,6 +128,16 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
     setFieldFiles([]);
   }
 
+  
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'wbmp'];
+
+  const isImage = (fileUrl) => {
+    if (!fileUrl) return false;
+    const extension = fileUrl.split('.').pop().toLowerCase();
+    return imageExtensions.includes(extension);
+  };
+
+
   return (
     <>
       <CardHeader title={title} />
@@ -138,11 +147,23 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
 
           <Grid item md={12} sx={{ display: 'flex', justifyContent: 'between', alignItems: 'end' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {filesArr.map((file, index) => (
-                    !file?.url ?
-                     <ImgStyled src={file} key={index} alt={t('upload_files')} /> :
-                     <ImgStyled src={file.url} key={index} alt={t('upload_files')} />
-                  ))}
+                
+                  {filesArr.map((file, index) => {
+                      const isNotImage = !isImage(file.url);
+                      return (
+                      <div key={index}>
+                        {isNotImage ? (
+                          <ButtonStyled href={file.url} target="_blank" rel="noopener noreferrer">
+                            <IconifyIcon icon="carbon:view-filled"></IconifyIcon>
+                          </ButtonStyled>
+                        ) : (
+                          !file.url ?
+                          <ImgStyled src={file} key={index} alt={t('upload_files')} /> :
+                          <ImgStyled src={file.url} key={index} alt={t('upload_files')} />
+                        )}
+                      </div>
+                    );
+                  })}
                   
                   
                   <div>

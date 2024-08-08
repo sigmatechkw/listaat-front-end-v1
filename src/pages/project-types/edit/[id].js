@@ -13,7 +13,8 @@ const defaultValues = {
   name: '',
   filter_name: '',
   should_has_sub_tabs: false,
-  active: false
+  active: false,
+  image : ''
 }
 
 const ProjectTypesEdit = ({ type, id }) => {
@@ -22,6 +23,8 @@ const ProjectTypesEdit = ({ type, id }) => {
   const { t } = useTranslation()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [projectTypeImg, setProjectTypeImg] = useState('')
+  const [imgSrc, setImgSrc] = useState('')
 
   const {
     control,
@@ -32,8 +35,23 @@ const ProjectTypesEdit = ({ type, id }) => {
     formState: { errors }
   } = useForm({ defaultValues })
 
+  const testBase64 = src => {
+    const base64Regex = /^(data:image\/[a-zA-Z]*;base64,)?([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+
+    return base64Regex.test(src)
+  }
+
   const onSubmit = data => {
     setLoading(true)
+
+    if(testBase64(imgSrc)){ 
+      data.image = imgSrc;
+    }else{ 
+      delete data.image;
+    }
+
+    console.log(data);
+
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}project-types/${id}`, data, {
@@ -58,6 +76,8 @@ const ProjectTypesEdit = ({ type, id }) => {
     setValue('filter_name', type.filter_name)
     setValue('should_has_sub_tabs', type.should_has_sub_tabs)
     setValue('active', type.active)
+    setValue('image' , type.image)
+    setImgSrc(type.image)
   }
 
   useEffect(() => {
@@ -77,6 +97,10 @@ const ProjectTypesEdit = ({ type, id }) => {
         errors={errors}
         title={t('project_type_edit')}
         loading={loading}
+        imgSrc={imgSrc}
+        setImgSrc={setImgSrc}
+        projectTypeImg={projectTypeImg}
+        setProjectTypeImg={setProjectTypeImg}
       />
     </Card>
   )

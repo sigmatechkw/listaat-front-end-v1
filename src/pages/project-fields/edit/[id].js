@@ -48,6 +48,7 @@ const ProjectFieldsEdit = ({ type, id }) => {
 
     data.project_tab_id = data.project_tab_id?.id;
     data.project_id = data.project_id?.id;
+    
 
     if(!filesArr){ 
       delete data.files;
@@ -56,9 +57,13 @@ const ProjectFieldsEdit = ({ type, id }) => {
         delete data.files;
       }else{ 
         data.files = filesArr;
-        data.deleted_files_ids = type.files.map(file => file?.id);
+        if(type?.files.length > 0) { 
+          data.deleted_files_ids = type?.files.map(file => file?.id);
+        }
       }
     }
+
+    console.log(data);
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}project-fields/${id}`, data, {

@@ -16,6 +16,9 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import { deleteProjectFields } from '../projectFieldsServices'
+import CustomAvatar from 'src/@core/components/mui/avatar'
+import {styled } from '@mui/material';
+import IconifyIcon from 'src/@core/components/icon';
 
 const ProjectFieldsDetails = ({ type }) => {
   const { t } = useTranslation()
@@ -38,6 +41,23 @@ const ProjectFieldsDetails = ({ type }) => {
     setOpenDeleteSnackbar(false)
   }
 
+  const ButtonStyled = styled(Button)(({ theme }) => ({
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      textAlign: 'center'
+    }
+  }))
+
+
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'wbmp'];
+
+  const isImage = (fileUrl) => {
+    if (!fileUrl) return false;
+    const extension = fileUrl.split('.').pop().toLowerCase();
+    return imageExtensions.includes(extension);
+  };
+
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -45,6 +65,33 @@ const ProjectFieldsDetails = ({ type }) => {
           <Typography variant={'h3'} sx={{ px: 3, pt: 3 }}>
             {t('project_fields')}
           </Typography>
+
+          <CardContent sx={{ pt: 13.5, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+              {type?.files && (
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  {type?.files.map((file, index) => {
+                       const isNotImage = !isImage(file.url);
+
+                    return(
+                      <div>
+                      {isNotImage ? (
+                        <ButtonStyled href={file.url} target="_blank" rel="noopener noreferrer">
+                        <IconifyIcon icon="carbon:view-filled"></IconifyIcon>
+                        </ButtonStyled>
+                      ): (<CustomAvatar
+                        src={file.url}
+                        variant='rounded'
+                        alt={file.url}
+                        sx={{ width: 100, height: 100, m: 2 }}
+                        />)
+                      }
+                      </div>
+                    )
+                })}
+                </Box>
+              )}
+          </CardContent>
+
           <CardContent>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('name')}:</Typography>

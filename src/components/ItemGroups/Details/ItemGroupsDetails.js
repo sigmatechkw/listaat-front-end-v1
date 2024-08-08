@@ -17,6 +17,8 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import ItemsGroupsItemsTable from './ItemGroupsItemsTable'
+import CustomAvatar from 'src/@core/components/mui/avatar'
+
 
 const ItemGroupsDetails = ({ type }) => {
   const { t } = useTranslation()
@@ -46,6 +48,21 @@ const ItemGroupsDetails = ({ type }) => {
           <Typography variant={'h3'} sx={{ px: 3, pt: 3 }}>
             {t('item_groups')}
           </Typography>
+        
+
+            <CardContent sx={{ pt: 13.5, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+              {type.image && (
+                <CustomAvatar
+                  src={type.image}
+                  variant='rounded'
+                  alt={type.name}
+                  sx={{ width: 100, height: 100, mb: 4 }}
+                />
+              )}
+              </CardContent>
+ 
+
+
           <CardContent>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('name')}:</Typography>
@@ -53,7 +70,7 @@ const ItemGroupsDetails = ({ type }) => {
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('user')}:</Typography>
-              <Typography sx={{ color: 'text.secondary' }}>{type.user.first_name}</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.user?.first_name}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('sort')}:</Typography>

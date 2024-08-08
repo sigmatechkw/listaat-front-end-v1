@@ -69,7 +69,7 @@ const UsersEdit = ({user, id}) => {
       delete data.password
       delete data.password_confirmation
     }
-
+    
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}users/${id}`, data, {
         headers: {
@@ -97,7 +97,7 @@ const UsersEdit = ({user, id}) => {
     setValue('phone', user.phone)
     setValue('gender', user.gender)
     setValue('bio', user.bio ?? '')
-    setValue('country_id', { id: user.country.id, label: user.country.name})
+    setValue('country_id', { id: user?.country?.id, label: user?.country?.name})
     setValue('birthday', dayjs(new Date(user.birthday)))
     setValue('role_id', { id: user.roles[0]?.id, label: user.roles[0]?.name})
     setValue('is_mail_verified', user.email_verified)

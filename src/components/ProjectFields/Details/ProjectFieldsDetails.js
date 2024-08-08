@@ -54,6 +54,7 @@ const ProjectFieldsDetails = ({ type }) => {
   const isImage = (fileUrl) => {
     if (!fileUrl) return false;
     const extension = fileUrl.split('.').pop().toLowerCase();
+
     return imageExtensions.includes(extension);
   };
 
@@ -70,9 +71,11 @@ const ProjectFieldsDetails = ({ type }) => {
               {type?.files && (
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   {type?.files.map((file, index) => {
-                       const isNotImage = !isImage(file.url);
+
+                    const isNotImage = !isImage(file.url);
 
                     return(
+                      
                       <div>
                       {isNotImage ? (
                         <ButtonStyled href={file.url} target="_blank" rel="noopener noreferrer">
@@ -86,6 +89,7 @@ const ProjectFieldsDetails = ({ type }) => {
                         />)
                       }
                       </div>
+
                     )
                 })}
                 </Box>

@@ -134,6 +134,7 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
   const isImage = (fileUrl) => {
     if (!fileUrl) return false;
     const extension = fileUrl.split('.').pop().toLowerCase();
+
     return imageExtensions.includes(extension);
   };
 
@@ -149,8 +150,11 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 
                   {filesArr.map((file, index) => {
+
                       const isNotImage = !isImage(file.url);
+
                       return (
+
                       <div key={index}>
                         {isNotImage ? (
                           <ButtonStyled href={file.url} target="_blank" rel="noopener noreferrer">
@@ -162,6 +166,7 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
                           <ImgStyled src={file.url} key={index} alt={t('upload_files')} />
                         )}
                       </div>
+                      
                     );
                   })}
                   

@@ -76,7 +76,7 @@ const ProjectFieldsDetails = ({ type }) => {
 
                     return(
                       
-                      <div>
+                      <div key={index}>
                       {isNotImage ? (
                         <ButtonStyled href={file.url} target="_blank" rel="noopener noreferrer">
                         <IconifyIcon icon="carbon:view-filled"></IconifyIcon>

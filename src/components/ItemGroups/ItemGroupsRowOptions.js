@@ -29,6 +29,11 @@ const ItemGroupsRowOptions = ({ id, handleClickDeleteButton }) => {
         <Icon icon='tabler:eye' fontSize={20}/>
       </IconButton>
       <IconButton
+        color="warning"
+        onClick={handleEdit}>
+        <Icon icon='tabler:edit' fontSize={20}/>
+      </IconButton>
+      <IconButton
         color="error"
         onClick={handleDelete}>
         <Icon icon='tabler:trash' fontSize={20}/>

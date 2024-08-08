@@ -30,9 +30,11 @@ const UsersStatistics = () => {
 
   useEffect(() => {
     fetchUsersStatistics(dateRange).then(res => {
+      console.log(res);
       setStatistics(res)
       fetchUsersRoles().then(result => {
         setRoles(result)
+        console.log(roles.filter(role => role.id !== 1).map(role => t(role.name)));
         setLoading(false)
       })
     })
@@ -66,13 +68,15 @@ const UsersStatistics = () => {
           </FormControl>
           <Grid sx={{mb: 3}} container spacing={6}>
             <Grid item xs={12} md={4} lg={4}>
+            {roles.filter(role => role.id !== 1).length > 0 && 
               <CustomPieChartCard
                 title={t('role')}
                 color={theme.palette.success.main}
-                labels={roles?.filter(role => role.id !== 1).map(role => t(role.name))}
-                values={[statistics.users, statistics.experts]}
+                labels={roles.filter(role => role.id !== 1).map(role => t(role.name))}
+                values={[statistics.users]}
                 total={statistics.all_items}
               />
+            }
             </Grid>
             <Grid item xs={12} md={4} lg={4}>
               <CustomPieChartCard

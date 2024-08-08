@@ -16,6 +16,7 @@ import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
+import CustomAvatar from 'src/@core/components/mui/avatar'
 
 const ItemsDetails = ({ type }) => {
   const { t } = useTranslation()
@@ -45,6 +46,18 @@ const ItemsDetails = ({ type }) => {
           <Typography variant={'h3'} sx={{ px: 3, pt: 3 }}>
             {t('items')}
           </Typography>
+
+          <CardContent sx={{ pt: 13.5, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+              {type.image && (
+                <CustomAvatar
+                  src={type.image}
+                  variant='rounded'
+                  alt={type.name}
+                  sx={{ width: 100, height: 100, mb: 4 }}
+                />
+              )}
+            </CardContent>
+
           <CardContent>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('name')}:</Typography>

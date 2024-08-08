@@ -14,7 +14,8 @@ const defaultValues = {
     value: '',
     is_cost_calculated: false,
     project_id: '',
-    project_tab_id : ''
+    project_tab_id : '',
+    files: []
 }
 
 const ProjectFieldsEdit = ({ type, id }) => {
@@ -23,6 +24,8 @@ const ProjectFieldsEdit = ({ type, id }) => {
   const { t } = useTranslation()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [filesArr , setFilesArr] = useState([]);
+  const [fieldFiles , setFieldFiles] = useState([]);
 
   const {
     control,
@@ -33,11 +36,34 @@ const ProjectFieldsEdit = ({ type, id }) => {
     formState: { errors }
   } = useForm({ defaultValues })
 
+  const testBase64 = src => {
+    const base64Regex = /^(data:image\/[a-zA-Z]*;base64,)?([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+
+    return base64Regex.test(src)
+  }
+
+
   const onSubmit = data => {
     setLoading(true)
 
     data.project_tab_id = data.project_tab_id?.id;
     data.project_id = data.project_id?.id;
+    
+
+    if(!filesArr){ 
+      delete data.files;
+    }else{ 
+      if(type.files == filesArr){
+        delete data.files;
+      }else{ 
+        data.files = filesArr;
+        if(type?.files.length > 0) { 
+          data.deleted_files_ids = type?.files.map(file => file?.id);
+        }
+      }
+    }
+
+    console.log(data);
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}project-fields/${id}`, data, {
@@ -63,6 +89,9 @@ const ProjectFieldsEdit = ({ type, id }) => {
     setValue('is_cost_calculated', type.is_cost_calculated)
     setValue('project_tab_id', type.project_tab)
     setValue('project_id', type.project)
+    setValue('files', type.files)
+    setFilesArr(type.files)
+    setFieldFiles(type.files)
   }
 
   useEffect(() => {
@@ -82,6 +111,10 @@ const ProjectFieldsEdit = ({ type, id }) => {
         errors={errors}
         title={t('project_fields_edit')}
         loading={loading}
+        filesArr={filesArr}
+        setFilesArr={setFilesArr}
+        fieldFiles={fieldFiles}
+        setFieldFiles={setFieldFiles}
       />
     </Card>
   )

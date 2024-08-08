@@ -36,7 +36,7 @@ const ItemsCreate = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [itemImg, setItemImg] = useState('')
-  const [imgSrc, setImgSrc] = useState('/images/avatars/15.png')
+  const [imgSrc, setImgSrc] = useState()
   const [receiptImg, setReceiptImg] = useState('')
   const [receiptSrc, setReceiptSrc] = useState('')
 

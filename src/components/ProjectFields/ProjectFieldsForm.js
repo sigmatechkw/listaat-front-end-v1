@@ -18,8 +18,13 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import { fetchProjectTabsInfintyQuery } from '../ProjectTabs/projectTabsServices';
 import { fetchProjectsInfinityQuery } from '../Projects/projectsServices';
+import {styled } from '@mui/material';
+import IconifyIcon from 'src/@core/components/icon';
+import Box from '@mui/material/Box'
 
-const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
+
+
+const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading, filesArr , setFilesArr , fieldFiles, setFieldFiles}) => {
   const {t, i18n} = useTranslation()
   const [searchTerm, setSearchTerm] = useState('');
   const [searchProjectsTerm, setSearchProjectsTerm] = useState('');
@@ -48,7 +53,6 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
   } = useInfiniteQuery({
     queryKey: ['fetchProjectsInfinityQuery', searchProjectsTerm],
     queryFn: fetchProjectsInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
@@ -69,6 +73,71 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
   const tabsOptions = tabs?.pages.flatMap((page) => page.items) || [];
   const projectsOptions = projects?.pages.flatMap((page) => page.items) || [];  
 
+    const ImgStyled = styled('img')(({ theme }) => ({
+    width: 100,
+    height: 100,
+    marginRight: theme.spacing(6),
+    borderRadius: theme.shape.borderRadius
+  }))
+
+  const ButtonStyled = styled(Button)(({ theme }) => ({
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      textAlign: 'center'
+    }
+  }))
+
+  const ResetButtonStyled = styled(Button)(({ theme }) => ({
+    marginLeft: theme.spacing(4),
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      marginLeft: 0,
+      textAlign: 'center',
+      marginTop: theme.spacing(2)
+    }
+  }))
+
+  const handleInputImagesChange = (event) => {
+    const { files } = event.target;
+    if (files && files.length > 0) {
+      const promises = [];
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        
+        const promise = new Promise((resolve) => {
+          reader.onload = () => {
+            resolve(reader.result);
+          };
+          reader.readAsDataURL(file);
+        });
+        
+        promises.push(promise);
+      }
+      
+      Promise.all(promises).then((images) => {
+        setFilesArr(images);
+        setFieldFiles(images);
+      });
+    }
+  }
+
+  const handleInputImagesReset = () => {
+    setFilesArr([]);
+    setFieldFiles([]);
+  }
+
+  
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'wbmp'];
+
+  const isImage = (fileUrl) => {
+    if (!fileUrl) return false;
+    const extension = fileUrl.split('.').pop().toLowerCase();
+
+    return imageExtensions.includes(extension);
+  };
+
 
   return (
     <>
@@ -76,6 +145,50 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
       <CardContent>
         <form onSubmit={onSubmit}>
           <Grid container spacing={4}>
+
+          <Grid item md={12} sx={{ display: 'flex', justifyContent: 'between', alignItems: 'end' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                
+                  {filesArr.map((file, index) => {
+
+                      const isNotImage = !isImage(file.url);
+
+                      return (
+
+                      <div key={index}>
+                        {isNotImage ? (
+                          <ButtonStyled href={file.url} target="_blank" rel="noopener noreferrer">
+                            <IconifyIcon icon="carbon:view-filled"></IconifyIcon>
+                          </ButtonStyled>
+                        ) : (
+                          !file.url ?
+                          <ImgStyled src={file} key={index} alt={t('upload_files')} /> :
+                          <ImgStyled src={file.url} key={index} alt={t('upload_files')} />
+                        )}
+                      </div>
+                      
+                    );
+                  })}
+                  
+                  
+                  <div>
+                    <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-files'>
+                      {t('upload_files')}
+                      <input
+                        hidden
+                        type='file'
+                        onChange={handleInputImagesChange}
+                        multiple
+                        id='account-settings-upload-files'
+                      />
+                    </ButtonStyled>
+                    <ResetButtonStyled color='secondary' variant='tonal' onClick={handleInputImagesReset}>
+                      {t('Reset')}
+                    </ResetButtonStyled>
+                  </div>
+                </Box>
+              </Grid>
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='name'

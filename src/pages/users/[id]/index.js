@@ -30,16 +30,10 @@ const UserDetails = ({user: initialUserData, id}) => {
   }
 
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12} md={5} lg={4} sx={user.roles[0]?.id === 1 ? {m: 'auto'} : {}}>
+    <Grid container spacing={12}>
+      <Grid item xs={12} md={12} lg={12} sx={user.roles[0]?.id === 1 ? {m: 'auto'} : {}}>
         <UserDetailsLeft user={user} />
       </Grid>
-      {
-        user.roles[0]?.id !== 1 &&
-          <Grid item xs={12} md={7} lg={8}>
-            <UserDetailsRight user={user} />
-          </Grid>
-      }
     </Grid>
   )
 }

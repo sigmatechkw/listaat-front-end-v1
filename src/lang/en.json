@@ -380,6 +380,9 @@
   "source_name" : "Source Name",
   "source_address" : "Source Address",
   "source_website" : "Source Website",
-  "line_total" : "Line Total"
+  "line_total" : "Line Total",
+  "upload_files" : "Upload Files",
+  "view_file" : "View File"
+
 
 }

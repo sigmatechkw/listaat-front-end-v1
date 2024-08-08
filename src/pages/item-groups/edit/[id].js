@@ -13,7 +13,8 @@ const defaultValues = {
     name: '',
     user_id: '',
     sort: '',
-    active: false
+    active: false,
+    image : ''
 }
 
 const ItemGroupsEdit = ({ type, id }) => {
@@ -22,6 +23,8 @@ const ItemGroupsEdit = ({ type, id }) => {
   const { t } = useTranslation()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [itemGroupImg, setItemGroupImg] = useState('')
+  const [imgSrc, setImgSrc] = useState('')
 
   const {
     control,
@@ -32,10 +35,22 @@ const ItemGroupsEdit = ({ type, id }) => {
     formState: { errors }
   } = useForm({ defaultValues })
 
+  const testBase64 = src => {
+    const base64Regex = /^(data:image\/[a-zA-Z]*;base64,)?([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+
+    return base64Regex.test(src)
+  }
+
   const onSubmit = data => {
     setLoading(true)
 
     data.user_id = data.user_id?.id;
+
+    if(testBase64(imgSrc)){ 
+      data.image = imgSrc;
+    }else{ 
+      delete data.image;
+    }
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}item-groups/${id}`, data, {
@@ -60,6 +75,8 @@ const ItemGroupsEdit = ({ type, id }) => {
     setValue('user_id', type.user)
     setValue('sort', type.sort)
     setValue('active', type.active)
+    setValue('image' , type?.image)
+    setImgSrc(type?.image);
   }
 
   useEffect(() => {
@@ -79,6 +96,10 @@ const ItemGroupsEdit = ({ type, id }) => {
         errors={errors}
         title={t('item_groups_edit')}
         loading={loading}
+        imgSrc={imgSrc}
+        setImgSrc={setImgSrc}
+        itemGroupImg={itemGroupImg}
+        setItemGroupImg={setItemGroupImg}
       />
     </Card>
   )

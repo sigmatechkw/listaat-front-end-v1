@@ -176,7 +176,7 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
 
   const handleInputImageReset = () => {
     setItemImg('')
-    setImgSrc('/images/avatars/15.png')
+    setImgSrc('')
   }
 
   const handleInputReceiptImageReset = () => {
@@ -196,7 +196,7 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
               <ImgStyled src={imgSrc} alt='Item Pic' />
               <div>
                 <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
-                  {t('upload_Photo')}
+                  {t('upload_image')}
                   <input
                     hidden
                     type='file'

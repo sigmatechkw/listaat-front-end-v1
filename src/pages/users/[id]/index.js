@@ -29,8 +29,6 @@ const UserDetails = ({user: initialUserData, id}) => {
     return
   }
 
-  console.log(user);
-
   return (
     <Grid container spacing={12}>
       <Grid item xs={12} md={12} lg={12} sx={user.roles[0]?.id === 1 ? {m: 'auto'} : {}}>

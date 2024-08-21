@@ -4,36 +4,19 @@ import CardHeader from '@mui/material/CardHeader'
 import CustomDataGrid from 'src/components/Shared/CustomDataGrid'
 import { useTranslation } from 'react-i18next'
 import Typography from '@mui/material/Typography'
-import Snackbar from '@mui/material/Snackbar'
 import Icon from '../../../@core/components/icon'
-import SnackbarConfirmActions from 'src/components/Shared/SnackbarConfirmActions'
-import { deleteItemGroups } from 'src/components/ItemGroups/ItemGroupsServices'
-import ItemGroupsRowOptions from 'src/components/ItemGroups/ItemGroupsRowOptions'
+import {useRouter} from "next/router";
+import IconButton from "@mui/material/IconButton";
+
 
 const ProjectItemGroupsTable = ({
   data,
-  fetchData,
 }) => {
+  const router = useRouter()
   const { t } = useTranslation()
-  const [selectedRowId, setSelectedRowId] = useState(null)
-  const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false)
 
-  const handleDelete = () => {
-    deleteItemGroups([selectedRowId]).then(res => {
-      setSelectedRowId(null)
-      setOpenDeleteSnackbar(false)
-      fetchData()
-    })
-  }
-
-  const handleClickDeleteButton = id => {
-    setSelectedRowId(id)
-    setOpenDeleteSnackbar(true)
-  }
-
-  const handleCloseDeleteSnackbar = () => {
-    setSelectedRowId(null)
-    setOpenDeleteSnackbar(false)
+  const handleView = (id) => {
+    router.push(`/item-groups/details/${id}`)
   }
 
   const columns = [
@@ -96,14 +79,19 @@ const ProjectItemGroupsTable = ({
         </Typography>
       )
     },
-    // {
-    //   flex: 0.175,
-    //   minWidth: 100,
-    //   sortable: false,
-    //   field: 'actions',
-    //   headerName: t('actions'),
-    //   renderCell: ({ row }) => <ItemGroupsRowOptions id={row.id} handleClickDeleteButton={handleClickDeleteButton} />
-    // }
+    {
+      flex: 0.175,
+      minWidth: 100,
+      sortable: false,
+      field: 'actions',
+      headerName: t('actions'),
+      renderCell: ({ row }) => 
+        <IconButton
+          color="secondary"
+          onClick={() => handleView(row.id)}>
+          <Icon icon='tabler:eye' fontSize={20}/>
+        </IconButton>
+    }
   ]
 
   return (
@@ -118,13 +106,6 @@ const ProjectItemGroupsTable = ({
           multiSelection={false}
         />
       </Card>
-      <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        open={openDeleteSnackbar}
-        onClose={handleCloseDeleteSnackbar}
-        message={t('are_you_sure')}
-        action={<SnackbarConfirmActions handleConfirm={handleDelete} handleClose={handleCloseDeleteSnackbar} />}
-      />
     </div>
   )
 }

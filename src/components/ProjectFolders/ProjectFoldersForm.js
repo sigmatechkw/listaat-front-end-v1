@@ -34,7 +34,6 @@ const ProjectFoldersForm = ({type = 'create', errors, control, watch, setValue, 
   } = useInfiniteQuery({
     queryKey: ['fetchFoldersInfinityQuery', searchFoldersTerm],
     queryFn: fetchFoldersInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
@@ -49,7 +48,6 @@ const ProjectFoldersForm = ({type = 'create', errors, control, watch, setValue, 
   } = useInfiniteQuery({
     queryKey: ['fetchProjectsInfinityQuery', searchProjectsTerm],
     queryFn: fetchProjectsInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },

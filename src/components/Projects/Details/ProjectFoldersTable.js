@@ -4,37 +4,20 @@ import CardHeader from '@mui/material/CardHeader'
 import CustomDataGrid from 'src/components/Shared/CustomDataGrid'
 import { useTranslation } from 'react-i18next'
 import Typography from '@mui/material/Typography'
-import Snackbar from '@mui/material/Snackbar'
 import Icon from '../../../@core/components/icon'
-import SnackbarConfirmActions from 'src/components/Shared/SnackbarConfirmActions'
-import { deleteFolders } from 'src/components/Folders/FoldersServices'
-import FoldersRowOptions from 'src/components/Folders/FoldersRowOptions'
+import IconButton from "@mui/material/IconButton";
+import {useRouter} from "next/router";
 
 const ProjectFoldersTable = ({
   data,
-  fetchData,
 }) => {
+  const router = useRouter()
   const { t } = useTranslation()
-  const [selectedRowId, setSelectedRowId] = useState(null)
-  const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false)
 
-  const handleDelete = () => {
-    deleteFolders([selectedRowId]).then(res => {
-      setSelectedRowId(null)
-      setOpenDeleteSnackbar(false)
-      fetchData()
-    })
+  const handleView = (id) => {
+    router.push(`/folders/details/${id}`)
   }
 
-  const handleClickDeleteButton = id => {
-    setSelectedRowId(id)
-    setOpenDeleteSnackbar(true)
-  }
-
-  const handleCloseDeleteSnackbar = () => {
-    setSelectedRowId(null)
-    setOpenDeleteSnackbar(false)
-  }
 
   const columns = [
     {
@@ -135,7 +118,12 @@ const ProjectFoldersTable = ({
       sortable: false,
       field: 'actions',
       headerName: t('actions'),
-      renderCell: ({ row }) => <FoldersRowOptions id={row.id} handleClickDeleteButton={handleClickDeleteButton} />
+      renderCell: ({ row }) =>   
+      <IconButton
+        color="secondary"
+        onClick={() => handleView(row.id)}>
+        <Icon icon='tabler:eye' fontSize={20}/>
+      </IconButton>
     }
   ]
 
@@ -149,13 +137,6 @@ const ProjectFoldersTable = ({
           paginationModel={{perPage: 12 , page: 1}}
           multiSelection={false}
         />
-        <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        open={openDeleteSnackbar}
-        onClose={handleCloseDeleteSnackbar}
-        message={t('are_you_sure')}
-        action={<SnackbarConfirmActions handleConfirm={handleDelete} handleClose={handleCloseDeleteSnackbar} />}
-      />
       </Card>
   )
 }

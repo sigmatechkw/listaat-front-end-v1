@@ -50,9 +50,6 @@ const ProjectTypesEdit = ({ type, id }) => {
       delete data.image;
     }
 
-    console.log(data);
-
-
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}project-types/${id}`, data, {
         headers: {

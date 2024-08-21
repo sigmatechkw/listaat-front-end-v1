@@ -36,7 +36,6 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
   } = useInfiniteQuery({
     queryKey: ['fetchProjectTypesInfinityQuery', searchTypesTerm],
     queryFn: fetchProjectTypesInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
@@ -51,7 +50,6 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
   } = useInfiniteQuery({
     queryKey: ['fetchProjectsInfinityQuery', searchProjectsTerm],
     queryFn: fetchProjectsInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
@@ -66,7 +64,6 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
   } = useInfiniteQuery({
     queryKey: ['fetchUsersInfinityQuery', searchUsersTerm],
     queryFn: fetchUsersInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },

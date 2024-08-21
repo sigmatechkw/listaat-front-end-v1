@@ -124,7 +124,7 @@ const UserDetailsLeft = ({user}) => {
                   color={'primary'}
                   sx={{ width: 100, height: 100, mb: 4, fontSize: '3rem' }}
                 >
-                  {getInitials(user.full_name)}
+                  {getInitials(user?.full_name)}
                 </CustomAvatar>
               )}
               <Typography variant='h4' sx={{ mb: 3 }}>

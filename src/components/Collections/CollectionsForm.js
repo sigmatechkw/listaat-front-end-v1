@@ -34,7 +34,6 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
   } = useInfiniteQuery({
     queryKey: ['fetchCollectionsInfinityQuery', searchCollectionsTerm],
     queryFn: fetchCollectionsInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
@@ -49,7 +48,6 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
   } = useInfiniteQuery({
     queryKey: ['fetchUsersInfinityQuery', searchUsersTerm],
     queryFn: fetchUsersInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },

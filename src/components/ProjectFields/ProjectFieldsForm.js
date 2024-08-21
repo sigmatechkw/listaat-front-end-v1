@@ -38,7 +38,6 @@ const ProjectFieldsForm = ({type = 'create', errors, control, watch, setValue, o
   } = useInfiniteQuery({
     queryKey: ['fetchProjectTabsInfintyQuery', searchTerm],
     queryFn: fetchProjectTabsInfintyQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },

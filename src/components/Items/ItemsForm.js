@@ -39,7 +39,6 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
   } = useInfiniteQuery({
     queryKey: ['fetchCollectionsInfinityQuery', searchCollectionsTerm],
     queryFn: fetchCollectionsInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
@@ -54,7 +53,6 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
   } = useInfiniteQuery({
     queryKey: ['fetchUsersInfinityQuery', searchUsersTerm],
     queryFn: fetchUsersInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
@@ -69,7 +67,6 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
   } = useInfiniteQuery({
     queryKey: ['fetchItemGroupsInfinityQuery', searchItemGroupsTerm],
     queryFn: fetchItemGroupsInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
@@ -84,7 +81,6 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
   } = useInfiniteQuery({
     queryKey: ['fetchCountriesInfinityQuery', searchCountriesTerm],
     queryFn: fetchCountriesInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },

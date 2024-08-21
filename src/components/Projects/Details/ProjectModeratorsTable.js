@@ -4,32 +4,20 @@ import CardHeader from '@mui/material/CardHeader'
 import CustomDataGrid from 'src/components/Shared/CustomDataGrid'
 import { useTranslation } from 'react-i18next'
 import Typography from '@mui/material/Typography'
-import { deleteProjectTypes } from '../projectsServices'
+import {useRouter} from "next/router";
+import IconButton from "@mui/material/IconButton";
+import Icon from '../../../@core/components/icon'
 
 const ProjectModeratorsTable = ({
   data,
-  fetchData,
 }) => {
+  const router = useRouter()
   const { t } = useTranslation()
-  const [selectedRowId, setSelectedRowId] = useState(null)
 
-  const handleDelete = () => {
-    deleteProjectTypes([selectedRowId]).then(res => {
-      setSelectedRowId(null)
-      setOpenDeleteSnackbar(false)
-      fetchData()
-    })
+  const handleView = (id) => {
+    router.push(`/users/${id}`)
   }
 
-  const handleClickDeleteButton = id => {
-    setSelectedRowId(id)
-    setOpenDeleteSnackbar(true)
-  }
-
-  const handleCloseDeleteSnackbar = () => {
-    setSelectedRowId(null)
-    setOpenDeleteSnackbar(false)
-  }
 
   const columns = [
     {
@@ -76,14 +64,19 @@ const ProjectModeratorsTable = ({
         </Typography>
       )
     },
-    // {
-    //   flex: 0.175,
-    //   minWidth: 140,
-    //   sortable: false,
-    //   field: 'actions',
-    //   headerName: t('actions'),
-    //   renderCell: ({ row }) => <ProjectsRowOptions id={row.id} handleClickDeleteButton={handleClickDeleteButton} />
-    // }
+    {
+      flex: 0.175,
+      minWidth: 140,
+      sortable: false,
+      field: 'actions',
+      headerName: t('actions'),
+      renderCell: ({ row }) => 
+        <IconButton
+          color="secondary"
+          onClick={() => handleView(row.id)}>
+          <Icon icon='tabler:eye' fontSize={20}/>
+        </IconButton>
+    }
   ]
 
   return (

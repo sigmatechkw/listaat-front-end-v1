@@ -20,7 +20,10 @@ const ProjectDetailsPage = ({ type: initialTypeData, id }) => {
     initialData: initialTypeData
   })
 
-  type.item_groups.find(e => e.id == null).id = nanoid();
+  const itemGroup = type.item_groups.find(e => e.id == 0);
+  if (itemGroup) {
+      itemGroup.id = nanoid();
+  }
   
   if (isPending) {
     return <CustomLoader />

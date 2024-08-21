@@ -37,7 +37,6 @@ const ItemProjectForm = ({type = 'create', errors, control, watch, setValue, onS
   } = useInfiniteQuery({
     queryKey: ['fetchProjectsInfinityQuery', searchProjectsTerm],
     queryFn: fetchProjectsInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
@@ -52,7 +51,6 @@ const ItemProjectForm = ({type = 'create', errors, control, watch, setValue, onS
   } = useInfiniteQuery({
     queryKey: ['fetchItemGroupsInfinityQuery', searchItemGroupsTerm],
     queryFn: fetchItemGroupsInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
@@ -67,7 +65,6 @@ const ItemProjectForm = ({type = 'create', errors, control, watch, setValue, onS
   } = useInfiniteQuery({
     queryKey: ['fetchItemsInfinityQuery', searchItemsTerm],
     queryFn: fetchItemsInfinityQuery,
-    getNextPageParam: (lastPage) => lastPage?.current_page + 1,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },

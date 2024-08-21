@@ -5,35 +5,14 @@ import CustomDataGrid from 'src/components/Shared/CustomDataGrid'
 import Icon from '../../../@core/components/icon';
 import { useTranslation } from 'react-i18next'
 import Typography from '@mui/material/Typography'
-import { deleteProjectTypes } from '../projectsServices'
 import { IconButton } from '@mui/material';
 import {useRouter} from "next/router";
 
 const ProjectParentTable = ({
   data,
-  fetchData,
 }) => {
   const { t } = useTranslation()
-  const [selectedRowId, setSelectedRowId] = useState(null)
   const router = useRouter()
-
-  const handleDelete = () => {
-    deleteProjectTypes([selectedRowId]).then(res => {
-      setSelectedRowId(null)
-      setOpenDeleteSnackbar(false)
-      fetchData()
-    })
-  }
-
-  const handleClickDeleteButton = id => {
-    setSelectedRowId(id)
-    setOpenDeleteSnackbar(true)
-  }
-
-  const handleCloseDeleteSnackbar = () => {
-    setSelectedRowId(null)
-    setOpenDeleteSnackbar(false)
-  }
 
   const handleView = (id) => {
     router.push(`/projects/details/${id}`)

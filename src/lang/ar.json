@@ -390,6 +390,9 @@
   "source_website" : "موقع المصدر",
   "line_total" : "المجموع",
   "upload_files" : "رفع الملفات",
-  "view_file" : "تصفح الملف"
+  "view_file" : "تصفح الملف",
+  "parent_project_type" : "نوع المشروع الاب",
+  "has_child" : "هل لديه ابن ؟",
+  "is_creation_allowed_directly" : "هل مسموح الانشاء مباشره"
 }
 

@@ -51,7 +51,6 @@ export const fetchProjectTypesInfinityQuery = async ({ pageParam = 1, queryKey }
       params: {
         page: pageParam,
         search: searchTerm,
-        paginate : 1,
       },
       headers: {
         Authorization: getCookie('token'),

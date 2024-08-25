@@ -17,6 +17,7 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import CustomAvatar from 'src/@core/components/mui/avatar'
+import SubProjectTypeTable from './SubProjectTypeTable'
 
 const ProjectTypeDetails = ({ type }) => {
   const { t } = useTranslation()
@@ -68,10 +69,34 @@ const ProjectTypeDetails = ({ type }) => {
               <Typography sx={{ color: 'text.secondary' }}>{type.filter_name}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('description')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.description}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>
                 {t('should_has_sub_tabs')}:
               </Typography>
               {type.should_has_sub_tabs ? (
+                <Icon icon='tabler:circle-check' color='green' fontSize='1.5rem' />
+              ) : (
+                <Icon icon='tabler:xbox-x' color='red' fontSize='1.5rem' />
+              )}
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>
+                {t('is_creation_allowed_directly')}:
+              </Typography>
+              {type.is_creation_allowed_directly ? (
+                <Icon icon='tabler:circle-check' color='green' fontSize='1.5rem' />
+              ) : (
+                <Icon icon='tabler:xbox-x' color='red' fontSize='1.5rem' />
+              )}
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>
+                {t('has_child')}:
+              </Typography>
+              {type.has_child ? (
                 <Icon icon='tabler:circle-check' color='green' fontSize='1.5rem' />
               ) : (
                 <Icon icon='tabler:xbox-x' color='red' fontSize='1.5rem' />
@@ -84,6 +109,10 @@ const ProjectTypeDetails = ({ type }) => {
               ) : (
                 <Icon icon='tabler:xbox-x' color='red' fontSize='1.5rem' />
               )}
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('sort')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.sort}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('created_at')}:</Typography>
@@ -99,6 +128,9 @@ const ProjectTypeDetails = ({ type }) => {
             </Button>
           </CardActions>
         </Card>
+      </Grid>
+      <Grid item xs={12}>
+            <SubProjectTypeTable data={type?.sub_types} />
       </Grid>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}

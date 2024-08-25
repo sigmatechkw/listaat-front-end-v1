@@ -12,9 +12,14 @@ import ProjectTypesForm from '../../../components/ProjectTypes/ProjectTypesForm'
 const defaultValues = {
   name: '',
   filter_name: '',
+  description: '',
+  is_creation_allowed_directly: false,
+  has_child: false,
   should_has_sub_tabs: false,
   active: false,
-  image : ''
+  parent_id: '',
+  sort: '',
+  image : '',
 }
 
 const ProjectTypesEdit = ({ type, id }) => {
@@ -25,6 +30,7 @@ const ProjectTypesEdit = ({ type, id }) => {
   const [loading, setLoading] = useState(false)
   const [projectTypeImg, setProjectTypeImg] = useState('')
   const [imgSrc, setImgSrc] = useState('')
+  const [parentId , setParentId] = useState('')
 
   const {
     control,
@@ -50,6 +56,8 @@ const ProjectTypesEdit = ({ type, id }) => {
       delete data.image;
     }
 
+    data.parent_id = data.parent_id.id;
+
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}project-types/${id}`, data, {
         headers: {
@@ -71,10 +79,15 @@ const ProjectTypesEdit = ({ type, id }) => {
   const fetchProjectTypesDetails = () => {
     setValue('name', type.name)
     setValue('filter_name', type.filter_name)
+    setValue('description', type.description)
+    setValue('is_creation_allowed_directly', type.is_creation_allowed_directly)
+    setValue('has_child', type.has_child)
     setValue('should_has_sub_tabs', type.should_has_sub_tabs)
     setValue('active', type.active)
+    setValue('sort', type.sort)
     setValue('image' , type.image)
     setImgSrc(type.image)
+    setValue('parent_id' , type.parent)
   }
 
   useEffect(() => {
@@ -98,6 +111,8 @@ const ProjectTypesEdit = ({ type, id }) => {
         setImgSrc={setImgSrc}
         projectTypeImg={projectTypeImg}
         setProjectTypeImg={setProjectTypeImg}
+        parentId={parentId}
+        setParentId={setParentId}
       />
     </Card>
   )

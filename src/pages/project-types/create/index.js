@@ -11,9 +11,15 @@ import ProjectTypesForm from '../../../components/ProjectTypes/ProjectTypesForm'
 const defaultValues = {
   name: '',
   filter_name: '',
+  description: '',
+  is_creation_allowed_directly: false,
+  has_child: false,
   should_has_sub_tabs: false,
   active: false,
-  image : ''
+  sort: '',
+  parent_id: '',
+  image : '',
+  parent_id: ''
 }
 
 const ProjectTypesCreate = () => {
@@ -37,6 +43,7 @@ const ProjectTypesCreate = () => {
     setLoading(true)
 
     data.image = imgSrc;
+    data.parent_id = data.parent_id.id;
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}project-types`, data, {

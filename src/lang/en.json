@@ -382,7 +382,8 @@
   "source_website" : "Source Website",
   "line_total" : "Line Total",
   "upload_files" : "Upload Files",
-  "view_file" : "View File"
-
-
+  "view_file" : "View File",
+  "parent_project_type" : "Parent Project Type",
+  "has_child" : "Has Child",
+  "is_creation_allowed_directly" : "Is Creation Allowed Directly"
 }

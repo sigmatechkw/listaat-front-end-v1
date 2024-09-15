@@ -37,13 +37,11 @@ const ItemGroupsForm = ({type = 'create', errors, control, watch, setValue, onSu
     },
   });
 
-  
   const loadMoreUsers = () => {
     if (usersHasNextPage) {
       fetchUsersNextPage();
     }
   };
-  
 
   const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
 

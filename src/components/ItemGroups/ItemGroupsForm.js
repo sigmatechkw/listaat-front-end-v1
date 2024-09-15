@@ -36,12 +36,14 @@ const ItemGroupsForm = ({type = 'create', errors, control, watch, setValue, onSu
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
     },
   });
+  
 
   const loadMoreUsers = () => {
     if (usersHasNextPage) {
       fetchUsersNextPage();
     }
   };
+
 
   const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
 

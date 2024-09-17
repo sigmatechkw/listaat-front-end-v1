@@ -385,5 +385,12 @@
   "view_file" : "View File",
   "parent_project_type" : "Parent Project Type",
   "has_child" : "Has Child",
-  "is_creation_allowed_directly" : "Is Creation Allowed Directly"
+  "is_creation_allowed_directly" : "Is Creation Allowed Directly",
+  "themes" : "Themes",
+  "theme_folders" : "Theme Folders",
+  "theme_folders_create" : "Create Theme Folder",
+  "theme_folders_edit" : "Edit Theme Folder",
+  "gallary" : "Gallary",
+  "gallary_create" : "Create Gallary",
+  "gallary_edit" : "Edit Gallary"
 }

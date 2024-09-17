@@ -26,15 +26,38 @@ const navigation = () => {
           path: '/project-shares',
           icon: 'tabler:share-3',
         },
+ 
+        {
+          title: i18n.t('project_fields'),
+          path: '/project-fields',
+          icon: 'tabler:input-search',
+        },
+      ]
+    },
+    {
+      title: i18n.t('project_tabs'),
+      icon: 'tabler:subtask',
+      children : [
         {
           title: i18n.t('project_tabs'),
           path: '/project-tabs',
           icon: 'tabler:subtask',
         },
         {
-          title: i18n.t('project_fields'),
-          path: '/project-fields',
-          icon: 'tabler:input-search',
+          title: i18n.t('themes'),
+          icon :  "tabler:brush",
+          children: [
+            {
+              title: i18n.t('theme_folders'),
+              path: '/theme-folders',
+              icon: 'tabler:folder-open',
+            },
+            {
+              title: i18n.t('gallary'),
+              path: '/gallary',
+              icon: 'tabler:photo-star',
+            }
+          ]
         },
       ]
     },

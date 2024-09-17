@@ -393,6 +393,13 @@
   "view_file" : "تصفح الملف",
   "parent_project_type" : "نوع المشروع الاب",
   "has_child" : "هل لديه ابن ؟",
-  "is_creation_allowed_directly" : "هل مسموح الانشاء مباشره"
+  "is_creation_allowed_directly" : "هل مسموح الانشاء مباشره",
+  "themes" : "السمات",
+  "theme_folders" : "ملفات السمات",
+  "theme_folders_create" : "انشاء ملف سمات",
+  "theme_folders_edit" : "تعديل ملف سمات",
+  "gallary" : "المعرض",
+  "gallary_create" : "انشاء معرض",
+  "gallary_edit" : "تعديل معرض"
 }
 

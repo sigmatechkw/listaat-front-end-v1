@@ -24,6 +24,7 @@ import ProjectItemGroupsTable from './ProjectItemGroupsTable'
 import ProjectFoldersTable from './ProjectFoldersTable'
 // import ProjectItemsTable from './ProjectItemsTable'
 import ProjectSharesTable from './ProjectSharesTable'
+import ProjectsTable from './ProjectsTable'
 
 const ProjectDetails = ({ type }) => {
   const { t } = useTranslation()
@@ -123,6 +124,10 @@ const ProjectDetails = ({ type }) => {
           <ProjectParentTable data={[type.parent]} />
         </Grid>
         }
+
+        <Grid item xs={12}>
+          <ProjectsTable data={type.sub_projects} />
+        </Grid>
 
         <Grid item xs={12}>
           <ProjectTabsSubTabsTable data={type.project_tabs} />

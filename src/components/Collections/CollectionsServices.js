@@ -63,6 +63,22 @@ export const fetchCollectionsInfinityQuery = async ({ pageParam = 1, queryKey })
   }
 }
 
+export const fetchCollectionsTypes = async () => {
+  try { 
+
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}collections/get/types`, {
+      headers: {
+        Authorization: getCookie('token'),
+        'Accepted-Language': getCookie('lang') ?? 'en'
+      }
+    })
+
+    return response.data.data.items;
+  }catch(err) { 
+    toast.error(err.response?.data?.message)
+  }
+}
+
 export const deleteCollections = async (ids) => {
   let data = {
     delete_ids: ids

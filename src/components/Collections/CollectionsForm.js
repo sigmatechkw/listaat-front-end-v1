@@ -17,10 +17,11 @@ import axios from 'axios'
 import { getCookie } from 'cookies-next'
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchUsersInfinityQuery } from '../Projects/projectsServices';
-import { fetchCollectionsInfinityQuery } from './CollectionsServices';
+import { fetchCollectionsInfinityQuery, fetchCollectionsTypes } from './CollectionsServices';
 
 const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
+  const [collectionTypes, setCollectionTypes] = useState([]);
   const [searchUsersTerm, setSearchUsersTerm] = useState('');
   const [searchCollectionsTerm, setSearchCollectionsTerm] = useState('');
 
@@ -68,6 +69,14 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
   const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
   const collectionsOptions = collections?.pages.flatMap((page) => page.items) || [];  
 
+  const getCollectionTypes = async () => { 
+    const collectionTypes = await fetchCollectionsTypes();
+    setCollectionTypes(collectionTypes);
+  }
+
+  useEffect(() => { 
+    getCollectionTypes();
+  } , [])
 
   return (
     <>
@@ -184,11 +193,8 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
                       }
                     }}
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={[
-                      {id : 1},
-                      {id : 2}
-                    ]}
-                    getOptionLabel={option => option.id || ''}
+                    options={collectionTypes}
+                    getOptionLabel={option => option.name || ''}
                     renderInput={params => <CustomTextField {...params} label={t('type')} />}
                   />
                 )}

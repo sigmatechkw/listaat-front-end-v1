@@ -11,7 +11,7 @@ import ItemProjectForm from 'src/components/ItemProject/ItemProjectForm'
 const defaultValues = {
   project_id: '',
   item_group_id: '',
-  item_id: '',
+  item_ids: [],
   qty: '',
   sort: '',
 }
@@ -36,7 +36,7 @@ const ItemProjectCreate = () => {
 
     data.project_id = data.project_id?.id;
     data.item_group_id = data.item_group_id?.id;
-    data.item_id = data.item_id?.id;
+    data.item_ids = data.item_ids.map(item => item = item.id);
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}project-items`, data, {

@@ -64,7 +64,6 @@ const CollectionEdit = ({ type, id }) => {
     setValue('parent_id', type.parent)
     setValue('type', type.type)
     setValue('active', type.active)
-    console.log(type);
   }
 
   useEffect(() => {

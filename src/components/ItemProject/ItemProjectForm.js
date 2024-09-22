@@ -16,6 +16,7 @@ import Divider from "@mui/material/Divider";
 import { useState , useEffect } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { Autocomplete, TextField, Chip } from '@mui/material';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchItemsInfinityQuery } from '../Items/itemsServices';
 import { fetchProjectsInfinityQuery } from '../Projects/projectsServices';
@@ -90,8 +91,8 @@ const ItemProjectForm = ({type = 'create', errors, control, watch, setValue, onS
 
   const projectsOptions = projects?.pages.flatMap((page) => page.items) || [];  
   const itemGroupsOptions = itemGroups?.pages.flatMap((page) => page.items) || [];  
-  const itemsOptions = items?.pages.flatMap((page) => page.items) || [];  
-
+  const itemsOptions = items?.pages.flatMap((page) => page.items) || []; 
+  
   return (
     <>
       <CardHeader title={title} />
@@ -173,12 +174,16 @@ const ItemProjectForm = ({type = 'create', errors, control, watch, setValue, onS
 
             <Grid item xs={12} sm={6}>
               <Controller
-                name='item_id'
+                name='item_ids'
                 control={control}
                 rules={{ required: true }}
                 render={({ field: { value, onChange } }) => (
-                  <CustomAutocomplete
-                    value={value}
+                   <Autocomplete
+                    multiple
+                    name='item_ids'
+                    options={itemsOptions}
+                    getOptionLabel={(option) => option.name}
+                    onInputChange={(e , val) => setSearchItemsTerm(val)}
                     loading={itemsIsFetching || itemsIsFetchingNextPage}
                     ListboxProps={{
                       onScroll: (event) => {
@@ -188,22 +193,35 @@ const ItemProjectForm = ({type = 'create', errors, control, watch, setValue, onS
                         }
                       },
                     }}
-                    onInputChange={(e , val) => setSearchProjectsTerm(val)}
-                    onChange={(e, newValue) => {
+                    value={value}
+                    onChange={(event, newValue) => {
                       if (newValue) {
-                        setValue('item_id', newValue)
+                        setValue('item_ids', newValue)
                         onChange(newValue)
                       } else {
-                        setValue('item_id', null)
+                        setValue('item_ids', null)
                       }
                     }}
-                    isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={itemsOptions}
-                    getOptionLabel={option => option.name || ''}
-                    renderInput={params => <CustomTextField required {...params}
-                     label={t('item')} />}
-                  />
-                )}
+                    renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip
+                          key={index}
+                          variant="outlined"
+                          label={option.name}
+                          {...getTagProps({ index })}
+                        />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <CustomTextField
+                      {...params}
+                      variant="outlined"
+                      label={t('items')}
+                      placeholder="Options"
+                    />
+                    )}
+                  /> 
+                  )}
               />
             </Grid>
 

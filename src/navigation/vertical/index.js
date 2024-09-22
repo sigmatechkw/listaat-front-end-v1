@@ -56,9 +56,19 @@ const navigation = () => {
               title: i18n.t('gallary'),
               path: '/gallary',
               icon: 'tabler:photo-star',
-            }
+            },
           ]
         },
+        {
+          title: i18n.t('project_tab_colors'),
+          path: '/project-tab-colors',
+          icon: 'tabler:color-filter',
+        },
+        {
+          title: i18n.t('project_tab_types'),
+          path: '/project-tab-types',
+          icon: 'tabler:sitemap',
+        }
       ]
     },
     {

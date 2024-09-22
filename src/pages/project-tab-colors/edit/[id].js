@@ -6,31 +6,25 @@ import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { fetchProjectTabsDetails } from 'src/components/ProjectTabs/Details/ProjectTabsDetailsServices'
-import ProjecTabsForm from 'src/components/ProjectTabs/ProjectTabsForm'
+import { fetchItemGroupsDetails } from 'src/components/ItemGroups/Details/ItemGroupsDetailsServices'
+import ItemGroupsForm from 'src/components/ItemGroups/ItemGroupsForm'
 
 const defaultValues = {
-  name : "",
-  user_id : "",
-  parent_id : "",
-  project_type_id: "",
-  type: "",
-  project_id: "",
-  is_default : false,
-  is_dimensional_info : false,
-  is_text_info : false,
-  is_numerical : false,
-  is_details : false,
-  is_breakdown: false,
-  active : false
+    name: '',
+    user_id: '',
+    sort: '',
+    active: false,
+    image : ''
 }
 
-const ProjectTabsEdit = ({ type, id }) => {
+const ItemGroupsEdit = ({ type, id }) => {
   const auth = useSelector(state => state.auth)
   const lang = useSelector(state => state.lang)
   const { t } = useTranslation()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [itemGroupImg, setItemGroupImg] = useState('')
+  const [imgSrc, setImgSrc] = useState('')
 
   const {
     control,
@@ -41,18 +35,25 @@ const ProjectTabsEdit = ({ type, id }) => {
     formState: { errors }
   } = useForm({ defaultValues })
 
+  const testBase64 = src => {
+    const base64Regex = /^(data:image\/[a-zA-Z]*;base64,)?([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+
+    return base64Regex.test(src)
+  }
+
   const onSubmit = data => {
     setLoading(true)
 
     data.user_id = data.user_id?.id;
-    data.parent_id = data.parent_id?.id;
-    data.project_type_id = data.project_type_id.map(item => item = item.id);
-    data.project_type_id = data.project_type_id?.id;  
-    data.type = data.type?.id;
-    
+
+    if(testBase64(imgSrc)){ 
+      data.image = imgSrc;
+    }else{ 
+      delete data.image;
+    }
 
     axios
-      .put(`${process.env.NEXT_PUBLIC_API_KEY}project-tabs/${id}`, data, {
+      .put(`${process.env.NEXT_PUBLIC_API_KEY}item-groups/${id}`, data, {
         headers: {
           Authorization: auth.token
         }
@@ -60,7 +61,7 @@ const ProjectTabsEdit = ({ type, id }) => {
       .then(res => {
         setLoading(false)
         toast.success(t('success'))
-        router.push(`/project-tabs/details/${id}`)
+        router.push(`/item-groups/details/${id}`)
         reset()
       })
       .catch(error => {
@@ -69,49 +70,47 @@ const ProjectTabsEdit = ({ type, id }) => {
       })
   }
 
-  const fetchProjectTabsDetails = () => {
+  const fetchItemGroupsDetails = () => {
     setValue('name', type.name)
     setValue('user_id', type.user)
-    setValue('parent_id', type.parent)
-    setValue('project_type_id', type.project_type)
-    setValue('type', type.type)
-    setValue('is_default', type.is_default)
-    setValue('is_dimensional_info', type.is_dimensional_info)
-    setValue('is_text_info', type.is_text_info)
-    setValue('is_numerical', type.is_numerical)
-    setValue('is_details', type.is_details)
-    setValue('is_breakdown', type.is_breakdown)
+    setValue('sort', type.sort)
     setValue('active', type.active)
+    setValue('image' , type?.image)
+    setImgSrc(type?.image);
   }
 
   useEffect(() => {
     if (id) {
-        fetchProjectTabsDetails()
+      fetchItemGroupsDetails()
     }
   }, [id])
 
   return (
     <Card>
-      <ProjecTabsForm
+      <ItemGroupsForm
         type={'edit'}
         onSubmit={handleSubmit(onSubmit)}
         control={control}
         watch={watch}
         setValue={setValue}
         errors={errors}
-        title={t('project_tab_edit')}
+        title={t('item_groups_edit')}
         loading={loading}
+        imgSrc={imgSrc}
+        setImgSrc={setImgSrc}
+        itemGroupImg={itemGroupImg}
+        setItemGroupImg={setItemGroupImg}
       />
     </Card>
   )
 }
 
 export const getServerSideProps = async context => {
-  const type = await fetchProjectTabsDetails(context.params.id, context.req.cookies)
+  const type = await fetchItemGroupsDetails(context.params.id, context.req.cookies)
 
   return {
     props: { type, id: context.params.id }
   }
 }
 
-export default ProjectTabsEdit
+export default ItemGroupsEdit

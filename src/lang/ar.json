@@ -400,6 +400,15 @@
   "theme_folders_edit" : "تعديل ملف سمات",
   "gallary" : "المعرض",
   "gallary_create" : "انشاء معرض",
-  "gallary_edit" : "تعديل معرض"
+  "gallary_edit" : "تعديل معرض",
+  "project_tab_types" : "أنواع التابات المشروع",
+  "project_tab_types_edit" : "تعديل نوع تاب المشروع",
+  "hint_en": "تلميح بالانجليزية",
+  "hint_ar": "تلميح بالعربية",
+  "project_tab_colors": "ألوان علامة تبويب المشروع",
+  "project_tab_colors_create": "إنشاء ألوان علامة تبويب المشروع",
+  "project_tab_colors_edit": "تعديل ألوان علامة تبويب المشروع",
+  "rgb_color": "لون RGB",
+  "hex_color": "لون Hex"
 }
 

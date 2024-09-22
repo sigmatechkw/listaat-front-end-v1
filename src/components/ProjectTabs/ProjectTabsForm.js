@@ -15,11 +15,13 @@ import {useSelector} from "react-redux";
 import Divider from "@mui/material/Divider";
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { Autocomplete, TextField, Chip } from '@mui/material';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchProjectTypesInfinityQuery } from '../ProjectTypes/projectTypesServices';
 import { fetchProjectsInfinityQuery } from '../Projects/projectsServices';
 import { fetchUsersInfinityQuery } from '../Projects/projectsServices';
 import { fetchProjectTabsInfintyQuery } from './projectTabsServices';
+import { fetchProjectTabsTypesAll } from '../ProjectTabTypes/ProjectTabTypesServices';
 
 const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
@@ -27,6 +29,7 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
   const [searchProjectsTerm, setSearchProjectsTerm] = useState('');
   const [searchUsersTerm, setSearchUsersTerm] = useState('');
   const [searchTabsTerm, setSearchTabsTerm] = useState('');
+  const [projectTabTypes, setProjectTabTypes] = useState('');
 
   const {
     data : types,
@@ -108,6 +111,15 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
       fetchUsersNextPage();
     }
   };
+
+  const getProjectTabTypes = async () => { 
+    const data = await fetchProjectTabsTypesAll();
+    setProjectTabTypes(data.items);
+  }
+
+  useEffect(() => { 
+    getProjectTabTypes();
+  }, [])
 
   const tabsOptions = tabs?.pages.flatMap((page) => page.items) || [];
   const typesOptions = types?.pages.flatMap((page) => page.items) || [];
@@ -214,13 +226,44 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
             </Grid>
 
             <Grid item xs={12} sm={6}>
+                <Controller
+                  name='type'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <CustomAutocomplete
+                      value={value}
+                      onChange={(e, newValue) => {
+                        if (newValue) {
+                          setValue('type', newValue)
+                          onChange(newValue)
+                        } else {
+                          setValue('type', null)
+                        }
+                      }}
+                      required
+                      isOptionEqualToValue={(option, value) => option.id === value?.id}
+                      options={projectTabTypes}
+                      getOptionLabel={option => option.name || ''}
+                      renderInput={params => <CustomTextField {...params}
+                      label={t('type')} />}
+                    />
+                  )}
+                />
+              </Grid>
+
+            <Grid item xs={12} sm={6}>
               <Controller
                 name='project_type_id'
                 control={control}
                 rules={{ required: false }}
                 render={({ field: { value, onChange } }) => (
-                  <CustomAutocomplete
-                    value={value}
+                   <Autocomplete
+                    multiple
+                    name='project_type_id'
+                    options={typesOptions}
+                    getOptionLabel={(option) => option.name}
+                    onInputChange={(e , val) => setSearchTypesTerm(val)}
                     loading={typesIsFetching || typesIsFetchingNextPage}
                     ListboxProps={{
                       onScroll: (event) => {
@@ -230,8 +273,8 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
                         }
                       },
                     }}
-                    onInputChange={(e , val) => setSearchTypesTerm(val)}
-                    onChange={(e, newValue) => {
+                    value={value}
+                    onChange={(event, newValue) => {
                       if (newValue) {
                         setValue('project_type_id', newValue)
                         onChange(newValue)
@@ -239,13 +282,26 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
                         setValue('project_type_id', null)
                       }
                     }}
-                    isOptionEqualToValue={(option, value) => option.id === value?.id}
-                    options={typesOptions}
-                    getOptionLabel={option => option.name || ''}
-                    renderInput={params => <CustomTextField {...params}
-                     label={t('project_type')} />}
-                  />
-                )}
+                    renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip
+                          key={index}
+                          variant="outlined"
+                          label={option.name}
+                          {...getTagProps({ index })}
+                        />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <CustomTextField
+                      {...params}
+                      variant="outlined"
+                      label={t('project_type_id')}
+                      placeholder="Options"
+                    />
+                    )}
+                  /> 
+                  )}
               />
             </Grid>
 

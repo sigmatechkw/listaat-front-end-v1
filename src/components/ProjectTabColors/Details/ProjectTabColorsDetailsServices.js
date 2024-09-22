@@ -4,19 +4,20 @@ import {store} from "../../../store";
 
 const state = store.getState()
 
-export const fetchProjectTabsDetails = async (id, cookies = null) => {
+export const fetchProjectTabColorsDetails = async (id, cookies = null) => {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}project-tabs/details/tab/${id}`, {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}project-tab-color/details/${id}`, {
       headers: {
         'Authorization': cookies?.token ?? state.auth.token,
         'Accepted-Language': cookies?.lang ?? state.lang ?? 'en'
       }
     })
-
+    
     return response.data.data.items
   } catch (err) {
-    toast.error(err.response?.data?.message)
+    toast.error(err.response?.data?.message) 
     
+
     return null
   }
 

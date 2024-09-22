@@ -392,5 +392,15 @@
   "theme_folders_edit" : "Edit Theme Folder",
   "gallary" : "Gallary",
   "gallary_create" : "Create Gallary",
-  "gallary_edit" : "Edit Gallary"
+  "gallary_edit" : "Edit Gallary",
+  "project_tab_types" : "Project Tab Types",
+  "project_tab_types_edit" : "Edit Project Tab Types",
+  "hint_en" : "Hint In English",
+  "hint_ar" : "Hint In Arabic",
+  "project_tab_colors" : "Project Tab Colors",
+  "project_tab_colors_create" : "Project Tab Colors Create",
+  "project_tab_colors_edit" : "Project Tab Colors Edit",
+  "rgb_color": "RGB Color",
+  "hex_color": "Hex Color"
+
 }

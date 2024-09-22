@@ -12,7 +12,8 @@ const defaultValues = {
   name : "",
   user_id : "",
   parent_id : "",
-  project_type_id: "",
+  project_type_id: [],
+  type: "",
   project_id: "",
   is_default : false,
   is_dimensional_info : false,
@@ -43,8 +44,9 @@ const ProjectTabsCreate = () => {
 
     data.user_id = data.user_id?.id;
     data.parent_id = data.parent_id?.id;
-    data.project_type_id = data.project_type_id?.id;
+    data.project_type_id = data.project_type_id.map(item => item = item.id);
     data.project_id = data.project_id?.id;
+    data.type = data.type?.id;
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}project-tabs`, data, {

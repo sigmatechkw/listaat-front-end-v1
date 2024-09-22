@@ -409,6 +409,7 @@
   "project_tab_colors_create": "إنشاء ألوان علامة تبويب المشروع",
   "project_tab_colors_edit": "تعديل ألوان علامة تبويب المشروع",
   "rgb_color": "لون RGB",
-  "hex_color": "لون Hex"
+  "hex_color": "لون Hex",
+  "sub_projects" : "المشاريع الداخلية"
 }
 

@@ -20,7 +20,8 @@ const ProjectDetailsPage = ({ type: initialTypeData, id }) => {
     initialData: initialTypeData
   })
 
-  const itemGroup = type.item_groups.find(e => e.id == 0);
+  const itemGroup = type.item_groups.find(e => e.id == null);
+
   if (itemGroup) {
       itemGroup.id = nanoid();
   }

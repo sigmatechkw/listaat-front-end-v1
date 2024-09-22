@@ -401,6 +401,7 @@
   "project_tab_colors_create" : "Project Tab Colors Create",
   "project_tab_colors_edit" : "Project Tab Colors Edit",
   "rgb_color": "RGB Color",
-  "hex_color": "Hex Color"
+  "hex_color": "Hex Color",
+  "sub_projects" : "Sub Projects"
 
 }

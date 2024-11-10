@@ -12,7 +12,7 @@ import CollectionsForm from 'src/components/Collections/CollectionsForm'
 const defaultValues = {
   name: '',
   user_id: '',
-  parent_id: '',
+  parent_id: null,
   type: '',
   active: false
 }
@@ -58,17 +58,20 @@ const CollectionEdit = ({ type, id }) => {
       })
   }
 
-  const fetchCollectionsDetails = () => {
+  const setCollectionsDetailsData = async () => {
     setValue('name', type.name)
     setValue('user_id', type.user)
-    setValue('parent_id', type.parent)
+    if (type.parent_id) {
+      let parent = await fetchCollectionsDetails(type.parent_id)
+      setValue('parent_id', parent)
+    }
     setValue('type', type.type)
     setValue('active', type.active)
   }
 
   useEffect(() => {
     if (id) {
-        fetchCollectionsDetails()
+      setCollectionsDetailsData()
     }
   }, [id])
 

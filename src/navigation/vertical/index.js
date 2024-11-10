@@ -26,7 +26,7 @@ const navigation = () => {
           path: '/project-shares',
           icon: 'tabler:share-3',
         },
- 
+
         {
           title: i18n.t('project_fields'),
           path: '/project-fields',
@@ -118,37 +118,37 @@ const navigation = () => {
       path: '/quicklist',
       icon: 'tabler:list-search',
     },
-    {
-      title:  i18n.t('packages'),
-      path: '/packages',
-      icon: 'tabler:packages',
-    },
-    {
-      title: i18n.t('blogs'),
-      path: '/blogs',
-      icon: 'tabler:news',
-    },
-    {
-      title: i18n.t('banners'),
-      path: '/banners',
-      icon: 'tabler:flag',
-    },
-    {
-      title: i18n.t('transactions'),
-      icon: 'tabler:brand-cashapp',
-      children: [
-        {
-          title: i18n.t('transactions'),
-          path: '/transactions',
-          icon: 'tabler:brand-cashapp',
-        },
-      ]
-    },
-    {
-      title: i18n.t('chats'),
-      path: '/chats',
-      icon: 'tabler:messages',
-    },
+    // {
+    //   title:  i18n.t('packages'),
+    //   path: '/packages',
+    //   icon: 'tabler:packages',
+    // },
+    // {
+    //   title: i18n.t('blogs'),
+    //   path: '/blogs',
+    //   icon: 'tabler:news',
+    // },
+    // {
+    //   title: i18n.t('banners'),
+    //   path: '/banners',
+    //   icon: 'tabler:flag',
+    // },
+    // {
+    //   title: i18n.t('transactions'),
+    //   icon: 'tabler:brand-cashapp',
+    //   children: [
+    //     {
+    //       title: i18n.t('transactions'),
+    //       path: '/transactions',
+    //       icon: 'tabler:brand-cashapp',
+    //     },
+    //   ]
+    // },
+    // {
+    //   title: i18n.t('chats'),
+    //   path: '/chats',
+    //   icon: 'tabler:messages',
+    // },
     {
       title: i18n.t('settings'),
       path: '/settings',
@@ -169,33 +169,33 @@ const navigation = () => {
           path: '/settings',
           icon: 'tabler:settings',
         },
-        {
-          title: i18n.t('sms_methods'),
-          path: '/sms_methods',
-          icon: 'tabler:cash',
-        },
-        {
-          title: i18n.t('payment_methods'),
-          path: '/payments-methods',
-          icon: 'tabler:device-mobile-message',
-        },
+        // {
+        //   title: i18n.t('sms_methods'),
+        //   path: '/sms_methods',
+        //   icon: 'tabler:cash',
+        // },
+        // {
+        //   title: i18n.t('payment_methods'),
+        //   path: '/payments-methods',
+        //   icon: 'tabler:device-mobile-message',
+        // },
         {
           title: i18n.t('login_methods'),
           path: '/login_methods',
           icon: 'tabler:key',
         },
-        {
-          title: i18n.t('countries'),
-          path: '/countries',
-          icon: 'tabler:world',
-        },
+        // {
+        //   title: i18n.t('countries'),
+        //   path: '/countries',
+        //   icon: 'tabler:world',
+        // },
       ]
     },
-    {
-      title: i18n.t('promo_codes'),
-      path: '/promo_codes',
-      icon: 'tabler:gift-card',
-    },
+    // {
+    //   title: i18n.t('promo_codes'),
+    //   path: '/promo_codes',
+    //   icon: 'tabler:gift-card',
+    // },
     {
       title: i18n.t('push_messages'),
       path: '/push_messages',

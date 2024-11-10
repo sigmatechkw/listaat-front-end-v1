@@ -66,15 +66,15 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
     }
   };
 
-  const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
-  const collectionsOptions = collections?.pages.flatMap((page) => page.items) || [];  
+  const usersOptions = users?.pages.flatMap((page) => page.items) || [];
+  const collectionsOptions = collections?.pages.flatMap((page) => page.items) || [];
 
-  const getCollectionTypes = async () => { 
+  const getCollectionTypes = async () => {
     const collectionTypes = await fetchCollectionsTypes();
     setCollectionTypes(collectionTypes);
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     getCollectionTypes();
   } , [])
 
@@ -113,6 +113,13 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
                   <CustomAutocomplete
                     value={value}
                     loading={collectionsIsFetching || collectionsIsFetchingNextPage}
+                    renderOption={(props, option) => {
+                      return (
+                        <li {...props} key={option.id}>
+                          {option.name}
+                        </li>
+                      );
+                    }}
                     ListboxProps={{
                       onScroll: (event) => {
                         const listboxNode = event.currentTarget;
@@ -175,7 +182,7 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
                 )}
               />
             </Grid>
-            
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='type'

@@ -20,6 +20,12 @@ const defaultValues = {
   parent_id: '',
   sort: '',
   image : '',
+  hint_en : '',
+  hint_ar : '',
+  next_en : '',
+  next_ar : '',
+  alt_en : '',
+  alt_ar : '',
 }
 
 const ProjectTypesEdit = ({ type, id }) => {
@@ -56,7 +62,22 @@ const ProjectTypesEdit = ({ type, id }) => {
       delete data.image;
     }
 
-    data.parent_id = data.parent_id.id;
+    data.parent_id = data.parent_id?.id;
+
+    data.hint = {
+      en: data.hint_en,
+      ar: data.hint_ar
+    }
+
+    data.next = {
+      en: data.next_en,
+      ar: data.next_ar
+    }
+
+    data.alt = {
+      en: data.alt_en,
+      ar: data.alt_ar
+    }
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}project-types/${id}`, data, {
@@ -88,6 +109,12 @@ const ProjectTypesEdit = ({ type, id }) => {
     setValue('image' , type.image)
     setImgSrc(type.image)
     setValue('parent_id' , type.parent)
+    setValue('hint_en' , type.hint_en)
+    setValue('hint_ar' , type.hint_ar)
+    setValue('next_en' , type.next_en)
+    setValue('next_ar' , type.next_ar)
+    setValue('alt_en' , type.alt_en)
+    setValue('alt_ar' , type.alt_ar)
   }
 
   useEffect(() => {

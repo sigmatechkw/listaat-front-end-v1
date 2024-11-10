@@ -233,6 +233,113 @@ const ProjectTypesForm = ({type = 'create', errors, control, watch, setValue, on
               </Grid>
             </Grid>
 
+            <Grid item xs={6}>
+              <Controller
+                name='hint_en'
+                control={control}
+                render={({ field }) => (
+                  <CustomTextField
+                    rows={4}
+                    fullWidth
+                    multiline
+                    {...field}
+                    label={t('hint_en')}
+                    error={Boolean(errors.hint_en)}
+                    aria-describedby='validation-basic-hint_en'
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <Controller
+                name='hint_ar'
+                control={control}
+                render={({ field }) => (
+                  <CustomTextField
+                    rows={4}
+                    fullWidth
+                    multiline
+                    {...field}
+                    label={t('hint_ar')}
+                    error={Boolean(errors.hint_ar)}
+                    aria-describedby='validation-basic-hint_ar'
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <Controller
+                name='next_en'
+                control={control}
+                render={({ field }) => (
+                  <CustomTextField
+                    rows={4}
+                    fullWidth
+                    multiline
+                    {...field}
+                    label={t('next_en')}
+                    error={Boolean(errors.next_en)}
+                    aria-describedby='validation-basic-next_en'
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <Controller
+                name='next_ar'
+                control={control}
+                render={({ field }) => (
+                  <CustomTextField
+                    rows={4}
+                    fullWidth
+                    multiline
+                    {...field}
+                    label={t('next_ar')}
+                    error={Boolean(errors.next_ar)}
+                    aria-describedby='validation-basic-next_ar'
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <Controller
+                name='alt_en'
+                control={control}
+                render={({ field }) => (
+                  <CustomTextField
+                    rows={4}
+                    fullWidth
+                    multiline
+                    {...field}
+                    label={t('alt_en')}
+                    error={Boolean(errors.alt_en)}
+                    aria-describedby='validation-basic-alt_en'
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <Controller
+                name='alt_ar'
+                control={control}
+                render={({ field }) => (
+                  <CustomTextField
+                    rows={4}
+                    fullWidth
+                    multiline
+                    {...field}
+                    label={t('alt_ar')}
+                    error={Boolean(errors.alt_ar)}
+                    aria-describedby='validation-basic-alt_ar'
+                  />
+                )}
+              />
+            </Grid>
 
             <Grid item xs={12} sx={{pt: theme => `${theme.spacing(2)} !important`}}>
               <FormControl>

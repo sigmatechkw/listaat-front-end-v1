@@ -73,6 +73,18 @@ const ProjectTypeDetails = ({ type }) => {
               <Typography sx={{ color: 'text.secondary' }}>{type.description}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('hint')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.hint}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('next')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.next}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
+              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('alt')}:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.alt}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>
                 {t('should_has_sub_tabs')}:
               </Typography>

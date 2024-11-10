@@ -395,6 +395,7 @@
   "gallary_edit" : "Edit Gallary",
   "project_tab_types" : "Project Tab Types",
   "project_tab_types_edit" : "Edit Project Tab Types",
+  "hint" : "Hint",
   "hint_en" : "Hint In English",
   "hint_ar" : "Hint In Arabic",
   "project_tab_colors" : "Project Tab Colors",
@@ -402,6 +403,12 @@
   "project_tab_colors_edit" : "Project Tab Colors Edit",
   "rgb_color": "RGB Color",
   "hex_color": "Hex Color",
-  "sub_projects" : "Sub Projects"
+  "sub_projects" : "Sub Projects",
+  "next" : "Next",
+  "next_en" : "Next in english",
+  "next_ar" : "Next in arabic",
+  "alt" : "Alt",
+  "alt_en" : "Alt in english",
+  "alt_ar" : "Alt in arabic"
 
 }

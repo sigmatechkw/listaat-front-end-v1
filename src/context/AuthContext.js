@@ -11,7 +11,7 @@ import axios from 'axios'
 import authConfig from 'src/configs/auth'
 import {login as loginAction, logout as logoutAction} from "../store/reducers/authSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {getCookie, setCookie} from "cookies-next";
+import {deleteCookie, getCookie, setCookie} from "cookies-next";
 
 // ** Defaults
 const defaultProvider = {
@@ -78,6 +78,8 @@ const AuthProvider = ({ children }) => {
     setUser(null)
     window.localStorage.removeItem('user')
     window.localStorage.removeItem('token')
+    deleteCookie('user')
+    deleteCookie('token')
     dispatch(logoutAction())
     router.push('/login')
   }

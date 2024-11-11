@@ -10,10 +10,11 @@ import { fetchProjectTabsDetails } from 'src/components/ProjectTabs/Details/Proj
 import ProjecTabsForm from 'src/components/ProjectTabs/ProjectTabsForm'
 
 const defaultValues = {
-  name : "",
+  name_en : "",
+  name_ar : "",
   user_id : "",
   parent_id : "",
-  project_type_id: "",
+  project_type_id: [],
   type: "",
   project_id: "",
   is_default : false,
@@ -50,6 +51,10 @@ const ProjectTabsEdit = ({ type, id }) => {
     data.project_type_id = data.project_type_id?.id;  
     data.type = data.type?.id;
     
+    data.name = { 
+      en : data.name_en,
+      ar : data.name_ar
+    }
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}project-tabs/${id}`, data, {
@@ -70,7 +75,8 @@ const ProjectTabsEdit = ({ type, id }) => {
   }
 
   const fetchProjectTabsDetails = () => {
-    setValue('name', type.name)
+    setValue('name_en', type.name_en)
+    setValue('name_ar', type.name_ar)
     setValue('user_id', type.user)
     setValue('parent_id', type.parent)
     setValue('project_type_id', type.project_type)

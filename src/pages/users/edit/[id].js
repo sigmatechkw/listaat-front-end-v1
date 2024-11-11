@@ -19,14 +19,12 @@ const defaultValues = {
   password: '',
   password_confirmation: '',
   gender: '',
-  bio: '',
   country_id: null,
   birthday: null,
   role_id: null,
   is_mail_verified: false,
   is_phone_verified: false,
   active: false,
-  lang: '',
   expert_commission_value: 0,
   expert_commission_type: 'fixed',
   is_busy: false,
@@ -96,7 +94,6 @@ const UsersEdit = ({user, id}) => {
     setValue('email', user.email)
     setValue('phone', user.phone)
     setValue('gender', user.gender)
-    setValue('bio', user.bio ?? '')
     setValue('country_id', { id: user?.country?.id, label: user?.country?.name})
     setValue('birthday', dayjs(new Date(user.birthday)))
     setValue('role_id', { id: user.roles[0]?.id, label: user.roles[0]?.name})
@@ -106,7 +103,6 @@ const UsersEdit = ({user, id}) => {
     setValue('expert_commission_type', user.commission_type)
     setValue('active', user.active)
     setValue('is_busy', user.is_busy)
-    setValue('lang', user.preferred_language)
     setValue('notification_enabled', user.notification_enabled)
     // if(!isNaN(id)){
     //   axios

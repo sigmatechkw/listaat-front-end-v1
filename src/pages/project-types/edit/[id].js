@@ -10,9 +10,12 @@ import { fetchProjectTypesDetails } from '../../../components/ProjectTypes/Detai
 import ProjectTypesForm from '../../../components/ProjectTypes/ProjectTypesForm'
 
 const defaultValues = {
-  name: '',
-  filter_name: '',
-  description: '',
+  name_en: '',
+  name_ar: '',
+  filter_name_en: '',
+  filter_name_ar: '',
+  description_en: '',
+  description_ar: '',
   is_creation_allowed_directly: false,
   has_child: false,
   should_has_sub_tabs: false,
@@ -20,6 +23,12 @@ const defaultValues = {
   parent_id: '',
   sort: '',
   image : '',
+  hint_en : '',
+  hint_ar : '',
+  next_en : '',
+  next_ar : '',
+  alt_en : '',
+  alt_ar : '',
 }
 
 const ProjectTypesEdit = ({ type, id }) => {
@@ -56,7 +65,32 @@ const ProjectTypesEdit = ({ type, id }) => {
       delete data.image;
     }
 
-    data.parent_id = data.parent_id.id;
+    data.parent_id = data.parent_id?.id;
+
+    data.name = {
+      en: data.name_en,
+      ar: data.name_ar
+    }
+
+    data.description = {
+      en: data.description_en,
+      ar: data.description_ar
+    }
+
+    data.hint = {
+      en: data.hint_en,
+      ar: data.hint_ar
+    }
+
+    data.next = {
+      en: data.next_en,
+      ar: data.next_ar
+    }
+
+    data.alt = {
+      en: data.alt_en,
+      ar: data.alt_ar
+    }
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}project-types/${id}`, data, {
@@ -77,9 +111,12 @@ const ProjectTypesEdit = ({ type, id }) => {
   }
 
   const fetchProjectTypesDetails = () => {
-    setValue('name', type.name)
-    setValue('filter_name', type.filter_name)
-    setValue('description', type.description)
+    setValue('name_en', type.name_en)
+    setValue('name_ar', type.name_ar)
+    setValue('filter_name_en', type.filter_name_en)
+    setValue('filter_name_ar', type.filter_name_ar)
+    setValue('description_en', type.description_en)
+    setValue('description_ar', type.description_ar)
     setValue('is_creation_allowed_directly', type.is_creation_allowed_directly)
     setValue('has_child', type.has_child)
     setValue('should_has_sub_tabs', type.should_has_sub_tabs)
@@ -88,6 +125,12 @@ const ProjectTypesEdit = ({ type, id }) => {
     setValue('image' , type.image)
     setImgSrc(type.image)
     setValue('parent_id' , type.parent)
+    setValue('hint_en' , type.hint_en)
+    setValue('hint_ar' , type.hint_ar)
+    setValue('next_en' , type.next_en)
+    setValue('next_ar' , type.next_ar)
+    setValue('alt_en' , type.alt_en)
+    setValue('alt_ar' , type.alt_ar)
   }
 
   useEffect(() => {

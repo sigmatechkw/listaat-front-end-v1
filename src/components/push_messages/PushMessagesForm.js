@@ -230,13 +230,6 @@ const PushMessagesForm = ({
                   sx={{ '& .MuiTypography-root': { textTransform: 'capitalize', color: 'text.secondary' } }}
                   control={<Checkbox size='small' />}
                 />
-
-                <FormControlLabel
-                  onChange={e => handleSelectAllExperts(e)}
-                  label={t('Send To All Experts')}
-                  sx={{ '& .MuiTypography-root': { textTransform: 'capitalize', color: 'text.secondary' } }}
-                  control={<Checkbox size='small' />}
-                />
               </Box>
 
               {!enableSelectUser && (
@@ -246,19 +239,6 @@ const PushMessagesForm = ({
                   label={t('users')}
                   items={users.length != 0 ? users : data ? data : []}
                   placeholder={t('users')}
-                  required
-                />
-              )}
-            </Grid>
-
-            <Grid item xs={12}>
-              {!enableSelectExpert && (
-                <MultiAutocomplete
-                  handleUsersSearch={handleUsersSearch}
-                  handleChange={handleSelectedExperts}
-                  label={t('experts')}
-                  items={experts.length != 0 ? experts : dataExperts ? dataExperts : []}
-                  placeholder={t('experts')}
                   required
                 />
               )}

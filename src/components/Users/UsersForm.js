@@ -203,7 +203,7 @@ const UsersForm = ({type = 'create', errors, control, watch, setValue, onSubmit,
               <Controller
                 name='phone'
                 control={control}
-                rules={{required: true}}
+                rules={{required: false}}
                 render={({field: {value, onChange}}) => (
                   <CustomTextField
                     fullWidth
@@ -211,7 +211,6 @@ const UsersForm = ({type = 'create', errors, control, watch, setValue, onSubmit,
                     value={value}
                     label={t('phone')}
                     onChange={onChange}
-                    required
                     error={Boolean(errors.phone)}
                     aria-describedby='validation-basic-phone'
                     {...(errors.phone && {helperText: t('required')})}
@@ -344,21 +343,6 @@ const UsersForm = ({type = 'create', errors, control, watch, setValue, onSubmit,
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
-              <Controller
-                name={'lang'}
-                control={control}
-                render={({field}) => (
-                  <CustomTextField select fullWidth defaultValue='' {...field} label={t('preferred_language')}
-                                   id='custom-select'>
-                    <MenuItem value=''>{t('none')}</MenuItem>
-                    <MenuItem value='en'>{t('english')}</MenuItem>
-                    <MenuItem value='ar'>{t('arabic')}</MenuItem>
-                  </CustomTextField>
-                )}
-              />
-            </Grid>
-
             {
               role?.id === 3 ?
                 <>
@@ -425,24 +409,6 @@ const UsersForm = ({type = 'create', errors, control, watch, setValue, onSubmit,
                       }}
                     />
                   </LocalizationProvider>
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={12}>
-              <Controller
-                name='bio'
-                control={control}
-                render={({field: {value, onChange}}) => (
-                  <CustomTextField
-                    fullWidth
-                    multiline
-                    rows={3}
-                    value={value}
-                    label={t('bio')}
-                    onChange={onChange}
-                    aria-describedby='validation-basic-bio'
-                  />
                 )}
               />
             </Grid>

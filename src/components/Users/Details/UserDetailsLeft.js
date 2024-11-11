@@ -192,10 +192,6 @@ const UserDetailsLeft = ({user}) => {
                     }}
                   />
                 </Box>
-                <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('wallet')}:</Typography>
-                  <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>{user.wallet ?? 0} {t('kwd')}</Typography>
-                </Box>
                 {
                   user.birthday &&
                     <Box sx={{ display: 'flex', mb: 3 }}>
@@ -209,15 +205,6 @@ const UserDetailsLeft = ({user}) => {
                     user.email_verified ?
                       <Icon icon='tabler:circle-check' color='green' fontSize='1.5rem'/>
                     :
-                      <Icon icon='tabler:xbox-x' color='red' fontSize='1.5rem'/>
-                  }
-                </Box>
-                <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('phone_verified')}:</Typography>
-                  {
-                    user.phone_verified ?
-                      <Icon icon='tabler:circle-check' color='green' fontSize='1.5rem'/>
-                      :
                       <Icon icon='tabler:xbox-x' color='red' fontSize='1.5rem'/>
                   }
                 </Box>

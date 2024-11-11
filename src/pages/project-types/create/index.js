@@ -9,9 +9,12 @@ import { useSelector } from 'react-redux'
 import ProjectTypesForm from '../../../components/ProjectTypes/ProjectTypesForm'
 
 const defaultValues = {
-  name: '',
-  filter_name: '',
-  description: '',
+  name_en: '',
+  name_ar: '',
+  filter_name_en: '',
+  filter_name_ar: '',
+  description_en: '',
+  description_ar: '',
   is_creation_allowed_directly: false,
   has_child: false,
   should_has_sub_tabs: false,
@@ -19,7 +22,13 @@ const defaultValues = {
   sort: '',
   parent_id: '',
   image : '',
-  parent_id: ''
+  parent_id: '',
+  hint_en : '',
+  hint_ar : '',
+  next_en : '',
+  next_ar : '',
+  alt_en : '',
+  alt_ar : '',
 }
 
 const ProjectTypesCreate = () => {
@@ -43,7 +52,38 @@ const ProjectTypesCreate = () => {
     setLoading(true)
 
     data.image = imgSrc;
-    data.parent_id = data.parent_id.id;
+    data.parent_id = data.parent_id?.id;
+
+    
+    data.name = {
+      en: data.name_en,
+      ar: data.name_ar
+    }
+
+    data.description = {
+      en: data.description_en,
+      ar: data.description_ar
+    }
+
+    data.filter_name = {
+      en: data.filter_name_en,
+      ar: data.filter_name_ar
+    }
+
+    data.hint = {
+      en: data.hint_en,
+      ar: data.hint_ar
+    }
+
+    data.next = {
+      en: data.next_en,
+      ar: data.next_ar
+    }
+
+    data.alt = {
+      en: data.alt_en,
+      ar: data.alt_ar
+    }
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}project-types`, data, {

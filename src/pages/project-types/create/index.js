@@ -9,9 +9,12 @@ import { useSelector } from 'react-redux'
 import ProjectTypesForm from '../../../components/ProjectTypes/ProjectTypesForm'
 
 const defaultValues = {
-  name: '',
-  filter_name: '',
-  description: '',
+  name_en: '',
+  name_ar: '',
+  filter_name_en: '',
+  filter_name_ar: '',
+  description_en: '',
+  description_ar: '',
   is_creation_allowed_directly: false,
   has_child: false,
   should_has_sub_tabs: false,
@@ -52,6 +55,21 @@ const ProjectTypesCreate = () => {
     data.parent_id = data.parent_id?.id;
 
     
+    data.name = {
+      en: data.name_en,
+      ar: data.name_ar
+    }
+
+    data.description = {
+      en: data.description_en,
+      ar: data.description_ar
+    }
+
+    data.filter_name = {
+      en: data.filter_name_en,
+      ar: data.filter_name_ar
+    }
+
     data.hint = {
       en: data.hint_en,
       ar: data.hint_ar

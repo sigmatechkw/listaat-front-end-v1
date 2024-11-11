@@ -409,6 +409,8 @@
   "next_ar" : "Next in arabic",
   "alt" : "Alt",
   "alt_en" : "Alt in english",
-  "alt_ar" : "Alt in arabic"
+  "alt_ar" : "Alt in arabic",
+  "filter_name_en" : "Filter name in english",
+  "filter_name_ar" : "Filter name in arabic"
 
 }

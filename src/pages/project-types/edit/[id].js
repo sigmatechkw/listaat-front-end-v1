@@ -10,9 +10,12 @@ import { fetchProjectTypesDetails } from '../../../components/ProjectTypes/Detai
 import ProjectTypesForm from '../../../components/ProjectTypes/ProjectTypesForm'
 
 const defaultValues = {
-  name: '',
-  filter_name: '',
-  description: '',
+  name_en: '',
+  name_ar: '',
+  filter_name_en: '',
+  filter_name_ar: '',
+  description_en: '',
+  description_ar: '',
   is_creation_allowed_directly: false,
   has_child: false,
   should_has_sub_tabs: false,
@@ -64,6 +67,16 @@ const ProjectTypesEdit = ({ type, id }) => {
 
     data.parent_id = data.parent_id?.id;
 
+    data.name = {
+      en: data.name_en,
+      ar: data.name_ar
+    }
+
+    data.description = {
+      en: data.description_en,
+      ar: data.description_ar
+    }
+
     data.hint = {
       en: data.hint_en,
       ar: data.hint_ar
@@ -98,9 +111,12 @@ const ProjectTypesEdit = ({ type, id }) => {
   }
 
   const fetchProjectTypesDetails = () => {
-    setValue('name', type.name)
-    setValue('filter_name', type.filter_name)
-    setValue('description', type.description)
+    setValue('name_en', type.name_en)
+    setValue('name_ar', type.name_ar)
+    setValue('filter_name_en', type.filter_name_en)
+    setValue('filter_name_ar', type.filter_name_ar)
+    setValue('description_en', type.description_en)
+    setValue('description_ar', type.description_ar)
     setValue('is_creation_allowed_directly', type.is_creation_allowed_directly)
     setValue('has_child', type.has_child)
     setValue('should_has_sub_tabs', type.should_has_sub_tabs)

@@ -94,7 +94,7 @@ const ProjectTypesForm = ({type = 'create', errors, control, watch, setValue, on
         <form onSubmit={onSubmit}>
           <Grid container spacing={4}>
 
-          <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'between', alignItems: 'end' }}>
+          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'between', alignItems: 'end' }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <ImgStyled src={imgSrc} alt='ProjectType Pic' />
               <div>
@@ -118,19 +118,19 @@ const ProjectTypesForm = ({type = 'create', errors, control, watch, setValue, on
 
             <Grid item xs={12} sm={6}>
               <Controller
-                name='name'
+                name='name_en'
                 control={control}
                 rules={{required: true}}
                 render={({field: {value, onChange}}) => (
                   <CustomTextField
                     fullWidth
                     value={value}
-                    label={t('name')}
+                    label={t('name_en')}
                     onChange={onChange}
                     required
-                    error={Boolean(errors.name)}
-                    aria-describedby='validation-basic-name'
-                    {...(errors.name && {helperText: t('required')})}
+                    error={Boolean(errors.name_en)}
+                    aria-describedby='validation-basic-name_en'
+                    {...(errors.name_en && {helperText: t('required')})}
                   />
                 )}
               />
@@ -138,18 +138,59 @@ const ProjectTypesForm = ({type = 'create', errors, control, watch, setValue, on
 
             <Grid item xs={12} sm={6}>
               <Controller
-                name='filter_name'
+                name='name_ar'
                 control={control}
-                rules={{required: false}}
+                rules={{required: true}}
                 render={({field: {value, onChange}}) => (
                   <CustomTextField
                     fullWidth
                     value={value}
-                    label={t('filter_name')}
+                    label={t('name_ar')}
                     onChange={onChange}
-                    error={Boolean(errors.filter_name)}
-                    aria-describedby='validation-basic-filter_name'
-                    {...(errors.filter_name && {helperText: t('required')})}
+                    required
+                    error={Boolean(errors.name_ar)}
+                    aria-describedby='validation-basic-name_ar'
+                    {...(errors.name_ar && {helperText: t('required')})}
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Controller
+                name='filter_name_en'
+                control={control}
+                rules={{required: true}}
+                render={({field: {value, onChange}}) => (
+                  <CustomTextField
+                    fullWidth
+                    value={value}
+                    label={t('filter_name_en')}
+                    onChange={onChange}
+                    required
+                    error={Boolean(errors.filter_name_en)}
+                    aria-describedby='validation-basic-filter_name_en'
+                    {...(errors.filter_name_en && {helperText: t('required')})}
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Controller
+                name='filter_name_ar'
+                control={control}
+                rules={{required: true}}
+                render={({field: {value, onChange}}) => (
+                  <CustomTextField
+                    fullWidth
+                    value={value}
+                    label={t('filter_name_ar')}
+                    onChange={onChange}
+                    required
+                    error={Boolean(errors.filter_name_ar)}
+                    aria-describedby='validation-basic-filter_name_ar'
+                    {...(errors.filter_name_ar && {helperText: t('required')})}
                   />
                 )}
               />
@@ -210,10 +251,9 @@ const ProjectTypesForm = ({type = 'create', errors, control, watch, setValue, on
               />
             </Grid>
 
-            <Grid item container spacing={4} sx={{ alignItems: 'center', justifyContent: 'space-between' }} xs={6}>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <Controller
-                  name='description'
+                  name='description_en'
                   control={control}
                   rules={{ required: false }}
                   render={({ field }) => (
@@ -223,15 +263,35 @@ const ProjectTypesForm = ({type = 'create', errors, control, watch, setValue, on
                       multiline
                       required
                       {...field}
-                      label={t('description')}
-                      error={Boolean(errors.description)}
-                      aria-describedby='validation-basic-description'
-                      {...(errors.description)}
+                      label={t('description_en')}
+                      error={Boolean(errors.description_en)}
+                      aria-describedby='validation-basic-description_en'
+                      {...(errors.description_en)}
                     />
                   )}
                 />
               </Grid>
-            </Grid>
+
+              <Grid item xs={6}>
+                <Controller
+                  name='description_ar'
+                  control={control}
+                  rules={{ required: false }}
+                  render={({ field }) => (
+                    <CustomTextField
+                      rows={4}
+                      fullWidth
+                      multiline
+                      required
+                      {...field}
+                      label={t('description_ar')}
+                      error={Boolean(errors.description_ar)}
+                      aria-describedby='validation-basic-description_ar'
+                      {...(errors.description_ar)}
+                    />
+                  )}
+                />
+              </Grid>
 
             <Grid item xs={6}>
               <Controller

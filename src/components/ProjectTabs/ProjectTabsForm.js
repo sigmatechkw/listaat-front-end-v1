@@ -135,19 +135,39 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
           <Grid container spacing={4}>
             <Grid item xs={12} sm={6}>
               <Controller
-                name='name'
+                name='name_en'
                 control={control}
                 rules={{required: true}}
                 render={({field: {value, onChange}}) => (
                   <CustomTextField
                     fullWidth
                     value={value}
-                    label={t('name')}
+                    label={t('name_en')}
                     onChange={onChange}
                     required
-                    error={Boolean(errors.name)}
-                    aria-describedby='validation-basic-name'
-                    {...(errors.name && {helperText: t('required')})}
+                    error={Boolean(errors.name_en)}
+                    aria-describedby='validation-basic-name_en'
+                    {...(errors.name_en && {helperText: t('required')})}
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Controller
+                name='name_ar'
+                control={control}
+                rules={{required: true}}
+                render={({field: {value, onChange}}) => (
+                  <CustomTextField
+                    fullWidth
+                    value={value}
+                    label={t('name_ar')}
+                    onChange={onChange}
+                    required
+                    error={Boolean(errors.name_ar)}
+                    aria-describedby='validation-basic-name_ar'
+                    {...(errors.name_ar && {helperText: t('required')})}
                   />
                 )}
               />
@@ -296,7 +316,7 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
                       <CustomTextField
                       {...params}
                       variant="outlined"
-                      label={t('project_type_id')}
+                      label={t('project_type')}
                       placeholder="Options"
                     />
                     )}

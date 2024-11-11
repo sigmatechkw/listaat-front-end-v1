@@ -1,7 +1,7 @@
 import {useTheme} from "@mui/material/styles";
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
-import {fetchDateRanges, fetchUsersRoles, fetchUsersStatistics} from "../users/List/userListServices";
+import {fetchDateRanges, fetchUsersRoles, fetchUsersStatistics} from "../Users/List/userListServices";
 import CustomPieChartCard from "../Shared/CustomPieChartCard";
 import CustomLoader from "../Shared/CustomLoader";
 import Grid from "@mui/material/Grid";
@@ -39,7 +39,7 @@ const HomeStatistics = ({data = {}}) => {
       })
     })
   }, [dateRange]);
-  
+
   return (
     loading ?
     <CustomLoader/>
@@ -68,7 +68,7 @@ const HomeStatistics = ({data = {}}) => {
       </FormControl>
       <Grid sx={{mb: 3}} container spacing={6}>
         <Grid item xs={12} md={4} lg={4}>
-        {roles.filter(role => role.id !== 1).length > 0 && 
+        {roles.filter(role => role.id !== 1).length > 0 &&
           <CustomPieChartCard
             title={t('role')}
             color={theme.palette.success.main}

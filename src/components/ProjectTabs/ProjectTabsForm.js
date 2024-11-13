@@ -38,7 +38,7 @@ const ProjecTabsForm = ({type = 'create', errors, control, watch, setValue, onSu
     isFetching : typesIsFetching,
     isFetchingNextPage : typesIsFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ['fetchProjectTypesInfinityQuery', searchTypesTerm],
+    queryKey: ['fetchProjectTypesInfinityQuery', searchTypesTerm, 1],
     queryFn: fetchProjectTypesInfinityQuery,
      getNextPageParam: (lastPage, allPages) => {
       return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;

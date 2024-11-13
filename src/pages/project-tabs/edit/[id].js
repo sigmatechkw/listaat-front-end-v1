@@ -48,7 +48,7 @@ const ProjectTabsEdit = ({ type, id }) => {
     data.user_id = data.user_id?.id;
     data.parent_id = data.parent_id?.id;
     data.project_type_id = data.project_type_id.map(item => item = item.id);
-    data.project_type_id = data.project_type_id?.id;  
+    data.project_id = data.project_id?.id;
     data.type = data.type?.id;
     
     data.name = { 

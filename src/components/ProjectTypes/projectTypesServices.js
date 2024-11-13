@@ -45,13 +45,19 @@ export const fetchProjectTypes = async (page = 1, search, sortKey = 'id', sortTy
 
 export const fetchProjectTypesInfinityQuery = async ({ pageParam = 1, queryKey }) => {
   try{ 
-    const [_ , searchTerm] = queryKey;
+    const [_ , searchTerm , shouldHasSubTabs] = queryKey;
+
+    const params = { 
+      page: pageParam,
+      search: searchTerm,
+    }
+
+    if(shouldHasSubTabs) { 
+      params.shouldHasSubTabs = shouldHasSubTabs
+    }
 
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}project-types`, {
-      params: {
-        page: pageParam,
-        search: searchTerm,
-      },
+      params,
       headers: {
         Authorization: getCookie('token'),
         'Accepted-Language': getCookie('lang') ?? 'en'

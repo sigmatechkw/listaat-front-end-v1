@@ -416,6 +416,12 @@ const ProjectTypesForm = ({type = 'create', errors, control, watch, setValue, on
                           checked={field.value}
                           name='validation-basic-should_has_sub_tabs'
                           sx={errors.should_has_sub_tabs ? {color: 'error.main'} : null}
+                          onChange={(e, newValue) => {
+                            if (newValue) {
+                              setValue('has_child', false)
+                              field.onChange(newValue)
+                            }
+                          }}
                         />
                       }
                     />
@@ -432,13 +438,19 @@ const ProjectTypesForm = ({type = 'create', errors, control, watch, setValue, on
                   render={({field}) => (
                     <FormControlLabel
                       label={t('has_child')}
-                      sx={errors.should_has_sub_tabs ? {color: 'error.main'} : null}
+                      sx={errors.has_child ? {color: 'error.main'} : null}
                       control={
                         <Checkbox
                           {...field}
                           checked={field.value}
                           name='validation-basic-has_child'
                           sx={errors.has_child ? {color: 'error.main'} : null}
+                          onChange={(e, newValue) => {
+                            if (newValue) {
+                              setValue('should_has_sub_tabs', false)
+                              field.onChange(newValue)
+                            }
+                          }}
                         />
                       }
                     />

@@ -56,7 +56,7 @@ const ProjectSharesDetails = ({ type }) => {
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('permissions')}:</Typography>
-              <Typography sx={{ color: 'text.secondary' }}>{type.permissions}</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.permission === 10 ? t('owner') : type.permission === 20 ? t('admin') : t('viewer')}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('sender_user')}:</Typography>
@@ -76,10 +76,12 @@ const ProjectSharesDetails = ({ type }) => {
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('is_accepted')}:</Typography>
-              {type.is_accepted ? (
+              {type.is_accepted === 1 ? (
+                <Icon icon='tabler:clock-hour-4' color='orange' fontSize='1.5rem' />
+              ) : type.is_accepted === 2 ? (
                 <Icon icon='tabler:circle-check' color='green' fontSize='1.5rem' />
               ) : (
-                <Icon icon='tabler:xbox-x' color='red' fontSize='1.5rem' />
+                <Icon icon='tabler:xbox-x' fontSize='1.5rem' color='red' />
               )}
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>

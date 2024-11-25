@@ -5,12 +5,16 @@ import toast from "react-hot-toast";
 
 const state = store.getState()
 
-export const fetchCollections = async (page = 1, search, sortKey = 'id', sortType = 'asc', perPage = 10, isActive = '', setRows, setLoading) => {
+export const fetchCollections = async (page = 1, search, sortKey = 'id', sortType = 'asc', perPage = 10, isActive = '', user = null, setRows, setLoading) => {
   let params = {
     paginate: 1,
     page: page + 1,
     perPage,
-    active : isActive,
+    active: isActive,
+  }
+
+  if (user) {
+    params.userId = user.id
   }
 
   if (search) {
@@ -42,7 +46,7 @@ export const fetchCollections = async (page = 1, search, sortKey = 'id', sortTyp
 }
 
 export const fetchCollectionsInfinityQuery = async ({ pageParam = 1, queryKey }) => {
-  try { 
+  try {
     const [_ , searchTerm] = queryKey;
 
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}collections`, {
@@ -58,13 +62,13 @@ export const fetchCollectionsInfinityQuery = async ({ pageParam = 1, queryKey })
     })
 
     return response.data.data;
-  }catch(err) { 
+  }catch(err) {
     toast.error(err.response?.data?.message)
   }
 }
 
 export const fetchCollectionsTypes = async () => {
-  try { 
+  try {
 
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}collections/get/types`, {
       headers: {
@@ -74,7 +78,7 @@ export const fetchCollectionsTypes = async () => {
     })
 
     return response.data.data.items;
-  }catch(err) { 
+  }catch(err) {
     toast.error(err.response?.data?.message)
   }
 }

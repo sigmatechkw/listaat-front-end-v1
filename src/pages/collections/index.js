@@ -8,6 +8,7 @@ const Collections = () => {
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
   const [sortModel, setSortModel] = useState([])
   const [isActive, setIsActive] = useState('')
+  const [user, setUser] = useState(null)
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -22,6 +23,7 @@ const Collections = () => {
           sortModel[0]?.sort,
           paginationModel.pageSize,
           isActive,
+          user,
           setRows,
           setLoading
         )
@@ -34,13 +36,14 @@ const Collections = () => {
         sortModel[0]?.sort,
         paginationModel.pageSize,
         isActive,
+        user,
         setRows,
         setLoading
       )
     }
 
     return () => searchTimeout && clearTimeout(searchTimeout)
-  }, [paginationModel, searchValue, sortModel, isActive])
+  }, [paginationModel, searchValue, sortModel, isActive, user])
 
   return loading ? (
     <CustomLoader />
@@ -56,6 +59,8 @@ const Collections = () => {
         setSortModel={setSortModel}
         isActive={isActive}
         setIsActive={setIsActive}
+        user={user}
+        setUser={setUser}
         fetchData={() =>
           fetchCollections(
             paginationModel.page,
@@ -64,6 +69,7 @@ const Collections = () => {
             sortModel[0]?.sort,
             paginationModel.pageSize,
             isActive,
+            user,
             setRows,
             setLoading
           )

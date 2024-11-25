@@ -203,7 +203,6 @@ const UsersForm = ({type = 'create', errors, control, watch, setValue, onSubmit,
               <Controller
                 name='phone'
                 control={control}
-                rules={{required: false}}
                 render={({field: {value, onChange}}) => (
                   <CustomTextField
                     fullWidth
@@ -213,7 +212,6 @@ const UsersForm = ({type = 'create', errors, control, watch, setValue, onSubmit,
                     onChange={onChange}
                     error={Boolean(errors.phone)}
                     aria-describedby='validation-basic-phone'
-                    {...(errors.phone && {helperText: t('required')})}
                   />
                 )}
               />
@@ -234,7 +232,7 @@ const UsersForm = ({type = 'create', errors, control, watch, setValue, onSubmit,
                     required={type === 'create'}
                     error={Boolean(errors.password)}
                     aria-describedby='validation-basic-password'
-                    {...(errors.phone && {helperText: t('required')})}
+                    {...(errors.password && {helperText: t('required')})}
                     type={showPassword ? 'text' : 'password'}
                     InputProps={{
                       endAdornment: (
@@ -270,7 +268,7 @@ const UsersForm = ({type = 'create', errors, control, watch, setValue, onSubmit,
                     required={type === 'create'}
                     error={Boolean(errors.password_confirmation)}
                     aria-describedby='validation-basic-password_confirmation'
-                    {...(errors.phone && {helperText: t('required')})}
+                    {...(errors.password_confirmation && {helperText: t('required')})}
                     type={showConfirmPassword ? 'text' : 'password'}
                     InputProps={{
                       endAdornment: (

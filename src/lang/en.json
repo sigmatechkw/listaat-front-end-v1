@@ -411,6 +411,10 @@
   "alt_en" : "Alt in english",
   "alt_ar" : "Alt in arabic",
   "filter_name_en" : "Filter name in english",
-  "filter_name_ar" : "Filter name in arabic"
+  "filter_name_ar" : "Filter name in arabic",
+  "admin": "Admin",
+  "owner": "Owner",
+  "viewer": "Viewer",
+  "choose_user": "Choose user"
 
 }

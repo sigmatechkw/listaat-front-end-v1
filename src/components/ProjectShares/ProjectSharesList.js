@@ -94,7 +94,7 @@ const ProjectSharesList = ({
       headerName: t('permissions'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.permission}
+          {row.permission === 10 ? t('owner') : row.permission === 20 ? t('admin') : t('viewer')}
         </Typography>
       )
     },
@@ -142,7 +142,9 @@ const ProjectSharesList = ({
       headerName: t('is_accepted'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.is_accepted ? (
+          {row.is_accepted === 1 ? (
+            <Icon icon='tabler:clock-hour-4' color='orange' fontSize='2rem' />
+          ) : row.is_accepted === 2 ? (
             <Icon icon='tabler:circle-check' color='green' fontSize='2rem' />
           ) : (
             <Icon icon='tabler:xbox-x' fontSize='2rem' color='red' />

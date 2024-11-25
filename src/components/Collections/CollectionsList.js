@@ -22,6 +22,8 @@ const CollectionsList = ({
   setSortModel,
   isActive,
   setIsActive,
+  user,
+  setUser,
   fetchData,
   canExport = false
 }) => {
@@ -147,7 +149,7 @@ const CollectionsList = ({
 
   return (
     <div>
-      <CollectionsFilters isActive={isActive} setIsActive={setIsActive} />
+      <CollectionsFilters isActive={isActive} setIsActive={setIsActive} user={user} setUser={setUser} />
       <Card>
         <CardHeader title={t('collections')} />
         <CustomDataGrid

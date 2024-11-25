@@ -7,12 +7,50 @@ import CustomTextField from "../../@core/components/mui/text-field";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import {Icon} from "@iconify/react";
+import {useInfiniteQuery} from "@tanstack/react-query";
+import {fetchUsersInfinityQuery} from "../Projects/projectsServices";
+import {useState} from "react";
+import {Controller} from "react-hook-form";
+import CustomAutocomplete from "../../@core/components/mui/autocomplete";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import ListItemText from "@mui/material/ListItemText";
+import List from "@mui/material/List";
+import CustomLoader from "../Shared/CustomLoader";
 
-const CollectionsFilters = ({ isActive, setIsActive }) => {
+const CollectionsFilters = ({ isActive, setIsActive, user, setUser }) => {
   const {t} = useTranslation()
+  const [searchUsersTerm, setSearchUsersTerm] = useState('');
+
+  const {
+    data: users,
+    fetchNextPage: fetchUsersNextPage,
+    hasNextPage: usersHasNextPage,
+    isFetching: usersIsFetching,
+    isFetchingNextPage: usersIsFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['fetchUsersInfinityQuery', searchUsersTerm],
+    queryFn: fetchUsersInfinityQuery,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.current_page < lastPage.last_page ? lastPage?.current_page + 1 : undefined;
+    },
+  })
+
+  const usersOptions = users?.pages.flatMap((page) => page.items) || [];
+
+  const loadMoreUsers = () => {
+    if (usersHasNextPage) {
+      fetchUsersNextPage();
+    }
+  }
 
   const handleIsActiveChange = (e) => {
     setIsActive(e.target.value)
+  }
+
+  if (!users && usersIsFetching) {
+    return <CustomLoader />
   }
 
 
@@ -41,6 +79,40 @@ const CollectionsFilters = ({ isActive, setIsActive }) => {
               <MenuItem value={1}>{t('yes')}</MenuItem>
               <MenuItem value={0}>{t('no')}</MenuItem>
             </CustomTextField>
+          </Grid>
+          <Grid item xs={12} md={3} lg={3}>
+            <CustomAutocomplete
+              autoHighlight
+              sx={{ mb: 6 }}
+              id='users-list'
+              options={usersOptions}
+              ListboxComponent={List}
+              ListboxProps={{
+                onScroll: (event) => {
+                  const listboxNode = event.currentTarget;
+                  if (listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight) {
+                    loadMoreUsers();
+                  }
+                },
+              }}
+              getOptionLabel={option => option.full_name || ''}
+              value={user || null}
+              onChange={(e, newValue) => {
+                setUser(newValue)
+              }}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              renderInput={params => (
+                <CustomTextField {...params} placeholder={t('choose_user')} />
+              )}
+              renderOption={(props, user) => (
+                <ListItem {...props} key={user.id}>
+                  <ListItemAvatar>
+                    <Avatar src={user.image} alt={user.full_name} sx={{ height: 28, width: 28 }} />
+                  </ListItemAvatar>
+                  <ListItemText primary={user.full_name} />
+                </ListItem>
+              )}
+            />
           </Grid>
         </Grid>
       </CardContent>

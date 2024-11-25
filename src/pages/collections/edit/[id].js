@@ -35,10 +35,14 @@ const CollectionEdit = ({ type, id }) => {
 
   const onSubmit = data => {
     setLoading(true)
-
-    data.user_id = data.user_id?.id;
     data.parent_id = data.parent_id?.id
     data.type = data.type?.id;
+
+    if (data.type === 1) {
+      data.user_id = null
+    } else {
+      data.user_id = data.user_id?.id;
+    }
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}collections/${id}`, data, {

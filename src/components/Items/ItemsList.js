@@ -105,17 +105,17 @@ const ItemsList = ({
         </Typography>
       )
     },
-    {
-      flex: 0.175,
-      minWidth: 120,
-      field: 'item_group_id',
-      headerName: t('item_groups'),
-      renderCell: ({ row }) => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.item_group?.name}
-        </Typography>
-      )
-    },
+    // {
+    //   flex: 0.175,
+    //   minWidth: 120,
+    //   field: 'item_group_id',
+    //   headerName: t('item_groups'),
+    //   renderCell: ({ row }) => (
+    //     <Typography variant='body2' sx={{ color: 'text.primary' }}>
+    //       {row.item_group?.name}
+    //     </Typography>
+    //   )
+    // },
     {
       flex: 0.175,
       minWidth: 120,

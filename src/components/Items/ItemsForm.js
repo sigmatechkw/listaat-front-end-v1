@@ -20,6 +20,10 @@ import { fetchCollectionsInfinityQuery } from '../Collections/CollectionsService
 import { fetchUsersInfinityQuery } from '../Projects/projectsServices';
 import { fetchItemGroupsInfinityQuery } from '../ItemGroups/ItemGroupsServices';
 import { fetchCountriesInfinityQuery } from '../countries/countriesServices';
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import ListItemText from "@mui/material/ListItemText";
 
 const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc , itemImg , setItemImg ,receiptImg , setReceiptImg, receiptSrc ,setReceiptSrc , setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
@@ -86,7 +90,7 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
     },
   });
 
-  
+
   const loadMoreItemGroups = () => {
     if (itemGroupsHasNextPage) {
       fetchItemGroupsNextPage();
@@ -111,11 +115,11 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
     }
   };
 
-  const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
-  const collectionsOptions = collections?.pages.flatMap((page) => page.items) || [];  
-  const itemGroupsOptions = itemGroups?.pages.flatMap((page) => page.items) || [];  
-  const countriesOptions = countries?.pages.flatMap((page) => page.items) || [];  
-  
+  const usersOptions = users?.pages.flatMap((page) => page.items) || [];
+  const collectionsOptions = collections?.pages.flatMap((page) => page.items) || [];
+  const itemGroupsOptions = itemGroups?.pages.flatMap((page) => page.items) || [];
+  const countriesOptions = countries?.pages.flatMap((page) => page.items) || [];
+
 
   const ImgStyled = styled('img')(({ theme }) => ({
     width: 100,
@@ -431,7 +435,7 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
-                    loading={usersIsFetching || usersIsFetchingNextPage}
+                    loading={!users && (usersIsFetching || usersIsFetchingNextPage)}
                     ListboxProps={{
                       onScroll: (event) => {
                         const listboxNode = event.currentTarget;
@@ -452,8 +456,15 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
                     options={usersOptions}
                     getOptionLabel={option => option.first_name || ''}
-                    renderInput={params => <CustomTextField {...params}
-                     label={t('user')} />}
+                    renderInput={params => <CustomTextField {...params} label={t('user')} />}
+                    renderOption={(props, user) => (
+                      <ListItem {...props} key={user.id}>
+                        <ListItemAvatar>
+                          <Avatar src={user.image} alt={user.full_name} sx={{ height: 28, width: 28 }} />
+                        </ListItemAvatar>
+                        <ListItemText primary={user.full_name} />
+                      </ListItem>
+                    )}
                   />
                 )}
               />
@@ -507,11 +518,16 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                       placeholder="Options"
                     />
                     )}
-                  /> 
+                    renderOption={(props, collection) => (
+                      <ListItem {...props} key={collection.id}>
+                        <ListItemText primary={collection.name} />
+                      </ListItem>
+                    )}
+                  />
                   )}
               />
             </Grid>
-          
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='item_group_id'
@@ -541,8 +557,12 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
                     options={itemGroupsOptions}
                     getOptionLabel={option => option.name || ''}
-                    renderInput={params => <CustomTextField {...params}
-                     label={t('item_groups')} />}
+                    renderInput={params => <CustomTextField {...params} label={t('item_groups')} />}
+                    renderOption={(props, group) => (
+                      <ListItem {...props} key={group.id}>
+                        <ListItemText primary={group.name} />
+                      </ListItem>
+                    )}
                   />
                 )}
               />
@@ -583,7 +603,7 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                 )}
               />
             </Grid>
-            
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='unit'
@@ -618,7 +638,7 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
               />
             </Grid>
 
-            
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='sort'

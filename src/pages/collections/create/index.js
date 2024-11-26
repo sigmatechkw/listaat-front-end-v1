@@ -10,9 +10,9 @@ import CollectionsForm from 'src/components/Collections/CollectionsForm'
 
 const defaultValues = {
   name: '',
-  user_id: '',
-  parent_id: '',
-  type: '',
+  user_id: null,
+  parent_id: null,
+  type: null,
   active: false
 }
 

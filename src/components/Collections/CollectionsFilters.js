@@ -49,11 +49,6 @@ const CollectionsFilters = ({ isActive, setIsActive, user, setUser }) => {
     setIsActive(e.target.value)
   }
 
-  if (!users && usersIsFetching) {
-    return <CustomLoader />
-  }
-
-
   return (
     <Card sx={{ mb: 3 }}>
       <CardHeader title={t('filters')} />
@@ -83,6 +78,7 @@ const CollectionsFilters = ({ isActive, setIsActive, user, setUser }) => {
           <Grid item xs={12} md={3} lg={3}>
             <CustomAutocomplete
               autoHighlight
+              loading={!users && usersIsFetching}
               sx={{ mb: 6 }}
               id='users-list'
               options={usersOptions}

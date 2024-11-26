@@ -18,6 +18,10 @@ import { getCookie } from 'cookies-next'
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchUsersInfinityQuery } from '../Projects/projectsServices';
 import { fetchCollectionsInfinityQuery, fetchCollectionsTypes } from './CollectionsServices';
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import ListItemText from "@mui/material/ListItemText";
 
 const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onSubmit, title, loading}) => {
   const {t, i18n} = useTranslation()
@@ -155,7 +159,7 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
                 render={({ field: { value, onChange } }) => (
                   <CustomAutocomplete
                     value={value}
-                    loading={usersIsFetching || usersIsFetchingNextPage}
+                    loading={!users && (usersIsFetching || usersIsFetchingNextPage)}
                     ListboxProps={{
                       onScroll: (event) => {
                         const listboxNode = event.currentTarget;
@@ -176,8 +180,15 @@ const CollectionsForm = ({type = 'create', errors, control, watch, setValue, onS
                     isOptionEqualToValue={(option, value) => option.id === value?.id}
                     options={usersOptions}
                     getOptionLabel={option => option.first_name || ''}
-                    renderInput={params => <CustomTextField {...params}
-                     label={t('user')} />}
+                    renderInput={params => <CustomTextField {...params} label={t('user')} />}
+                    renderOption={(props, user) => (
+                      <ListItem {...props} key={user.id}>
+                        <ListItemAvatar>
+                          <Avatar src={user.image} alt={user.full_name} sx={{ height: 28, width: 28 }} />
+                        </ListItemAvatar>
+                        <ListItemText primary={user.full_name} />
+                      </ListItem>
+                    )}
                   />
                 )}
               />

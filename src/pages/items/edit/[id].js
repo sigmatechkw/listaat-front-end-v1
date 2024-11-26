@@ -12,14 +12,14 @@ import ItemsForm from 'src/components/Items/ItemsForm'
 const defaultValues = {
     name: '',
     cost : '',
-    user_id : '',
-    item_group_id: '',
-    country_id: '',
+    user_id : null,
+    item_group_id: null,
+    country_id: null,
     extra_cost: '',
     width: '',
     height: '',
     length: '',
-    unit: '',
+    unit: null,
     notes: '',
     source_name: '',
     source_address: '',
@@ -60,16 +60,16 @@ const ItemsEdit = ({ type, id }) => {
   const onSubmit = data => {
     setLoading(true)
 
-      
-    if(testBase64(imgSrc)){ 
+
+    if(testBase64(imgSrc)){
       data.image = imgSrc;
-    }else{ 
+    }else{
       delete data.image;
     }
 
-    if(testBase64(receiptSrc)){ 
+    if(testBase64(receiptSrc)){
       data.receipt = receiptSrc;
-    }else{ 
+    }else{
       delete data.receipt;
     }
 
@@ -108,21 +108,21 @@ const ItemsEdit = ({ type, id }) => {
     setValue('name', type.name)
     setValue('cost', type.cost)
     setValue('user_id', type.user)
-    setValue('country_id', type.country)
-    setValue('extra_cost', type.extra_cost)
-    setValue('width', type.width)
-    setValue('height', type.height)
-    setValue('length', type.length)
+    setValue('country_id', type.country ?? '')
+    setValue('extra_cost', type.extra_cost ?? '')
+    setValue('width', type.width ?? '')
+    setValue('height', type.height ?? '')
+    setValue('length', type.length ?? '')
     setValue('unit', type.unit)
-    setValue('notes', type.notes)
+    setValue('notes', type.notes ?? '')
     setValue('image', type.image)
     setImgSrc(type.image)
     setValue('receipt', type.receipt)
     setReceiptSrc(type.receipt)
-    setValue('collections_ids', type.collections)
-    setValue('source_name', type.source?.source_name)
-    setValue('source_address', type.source?.source_address)
-    setValue('source_website', type.source?.source_website)
+    setValue('collections_ids', type.collections ?? [])
+    setValue('source_name', type.source ? type.source.source_name : '')
+    setValue('source_address', type.source ? type.source.source_address : '')
+    setValue('source_website', type.source ? type.source.source_website : '')
     setValue('sort', type.sort)
     setValue('active', type.active)
   }

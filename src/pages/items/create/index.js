@@ -11,14 +11,14 @@ import ItemsForm from 'src/components/Items/ItemsForm'
 const defaultValues = {
   name: '',
   cost : '',
-  user_id : '',
-  item_group_id: '',
-  country_id: '',
+  user_id : null,
+  item_group_id: null,
+  country_id: null,
   extra_cost: '',
   width: '',
   height: '',
   length: '',
-  unit: '',
+  unit: null,
   notes: '',
   source_name: '',
   source_address: '',
@@ -55,11 +55,11 @@ const ItemsCreate = () => {
 
     if(receiptSrc){
       data.receipt = receiptSrc;
-    }else{ 
+    }else{
       delete data.receipt;
     }
-  
-    
+
+
     data.image = imgSrc;
     data.receipt = receiptSrc;
     data.user_id = data.user_id?.id;

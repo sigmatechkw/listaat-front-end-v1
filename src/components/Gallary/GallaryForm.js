@@ -234,48 +234,6 @@ const GallaryForm = ({type = 'create', errors, control, watch, setValue, onSubmi
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
-              <Controller
-                name='sort'
-                control={control}
-                rules={{required: false}}
-                render={({field: {value, onChange}}) => (
-                  <CustomTextField
-                    fullWidth
-                    value={value}
-                    label={t('sort')}
-                    onChange={onChange}
-                    error={Boolean(errors.sort)}
-                    aria-describedby='validation-basic-sort'
-                    {...(errors.sort && {helperText: t('required')})}
-                  />
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={12} sx={{pt: theme => `${theme.spacing(2)} !important`}}>
-              <FormControl>
-                <Controller
-                  name='active'
-                  control={control}
-                  render={({field}) => (
-                    <FormControlLabel
-                      label={t('active')}
-                      sx={errors.active ? {color: 'error.main'} : null}
-                      control={
-                        <Checkbox
-                          {...field}
-                          checked={field.value}
-                          name='validation-basic-active'
-                          sx={errors.active ? {color: 'error.main'} : null}
-                        />
-                      }
-                    />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-
             <Grid item xs={12}>
               <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} />
             </Grid>

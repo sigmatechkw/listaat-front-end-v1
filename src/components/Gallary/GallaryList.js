@@ -97,32 +97,6 @@ const GallaryList = ({
     {
       flex: 0.175,
       minWidth: 120,
-      field: 'sort',
-      headerName: t('sort'),
-      renderCell: ({ row }) => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.sort}
-        </Typography>
-      )
-    },
-    {
-      flex: 0.1,
-      minWidth: 100,
-      field: 'active',
-      headerName: t('is_active'),
-      renderCell: ({ row }) => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.active ? (
-            <Icon icon='tabler:circle-check' color='green' fontSize='2rem' />
-          ) : (
-            <Icon icon='tabler:xbox-x' fontSize='2rem' color='red' />
-          )}
-        </Typography>
-      )
-    },
-    {
-      flex: 0.175,
-      minWidth: 120,
       field: 'created_at',
       headerName: t('created_at'),
       renderCell: ({ row }) => (

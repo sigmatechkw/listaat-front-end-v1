@@ -85,6 +85,10 @@ const ProjectDetails = ({ type }) => {
                 <Typography sx={{ color: 'text.secondary' }}>{type.height}</Typography>
               </Box>
               <Box sx={{ display: 'flex', mb: 3 }}>
+                <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('unit')}:</Typography>
+                <Typography sx={{ color: 'text.secondary' }}>{type.unit?.name}</Typography>
+              </Box>
+              <Box sx={{ display: 'flex', mb: 3 }}>
                 <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('project_type')}:</Typography>
                 <Typography sx={{ color: 'text.secondary' }}>{type.project_type.name}</Typography>
               </Box>
@@ -119,7 +123,7 @@ const ProjectDetails = ({ type }) => {
           <ProjectModeratorsTable data={type.moderators} />
         </Grid>
 
-        {type.parent && 
+        {type.parent &&
         <Grid item xs={12}>
           <ProjectParentTable data={[type.parent]} />
         </Grid>
@@ -140,7 +144,7 @@ const ProjectDetails = ({ type }) => {
         {/* <Grid item xs={12}>
           <ProjectItemsTable data={type.items} />
         </Grid> */}
-        
+
         <Grid item xs={12}>
           <ProjectFoldersTable data={type.folders} />
         </Grid>

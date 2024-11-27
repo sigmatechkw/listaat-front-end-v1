@@ -130,6 +130,17 @@ const ProjectsList = ({
     {
       flex: 0.1,
       minWidth: 120,
+      field: 'unit',
+      headerName: t('unit'),
+      renderCell: ({ row }) => (
+        <Typography variant='body2' sx={{ color: 'text.primary' }}>
+          {row.unit?.name}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.1,
+      minWidth: 120,
       field: 'height',
       headerName: t('height'),
       renderCell: ({ row }) => (

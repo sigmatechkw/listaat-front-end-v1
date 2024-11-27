@@ -16,6 +16,7 @@ const defaultValues = {
   length : '',
   width: '',
   height: '',
+  unit: null,
   project_type_id: null,
   parent_id : null,
   user_id : null,
@@ -44,6 +45,7 @@ const ProjectsCreate = () => {
     data.project_type_id = data.project_type_id.id
     data.parent_id = data.parent_id?.id
     data.user_id = data.user_id?.id
+    data.unit = data.unit?.id;
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}projects`, data, {

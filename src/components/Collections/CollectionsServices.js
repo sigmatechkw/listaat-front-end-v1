@@ -15,6 +15,7 @@ export const fetchCollections = async (page = 1, search, sortKey = 'id', sortTyp
 
   if (user) {
     params.userId = user.id
+    params.withoutSystem = 1
   }
 
   if (search) {

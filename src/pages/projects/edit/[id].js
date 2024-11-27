@@ -17,6 +17,7 @@ const defaultValues = {
   length : '',
   width: '',
   height: '',
+  unit: null,
   project_type_id: null,
   parent_id : null,
   notes: '',
@@ -52,6 +53,7 @@ const ProjectsEdit = ({ type, id }) => {
 
     data.parent_id = data.parent_id?.id
     data.user_id = data.user_id?.id
+    data.unit = data.unit?.id;
 
     if(testBase64(imgSrc)){ 
       data.image = imgSrc;
@@ -85,6 +87,7 @@ const ProjectsEdit = ({ type, id }) => {
     setValue('length', type.length)
     setValue('width', type.width)
     setValue('height', type.height)
+    setValue('unit', type.unit)
     setValue('project_type_id', type.project_type)
     setValue('parent_id', type.parent)
     setValue('notes', type.notes)

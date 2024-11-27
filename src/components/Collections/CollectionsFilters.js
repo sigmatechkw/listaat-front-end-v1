@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import {Icon} from "@iconify/react";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {fetchUsersInfinityQuery} from "../Projects/projectsServices";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import {Controller} from "react-hook-form";
 import CustomAutocomplete from "../../@core/components/mui/autocomplete";
 import ListItem from "@mui/material/ListItem";
@@ -18,6 +18,7 @@ import Avatar from "@mui/material/Avatar";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import CustomLoader from "../Shared/CustomLoader";
+import {debounce} from "lodash";
 
 const CollectionsFilters = ({ isActive, setIsActive, user, setUser }) => {
   const {t} = useTranslation()
@@ -48,6 +49,10 @@ const CollectionsFilters = ({ isActive, setIsActive, user, setUser }) => {
   const handleIsActiveChange = (e) => {
     setIsActive(e.target.value)
   }
+
+  const handleSearchChange = useCallback(debounce((term) => {
+    setSearchUsersTerm(term);
+  }, 300), []);
 
   return (
     <Card sx={{ mb: 3 }}>
@@ -96,6 +101,7 @@ const CollectionsFilters = ({ isActive, setIsActive, user, setUser }) => {
               onChange={(e, newValue) => {
                 setUser(newValue)
               }}
+              onInputChange={(event, newInputValue) => handleSearchChange(newInputValue)}
               isOptionEqualToValue={(option, value) => option.id === value.id}
               renderInput={params => (
                 <CustomTextField {...params} placeholder={t('choose_user')} />

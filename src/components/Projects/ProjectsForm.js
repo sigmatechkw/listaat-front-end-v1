@@ -89,8 +89,8 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
   };
 
   const typesOptions = types?.pages.flatMap((page) => page.items) || [];
-  const projectsOptions = projects?.pages.flatMap((page) => page.items) || [];  
-  const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
+  const projectsOptions = projects?.pages.flatMap((page) => page.items) || [];
+  const usersOptions = users?.pages.flatMap((page) => page.items) || [];
 
   const ImgStyled = styled('img')(({ theme }) => ({
     width: 100,
@@ -293,7 +293,41 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
                 )}
               />
             </Grid>
-            
+
+            <Grid item xs={12} sm={6}>
+              <Controller
+                name='unit'
+                control={control}
+                rules={{ required: false }}
+                render={({ field: { value, onChange } }) => (
+                  <CustomAutocomplete
+                    value={value}
+                    onChange={(e, newValue) => {
+                      if (newValue) {
+                        setValue('unit', newValue)
+                        onChange(newValue)
+                      } else {
+                        setValue('unit', null)
+                      }
+                    }}
+                    isOptionEqualToValue={(option, value) => option.id === value?.id}
+                    options={[
+                      {id : 1 , name : 'MILLIMETER'},
+                      {id : 2 , name : 'CM'},
+                      {id : 3 , name : 'M'},
+                      {id : 4 , name : 'KM'},
+                      {id : 5 , name : "INCH"},
+                      {id : 6 , name : "FEET"},
+                      {id : 7 , name : "YARD"},
+                      {id : 8 , name : "MILE"}
+                    ]}
+                    getOptionLabel={option => option.name || ''}
+                    renderInput={params => <CustomTextField {...params} label={t('unit')} />}
+                  />
+                )}
+              />
+            </Grid>
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='project_type_id'
@@ -365,7 +399,7 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
                 )}
               />
             </Grid>
-            
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='user_id'

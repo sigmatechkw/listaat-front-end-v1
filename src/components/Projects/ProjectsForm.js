@@ -19,9 +19,10 @@ import { fetchProjectTypesInfinityQuery } from '../ProjectTypes/projectTypesServ
 import { fetchProjectsInfinityQuery } from './projectsServices'
 import { fetchUsersInfinityQuery } from './projectsServices'
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { Box, styled } from '@mui/material'
 
 
-const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSubmit, title, loading }) => {
+const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSubmit, title, loading , projectImg , setProjectImg , imgSrc , setImgSrc}) => {
   const { t, i18n } = useTranslation()
   const [searchTypesTerm, setSearchTypesTerm] = useState('');
   const [searchProjectsTerm, setSearchProjectsTerm] = useState('');
@@ -91,12 +92,78 @@ const ProjectsForm = ({ type = 'create', errors, control, watch, setValue, onSub
   const projectsOptions = projects?.pages.flatMap((page) => page.items) || [];  
   const usersOptions = users?.pages.flatMap((page) => page.items) || [];  
 
+  const ImgStyled = styled('img')(({ theme }) => ({
+    width: 100,
+    height: 100,
+    marginRight: theme.spacing(6),
+    borderRadius: theme.shape.borderRadius
+  }))
+
+  const ButtonStyled = styled(Button)(({ theme }) => ({
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      textAlign: 'center'
+    }
+  }))
+
+  const ResetButtonStyled = styled(Button)(({ theme }) => ({
+    marginLeft: theme.spacing(4),
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      marginLeft: 0,
+      textAlign: 'center',
+      marginTop: theme.spacing(2)
+    }
+  }))
+
+  const handleInputImageChange = file => {
+    const reader = new FileReader()
+    const { files } = file.target
+    if (files && files.length !== 0) {
+      reader.onload = () => {
+        setImgSrc(reader.result)
+      }
+      reader.readAsDataURL(files[0])
+      if (reader.result !== null) {
+        setItemImg(reader.result)
+      }
+    }
+  }
+
+  const handleInputImageReset = () => {
+    setProjectImg('')
+    setImgSrc('')
+  }
+
   return (
     <>
       <CardHeader title={title} />
       <CardContent>
         <form onSubmit={onSubmit}>
           <Grid container spacing={4}>
+
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'between', alignItems: 'end' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <ImgStyled src={imgSrc} alt='Project Pic' />
+                <div>
+                  <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
+                    {t('upload_image')}
+                    <input
+                      hidden
+                      type='file'
+                      value={projectImg}
+                      accept='image/*'
+                      onChange={handleInputImageChange}
+                      id='account-settings-upload-image'
+                    />
+                  </ButtonStyled>
+                  <ResetButtonStyled color='secondary' variant='tonal' onClick={handleInputImageReset}>
+                    {t('Reset')}
+                  </ResetButtonStyled>
+                </div>
+              </Box>
+            </Grid>
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name='name'

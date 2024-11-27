@@ -29,6 +29,8 @@ const ProjectsEdit = ({ type, id }) => {
   const { t } = useTranslation()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [projectImg, setProjectImg] = useState('')
+  const [imgSrc, setImgSrc] = useState()
 
   const {
     control,
@@ -39,11 +41,23 @@ const ProjectsEdit = ({ type, id }) => {
     formState: { errors }
   } = useForm({ defaultValues })
 
+  const testBase64 = src => {
+    const base64Regex = /^(data:image\/[a-zA-Z]*;base64,)?([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+
+    return base64Regex.test(src)
+  }
+
   const onSubmit = data => {
     setLoading(true)
 
     data.parent_id = data.parent_id?.id
     data.user_id = data.user_id?.id
+
+    if(testBase64(imgSrc)){ 
+      data.image = imgSrc;
+    }else{ 
+      delete data.image;
+    }
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}projects/${id}`, data, {
@@ -94,6 +108,10 @@ const ProjectsEdit = ({ type, id }) => {
         errors={errors}
         title={t('project_edit')}
         loading={loading}
+        projectImg={projectImg}
+        setProjectImg={setProjectImg}
+        imgSrc={imgSrc}
+        setImgSrc={setImgSrc}
       />
     </Card>
   )

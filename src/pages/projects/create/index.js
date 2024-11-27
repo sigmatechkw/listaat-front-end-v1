@@ -20,7 +20,8 @@ const defaultValues = {
   parent_id : null,
   user_id : null,
   notes: '',
-  active: false
+  active: false,
+  image : ""
 }
 
 const ProjectsCreate = () => {
@@ -28,6 +29,8 @@ const ProjectsCreate = () => {
   const { t } = useTranslation()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [projectImg, setProjectImg] = useState('')
+  const [imgSrc, setImgSrc] = useState()
 
   const {
     control,
@@ -44,6 +47,12 @@ const ProjectsCreate = () => {
     data.project_type_id = data.project_type_id.id
     data.parent_id = data.parent_id?.id
     data.user_id = data.user_id?.id
+
+    if(imgSrc){
+      data.image = imgSrc;
+    }else{ 
+      delete data.image;
+    }
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}projects`, data, {
@@ -74,6 +83,10 @@ const ProjectsCreate = () => {
         errors={errors}
         title={t('project_create')}
         loading={loading}
+        projectImg={projectImg}
+        setProjectImg={setProjectImg}
+        imgSrc={imgSrc}
+        setImgSrc={setImgSrc}
       />
     </Card>
   )

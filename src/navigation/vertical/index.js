@@ -44,22 +44,6 @@ const navigation = () => {
           icon: 'tabler:subtask',
         },
         {
-          title: i18n.t('themes'),
-          icon :  "tabler:brush",
-          children: [
-            {
-              title: i18n.t('theme_folders'),
-              path: '/theme-folders',
-              icon: 'tabler:folder-open',
-            },
-            {
-              title: i18n.t('gallary'),
-              path: '/gallary',
-              icon: 'tabler:photo-star',
-            },
-          ]
-        },
-        {
           title: i18n.t('project_tab_colors'),
           path: '/project-tab-colors',
           icon: 'tabler:color-filter',
@@ -69,6 +53,22 @@ const navigation = () => {
           path: '/project-tab-types',
           icon: 'tabler:sitemap',
         }
+      ]
+    },
+    {
+      title: i18n.t('themes'),
+      icon :  "tabler:brush",
+      children: [
+        {
+          title: i18n.t('theme_folders'),
+          path: '/theme-folders',
+          icon: 'tabler:folder-open',
+        },
+        {
+          title: i18n.t('gallary'),
+          path: '/gallary',
+          icon: 'tabler:photo-star',
+        },
       ]
     },
     {

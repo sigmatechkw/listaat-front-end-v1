@@ -70,18 +70,6 @@ const GallaryDetails = ({ type }) => {
               <Typography sx={{ color: 'text.secondary' }}>{type.theme_folder?.name}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
-              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('sort')}:</Typography>
-              <Typography sx={{ color: 'text.secondary' }}>{type.sort}</Typography>
-            </Box>
-            <Box sx={{ display: 'flex', mb: 3 }}>
-              <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('is_active')}:</Typography>
-              {type.active ? (
-                <Icon icon='tabler:circle-check' color='green' fontSize='1.5rem' />
-              ) : (
-                <Icon icon='tabler:xbox-x' color='red' fontSize='1.5rem' />
-              )}
-            </Box>
-            <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('created_at')}:</Typography>
               <Typography sx={{ color: 'text.secondary' }}>{type.created_at}</Typography>
             </Box>

@@ -66,7 +66,8 @@ export const fetchItemsInfinityQuery = async ({ pageParam = 1, queryKey }) => {
 
 export const deleteItems = async (ids) => {
   let data = {
-    delete_ids: ids
+    delete_ids: ids,
+    force_delete : true
   }
 
   try {

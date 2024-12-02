@@ -479,7 +479,9 @@ const ItemsForm = ({type = 'create', errors, control, watch, imgSrc , setImgSrc 
                    <Autocomplete
                     multiple
                     name='collections_ids'
-                    options={collectionsOptions}
+                    options={collectionsOptions.filter(
+                      (option) => !value?.some((selected) => selected.id === option.id)
+                    )}
                     getOptionLabel={(option) => option.name}
                     onInputChange={(e , val) => setSearchCollectionsTerm(val)}
                     loading={collectionsIsFetching || collectionsIsFetchingNextPage}

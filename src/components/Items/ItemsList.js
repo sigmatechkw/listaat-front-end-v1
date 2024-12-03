@@ -22,6 +22,8 @@ const ItemsList = ({
   setSortModel,
   isActive,
   setIsActive,
+  user,
+  setUser,
   fetchData,
   canExport = false
 }) => {
@@ -235,7 +237,7 @@ const ItemsList = ({
 
   return (
     <div>
-      <ItemsFilters isActive={isActive} setIsActive={setIsActive} />
+      <ItemsFilters isActive={isActive} setIsActive={setIsActive} user={user} setUser={setUser} />
       <Card>
         <CardHeader title={t('items')} />
         <CustomDataGrid

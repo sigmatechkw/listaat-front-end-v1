@@ -52,7 +52,7 @@ const ProjectSharesDetails = ({ type }) => {
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('project')}:</Typography>
-              <Typography sx={{ color: 'text.secondary' }}>{type.project?.name}</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.project}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('permissions')}:</Typography>
@@ -60,11 +60,11 @@ const ProjectSharesDetails = ({ type }) => {
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('sender_user')}:</Typography>
-              <Typography sx={{ color: 'text.secondary' }}>{type.sender_user?.first_name}</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.sender_user}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('receiver_user')}:</Typography>
-              <Typography sx={{ color: 'text.secondary' }}>{type.receiver_user?.first_name}</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>{type.receiver_user}</Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 3 }}>
               <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>{t('is_sent')}:</Typography>

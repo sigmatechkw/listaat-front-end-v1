@@ -83,7 +83,7 @@ const ProjectSharesList = ({
       headerName: t('project'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.project?.name}
+          {row.project}
         </Typography>
       )
     },
@@ -105,7 +105,7 @@ const ProjectSharesList = ({
       headerName: t('sender_user'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.sender_user?.first_name}
+          {row.sender_user}
         </Typography>
       )
     },
@@ -116,7 +116,7 @@ const ProjectSharesList = ({
       headerName: t('receiver_user'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.receiver_user?.first_name}
+          {row.receiver_user}
         </Typography>
       )
     },

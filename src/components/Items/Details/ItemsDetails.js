@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import SnackbarConfirmActions from '../../Shared/SnackbarConfirmActions'
 import Snackbar from '@mui/material/Snackbar'
-import { deleteCollections } from '../itemsServices'
+import { deleteItems } from '../itemsServices'
 import Icon from '../../../@core/components/icon'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
@@ -24,7 +24,7 @@ const ItemsDetails = ({ type }) => {
   const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false)
 
   const handleDelete = () => {
-    deleteCollections([type.id]).then(res => {
+    deleteItems([type.id]).then(res => {
       toast.success(t('success'))
       setOpenDeleteSnackbar(false)
       router.replace('/items')

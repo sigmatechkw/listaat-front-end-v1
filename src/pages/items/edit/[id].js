@@ -84,8 +84,6 @@ const ItemsEdit = ({ type, id }) => {
       source_website : data.source_website,
     };
 
-    console.log(data);
-
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}items/${id}`, data, {
         headers: {

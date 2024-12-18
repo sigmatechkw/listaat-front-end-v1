@@ -82,9 +82,6 @@ const ProjectTabColorsDetails = ({ type }) => {
             </Box>
           </CardContent>
           <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button variant='tonal' sx={{ mr: 2 }} onClick={() => router.push(`/project-tab-colors/edit/${type.id}`)}>
-              {t('edit')}
-            </Button>
             <Button color='error' variant='tonal' onClick={handleClickDeleteButton}>
               {t('delete')}
             </Button>

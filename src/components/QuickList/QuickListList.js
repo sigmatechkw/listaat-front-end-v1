@@ -98,7 +98,7 @@ const QuickListList = ({
       headerName: t('user'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.user.first_name}
+          {row.user?.first_name}
         </Typography>
       )
     },

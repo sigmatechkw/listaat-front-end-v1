@@ -92,6 +92,8 @@ const ProjectsEdit = ({ type, id }) => {
     setValue('parent_id', type.parent)
     setValue('notes', type.notes)
     setValue('active', type.active)
+    setValue('image', type.image)
+    setImgSrc(type.image)
   }
 
   useEffect(() => {

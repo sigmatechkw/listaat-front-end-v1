@@ -72,6 +72,22 @@ const navigation = () => {
       ]
     },
     {
+      title: i18n.t('materials'),
+      icon :  "tabler:cube-plus",
+      children: [
+        {
+          title: i18n.t('material_folders'),
+          path: '/material-folders',
+          icon: 'tabler:folder-open',
+        },
+        {
+          title: i18n.t('material_items'),
+          path: '/material-items',
+          icon: 'tabler:blocks',
+        },
+      ]
+    },
+    {
       title: i18n.t('items'),
       icon: 'tabler:category-plus',
       children: [

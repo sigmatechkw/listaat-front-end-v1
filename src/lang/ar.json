@@ -423,6 +423,15 @@
   "admin": "أدمن",
   "owner": "مالك",
   "viewer": "مشاهد",
-  "choose_user": "اختر مستخدم"
+  "choose_user": "اختر مستخدم",
+  "materials" : "الخامات",
+  "material_folders_create": "إنشاء مجلد الخامات",
+  "material_folders_edit": "تعديل مجلد الخامات",
+  "material_folders": "مجلدات الخامات",
+  "material_folder": "مجلد الخامات",
+  "material_items": "عناصر الخامات",
+  "material_item": "عنصر الخامات",
+  "material_item_create": "إنشاء عناصر الخامات",
+  "material_item_edit": "تعديل عنصر الخامات"
 }
 

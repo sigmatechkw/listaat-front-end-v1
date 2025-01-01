@@ -415,6 +415,14 @@
   "admin": "Admin",
   "owner": "Owner",
   "viewer": "Viewer",
-  "choose_user": "Choose user"
-
+  "choose_user": "Choose user",
+  "materials" : "Materials",
+  "material_folders_create" : "Create Material Folder",
+  "material_folders_edit" : "Edit Material Folder",
+  "material_folders" : "Material Folders",
+  "material_folder" : "Material Folder",
+  "material_items" : "Material Items",
+  "material_item" : "Material Item",
+  "material_item_create" : "Create Material Items",
+  "material_item_edit" : "Edit Material Item"
 }

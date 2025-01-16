@@ -43,13 +43,14 @@ export const fetchMaterialFolders = async (page = 1, search, sortKey = 'id', sor
 
 export const fetchMaterialFoldersInfinityQuery = async ({ pageParam = 1, queryKey }) => {
 
-  try{ 
+  try{
     const [_ , searchTerm] = queryKey;
 
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}material-folders`, {
       params: {
         page: pageParam,
         search: searchTerm,
+        active: 1,
         paginate : 1,
       },
       headers: {
@@ -59,7 +60,7 @@ export const fetchMaterialFoldersInfinityQuery = async ({ pageParam = 1, queryKe
     })
 
     return response.data.data
-  }catch(err) { 
+  }catch(err) {
     toast.error(err.response?.data?.message)
   }
 }

@@ -32,6 +32,9 @@ const ThemeFoldersCreate = () => {
   const onSubmit = data => {
     setLoading(true)
 
+    if (!data.sort)
+      data.sort = 1
+
     axios
       .post(`${process.env.NEXT_PUBLIC_API_KEY}theme-folders`, data, {
         headers: {

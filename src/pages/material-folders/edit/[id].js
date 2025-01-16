@@ -35,6 +35,9 @@ const MaterialFoldersEdit = ({ type, id }) => {
   const onSubmit = data => {
     setLoading(true)
 
+    if (!data.sort)
+      data.sort = 1
+
     axios
       .put(`${process.env.NEXT_PUBLIC_API_KEY}material-folders/${id}`, data, {
         headers: {

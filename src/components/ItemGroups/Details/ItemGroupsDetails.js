@@ -48,7 +48,7 @@ const ItemGroupsDetails = ({ type }) => {
           <Typography variant={'h3'} sx={{ px: 3, pt: 3 }}>
             {t('item_groups')}
           </Typography>
-        
+
 
             <CardContent sx={{ pt: 13.5, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
               {type.image && (
@@ -60,7 +60,7 @@ const ItemGroupsDetails = ({ type }) => {
                 />
               )}
               </CardContent>
- 
+
 
 
           <CardContent>
@@ -103,7 +103,7 @@ const ItemGroupsDetails = ({ type }) => {
       <Grid item xs={12}>
           <ItemsGroupsItemsTable data={type.items} />
       </Grid>
-      
+
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={openDeleteSnackbar}

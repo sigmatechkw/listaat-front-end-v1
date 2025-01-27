@@ -154,7 +154,7 @@ const ItemsGroupsItemsTable = ({
       headerName: t('unit'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.unit}
+          {row.unit?.name}
         </Typography>
       )
     },
@@ -176,7 +176,7 @@ const ItemsGroupsItemsTable = ({
       headerName: t('source'),
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.source}
+          {row.source?.source_name}
         </Typography>
       )
     },
@@ -231,7 +231,7 @@ const ItemsGroupsItemsTable = ({
     <div>
       <Card item xs={12}>
         <CardHeader title={t('items')} />
-        <CustomDataGrid 
+        <CustomDataGrid
           rows={data}
           columns={columns}
           total={data.length}

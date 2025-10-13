@@ -432,6 +432,7 @@
   "material_items": "عناصر الخامات",
   "material_item": "عنصر الخامات",
   "material_item_create": "إنشاء عناصر الخامات",
-  "material_item_edit": "تعديل عنصر الخامات"
+  "material_item_edit": "تعديل عنصر الخامات",
+  "save_and_add_another" : "حفظ و إضافة المزيد"
 }
 

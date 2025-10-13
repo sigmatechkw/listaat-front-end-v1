@@ -424,5 +424,6 @@
   "material_items" : "Material Items",
   "material_item" : "Material Item",
   "material_item_create" : "Create Material Items",
-  "material_item_edit" : "Edit Material Item"
+  "material_item_edit" : "Edit Material Item",
+  "save_and_add_another" : "Save and Add Another"
 }

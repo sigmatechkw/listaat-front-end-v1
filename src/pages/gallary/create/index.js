@@ -34,7 +34,7 @@ const GallaryCreate = () => {
     formState: { errors }
   } = useForm({ defaultValues })
 
-  const onSubmit = data => {
+  const onSubmit = (data, type = 'save') => {
     setLoading(true)
 
     data.user_id = data.user_id?.id;
@@ -55,8 +55,10 @@ const GallaryCreate = () => {
       .then(res => {
         setLoading(false)
         toast.success(t('success'))
-        router.push('/gallary')
-        reset()
+        if(type !== 'add_another'){
+          router.push('/gallary')
+          reset()
+        }
       })
       .catch(error => {
         setLoading(false)

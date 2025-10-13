@@ -246,6 +246,15 @@ const MaterialItemForm = ({type = 'create', errors, control, watch, setValue, on
                     t('save')
                 }
               </Button>
+              {type === 'create' && (
+                <Button
+                  sx={{ ml: 2 }}
+                  variant='contained'
+                  onClick={() => onSubmit("add_another")}
+                >
+                  {t('save_and_add_another')}
+                </Button>
+              )}
             </Grid>
           </Grid>
         </form>

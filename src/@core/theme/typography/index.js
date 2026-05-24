@@ -2,7 +2,7 @@ import i18n from "i18next";
 
 const typography = {
   fontFamily: [
-    ...(i18n.language.includes('ar') ? ['Changa'] : []),
+    ...(((i18n.resolvedLanguage || i18n.language || '').includes('ar')) ? ['Changa'] : []),
     'Public Sans',
     'sans-serif',
     '-apple-system',

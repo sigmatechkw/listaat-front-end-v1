@@ -1,0 +1,27 @@
+
+================================================================================
+TDAD Session Started: 2026-05-24T20:44:30.388Z
+================================================================================
+[2026-05-24T20:44:31.237Z] [EXTENSION] 🚀 TDAD extension is now ACTIVATED! Version with comprehensive logging
+[2026-05-24T20:44:31.237Z] [EXTENSION] 📁 Log file location: c:\Users\lenovo\Documents\GitHub\listaat-front-end-v1\.tdad\logs\tdad-2026-05-24.log
+[2026-05-24T20:44:31.238Z] [EXTENSION] 📊 Workspace folders: c:\Users\lenovo\Documents\GitHub\listaat-front-end-v1
+[2026-05-24T20:44:31.238Z] [EXTENSION] Creating WorkflowController...
+[2026-05-24T20:44:31.260Z] [EXTENSION] MVP: Using simple JSON storage (.tdad/workflows/workflow.json)
+[2026-05-24T20:44:31.261Z] [EXTENSION] TDAD Extension activated successfully
+[2026-05-24T20:44:31.262Z] [EXTENSION] Registering commands...
+[2026-05-24T20:44:31.399Z] [EXTENSION] TDAD structure already initialized
+[2026-05-24T20:44:31.400Z] [EXTENSION] Auto-opening TDAD Canvas...
+[2026-05-24T20:44:31.402Z] [CANVAS] Created directory: c:\Users\lenovo\Documents\GitHub\listaat-front-end-v1\.tdad\workflows
+[2026-05-24T20:44:31.403Z] [CANVAS] Sprint 13: Agent Orchestrator initialized
+[2026-05-24T20:44:31.405Z] [CANVAS] [FileStatusSync] File watchers initialized
+[2026-05-24T20:44:31.407Z] [CANVAS] [FileStatusSync] Synced 0 nodes
+[2026-05-24T20:44:31.427Z] [EXTENSION] FeedbackManager: Session 178
+[2026-05-24T20:44:31.801Z] [CANVAS] WEBVIEW
+Data: Using stylesheets: index-WTAp2nbL.css
+[2026-05-24T20:44:31.803Z] [CANVAS] MVP: Canvas initialized with simple JSON storage
+[2026-05-24T20:44:32.293Z] [CANVAS] [FitView] isLoading=true, nodes.length=0, folderId=null
+[2026-05-24T20:44:32.425Z] [CANVAS] [FitView] isLoading=false, nodes.length=0, folderId=null
+[2026-05-24T20:47:45.981Z] [CANVAS] saveNow: Saving 0 nodes to folder root - statuses: []
+[2026-05-24T20:47:45.985Z] [CANVAS] [FileStatusSync] File watchers disposed
+[2026-05-24T20:47:46.650Z] [EXTENSION] Blueprint workflow created: c:\Users\lenovo\Documents\GitHub\listaat-front-end-v1\.tdad\workflows\root.workflow.json
+[2026-05-24T20:47:46.662Z] [EXTENSION] Scaffolded 1 files from blueprint
